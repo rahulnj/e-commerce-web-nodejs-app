@@ -26,4 +26,56 @@
   #signup{
     color: rgb(143, 0, 0);
   }
-  
+  .upin{
+    color: rgb(143, 0, 0);
+    font-size: medium;
+    font-weight: 500;
+  }
+  .upin:hover{
+  text-decoration: underline;
+
+  }
+  /* social icons start */
+  /* .socialmain{
+    display: flex;
+
+  }
+  .socialmain div{
+    margin-left: 40px;
+    padding: 10px;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s;
+  }
+  .socialmain div i{
+    color: white;
+    transition: all 0.4s;
+  }
+  .socialmain div:hover{
+    background-color: white;
+  }
+  .socialmain div:hover>i{
+    color: rgb(143, 0, 0);
+    transform: rotate(360deg);
+  }
+  .socialmain div::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgb(143, 0, 0);
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.4s;
+  }
+  .socialmain div:hover::before{
+   filter: blur(10px);
+  } */
+  /* social icons end */
