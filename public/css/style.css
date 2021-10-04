@@ -23,3 +23,7 @@
   .ddcontent a:hover {background-color: #FFFFFF;}
   .user-login-info:hover .ddcontent {display: block;}
   .user-login-info:hover .ddbtn {background-color: #FFFFFF;}
+  #signup{
+    color: rgb(143, 0, 0);
+  }
+  
