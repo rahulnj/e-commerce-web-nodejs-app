@@ -1,0 +1,42 @@
+<section class="vh-100">
+
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <h2 class="d-flex justify-content-center fw-3">Login</h2>
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://birchtree.me/content/images/2021/06/007-copy.jpg" class="img-fluid"
+                    alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form action="/login" method="POST">
+
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4 shadow-sm">
+                        <label class="form-label fs-6">USERNAME</label>
+                        <input type="text" id="form3Example3" name="username" class="form-control form-control-lg"
+                            placeholder="Enter your user name" />
+
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4 shadow-sm">
+                        <label class="form-label fs-6">PASSWORD</label>
+                        <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
+                            placeholder="Enter your password" />
+                    </div>
+                    <div class="text-danger">{{error}}</div>
+
+
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+.ddbtn{
+    background-color: #FFFFFF;
+    color: white;
+  /* padding: 16px; */
+  font-size: 16px;
+  border: none;
+}
+
+  .ddcontent {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .ddcontent a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  .ddcontent a:hover {background-color: #FFFFFF;}
+  .user-login-info:hover .ddcontent {display: block;}
+  .user-login-info:hover .ddbtn {background-color: #FFFFFF;}
