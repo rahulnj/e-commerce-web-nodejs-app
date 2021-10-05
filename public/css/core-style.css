@@ -230,15 +230,16 @@ img {
   border: none;
   border-radius: 0;
   padding: 0 40px;
+  text-decoration: none;
   text-transform: uppercase;
   font-size: 12px;
   line-height: 50px;
-  background-color:rgb(143, 0, 0);
+  background-color: rgb(143, 0, 0);
   letter-spacing: 1.5px;
   font-weight: 600; }
   .essence-btn:hover, .essence-btn:focus {
     color: #ffffff;
-    background-color: #500000; }
+    background-color: rgb(235, 25, 25); }
 
 /* :: 4.0 Header Area CSS */
 .header_area {
