@@ -1,3 +1,4 @@
+const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
@@ -34,7 +35,18 @@ router.get('/catgrooming', (req, res) => {
 //user signup
 router.post('/signup', (req, res) => {
   userhelpers.doSignup(req.body).then((response) => {
+    // console.log(req.body);
+    res.redirect('/user-signin')
+  })
+})
 
+// user signin
+router.post('/login', (req, res) => {
+  userhelpers.userLogin(req.body).then((response) => {
+    if (response.status)
+      res.redirect('/')
+    else
+      res.redirect('/user-signin')
   })
 })
 
