@@ -14,6 +14,22 @@ router.get('/user-signin', (req, res) => {
   res.render('user/login')
 })
 
+router.get('/dogretailvet', (req, res) => {
+  res.render('user/dogretail&vet')
+})
+
+router.get('/catretailvet', (req, res) => {
+  res.render('user/catretail&vet')
+})
+
+router.get('/doggrooming', (req, res) => {
+  res.render('user/doggrooming')
+})
+
+router.get('/catgrooming', (req, res) => {
+  res.render('user/catgrooming')
+})
+
 
 
 module.exports = router;

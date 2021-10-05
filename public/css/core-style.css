@@ -839,7 +839,7 @@ img {
     cursor: pointer;
     color: #ccc; }
     .single-product-wrapper .favme.active {
-      color: #dc0345 !important; }
+      color: rgb(143, 0, 0) !important; }
     .single-product-wrapper .favme.is_animating {
       animation: favme-anime .5s; }
   .single-product-wrapper:hover .product-img .hover-img {
@@ -1149,7 +1149,7 @@ img {
     content: ''; }
   .breadcumb_area .page-title h2 {
     font-size: 30px;
-    text-transform: uppercase;
+    color: rgb(143, 0, 0);
     font-weight: 700;
     font-family: "Ubuntu", sans-serif;
     letter-spacing: 1px;
