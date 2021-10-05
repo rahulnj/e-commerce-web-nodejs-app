@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+var productHelper = require('../helpers/product-helpers')
+var userhelpers = require('../helpers/user-helpers')
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('user/home')
@@ -29,6 +30,16 @@ router.get('/doggrooming', (req, res) => {
 router.get('/catgrooming', (req, res) => {
   res.render('user/catgrooming')
 })
+
+//user signup
+router.post('/signup', (req, res) => {
+  userhelpers.doSignup(req.body).then((response) => {
+
+  })
+})
+
+
+
 
 
 

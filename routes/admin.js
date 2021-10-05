@@ -1,13 +1,21 @@
 var express = require('express');
 var router = express.Router();
-
+var productHelper = require('../helpers/product-helpers')
+var userhelpers = require('../helpers/user-helpers')
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.render('admin/admin-login',)
+  res.render('admin/admin-login', { nonav: true })
 });
 
+//admin signin
 router.post('/dashboard', (req, res) => {
-  res.render('admin/admin-dashboard', { admin: true })
+  userhelpers.adminLogin(req.body).then((response) => {
+    if (response.status) {
+      res.render('admin/admin-dashboard', { admin: true })
+    } else {
+      res.redirect('/admin')
+    }
+  })
 })
 
 router.get('/dashboard', (req, res) => {
@@ -41,6 +49,8 @@ router.get('/orderdetails', (req, res) => {
 router.get('/offers', (req, res) => {
   res.send('coming soon')
 })
+
+
 
 
 
