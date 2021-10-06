@@ -13,12 +13,20 @@ const userAuth = (req, res, next) => {
     next()
   }
 }
+//verify the user
+const verifyUser = (req, res, next) => {
+  if (req.session.loggedIn) {
+    next()
+  } else {
+    res.redirect('/')
+  }
+}
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   let user = req.session.user
 
-  res.render('user/home', { user })
+  res.render('user/home', { user, nav: req.session.user })
 });
 
 router.get('/user-signup', userAuth, (req, res) => {
@@ -61,7 +69,8 @@ router.post('/signin', async (req, res) => {
     req.session.user = response.user
     res.redirect('/')
   } else {
-    req.session.loginError = "Invalid Username or Password"
+
+    req.session.loginError = true
     res.redirect('/user-signin')
   }
 
