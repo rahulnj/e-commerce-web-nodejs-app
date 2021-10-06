@@ -57,5 +57,11 @@ module.exports = {
                 resolve({ Status: false })
             }
         })
+    },
+    usersDetails: () => {
+        return new Promise(async (resolve, reject) => {
+            let newusers = await db.get().collection(collection.USER_COLLECTION).find().toArray()
+            resolve(newusers)
+        })
     }
 }

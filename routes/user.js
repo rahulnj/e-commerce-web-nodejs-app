@@ -3,17 +3,30 @@ var express = require('express');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
+
+// Auth middleware for user
+const userAuth = (req, res, next) => {
+  if (req.session.loggedIn) {
+
+    res.redirect('/')
+  } else {
+    next()
+  }
+}
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('user/home')
+  let user = req.session.user
+
+  res.render('user/home', { user })
 });
 
-router.get('/user-signup', (req, res) => {
+router.get('/user-signup', userAuth, (req, res) => {
   res.render('user/signup')
 })
 
-router.get('/user-signin', (req, res) => {
-  res.render('user/login')
+router.get('/user-signin', userAuth, (req, res) => {
+  res.render('user/signin')
 })
 
 router.get('/dogretailvet', (req, res) => {
@@ -41,13 +54,23 @@ router.post('/signup', (req, res) => {
 })
 
 // user signin
-router.post('/login', (req, res) => {
+router.post('/signin', (req, res) => {
   userhelpers.userLogin(req.body).then((response) => {
-    if (response.status)
+    if (response.status) {
+      req.session.loggedIn = true
+      req.session.user = response.user
       res.redirect('/')
-    else
+    } else {
       res.redirect('/user-signin')
+    }
   })
+})
+
+// user signout
+router.get('/signout', (req, res) => {
+  req.session.user = null;
+  req.session.loggedIn = false
+  res.redirect('/')
 })
 
 

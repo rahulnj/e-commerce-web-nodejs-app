@@ -20,7 +20,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#ID</th>
+
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
 
@@ -28,30 +28,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{#each newusers}}
                         <tr>
-                            <td>0901</td>
-                            <td><b>Marvin McKinney</b></td>
-                            <td>marvin@example.com</td>
+
+                            <td><b>{{this.username}}</b></td>
+                            <td>{{this.mail}}</td>
                             <td class="text-end">
-                                <button class='btn btn-danger btn-danger me-md-2' type='button'><a
-                                        href="/admin/addproduct"
+                                <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a href="#"
+                                        data-toggle="modal" data-target="#exampleModalCenter"
                                         style="text-decoration: none; color:white">Block</a></button>
                             </td>
                         </tr>
-
-                        <tr>
-                            <td>0901</td>
-                            <td><b>Marvin McKinney</b></td>
-                            <td>marvin@example.com</td>
-
-                            <td class="text-end">
-                                <button class='btn btn-danger btn-danger me-md-2' type='button'><a
-                                        href="/admin/addproduct"
-                                        style="text-decoration: none; color:white">Block</a></button>
-                            </td>
-                        </tr>
-
-
+                        {{/each}}
                     </tbody>
                 </table>
             </div> <!-- table-responsive //end -->

@@ -8,6 +8,7 @@ var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var app = express();
 var db = require('./config/connection')
+var session = require('express-session')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -17,7 +18,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+//reload again
+app.use(function (req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
+//session
+app.use(session({ secret: "key", cookie: { maxAge: 6000000 } }))
 // Database connect
 db.connect((err) => {
   if (err)

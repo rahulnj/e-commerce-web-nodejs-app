@@ -74,8 +74,9 @@
     <main class="main-wrap">
 
         <header class="main-header navbar">
-            <div class="col-search">
-                <form class="searchform">
+            <div class="col-search mt-2">
+                <h5>hi, <span style="color: rgb(143, 0, 0);">Admin</span></h5>
+                {{!-- <form class="searchform">
                     <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i>
@@ -83,13 +84,14 @@
                     </div>
                     <datalist id="search_terms">
                         <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
+                        <option value="Pedigree">
+                        <option value="Royal Canin">
                     </datalist>
-                </form>
+                </form> --}}
             </div>
             <div class="col-nav">
+                <button class='btn btn-danger' type='button'><a href="/admin/logout"
+                        style="text-decoration: none; color:white">Logout</a></button>
                 {{!-- <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
                         class="md-28 material-icons md-menu"></i> </button>
                 <ul class="nav">
@@ -103,17 +105,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"> English </a>
-                    </li> --}}
+                    </li>
                     <li class="dropdown nav-item">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#"> <img class="img-thumbnail"
                                 src="/img/core-img/user.svg" alt="User"></a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            {{!-- <a class="dropdown-item" href="#">My profile</a>
-                            <a class="dropdown-item" href="#">Settings</a> --}}
-                            <a class="dropdown-item text-danger" href="#">Logout</a>
+                            <a class="dropdown-item" href="#">My profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item text-danger" href="/admin/logout">Logout</a>
                         </div>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </header>
 
