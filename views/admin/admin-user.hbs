@@ -34,9 +34,17 @@
                             <td><b>{{this.username}}</b></td>
                             <td>{{this.mail}}</td>
                             <td class="text-end">
-                                <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a href="#"
-                                        data-toggle="modal" data-target="#exampleModalCenter"
+                                {{#if this.status}}
+                                <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
+                                        href="/admin/users/blockuser/{{this._id}}" data-toggle="modal"
+                                        data-target="#exampleModalCenter"
                                         style="text-decoration: none; color:white">Block</a></button>
+                                {{else}}
+                                <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
+                                        href="/admin/users/unblockuser/{{this._id}}" data-toggle="modal"
+                                        data-target="#exampleModalCenter"
+                                        style="text-decoration: none; color:white">Unblock</a></button>
+                                {{/if}}
                             </td>
                         </tr>
                         {{/each}}

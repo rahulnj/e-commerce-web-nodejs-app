@@ -74,6 +74,45 @@ router.get('/offers', adminAuth, (req, res) => {
   res.send('coming soon')
 })
 
+// block users
+router.get('/users/blockuser/:id', async (req, res) => {
+  let userId = req.params.id
+  console.log(userId);
+  let user = await userhelpers.blockUser(userId)
+  res.redirect("/admin/users")
+})
+router.post('/users/blockuser', async (req, res) => {
+  userhelpers.blockUser(req.params.id, req.body).then(() => {
+
+  })
+})
+
+//unblock user
+router.get('/users/unblockuser/:id', async (req, res) => {
+  let userId = req.params.id
+  console.log(userId);
+  let user = await userhelpers.unblockUser(userId)
+  res.redirect("/admin/users")
+})
+router.post('/users/unblockuser', async (req, res) => {
+  userhelpers.unblockUser(req.params.id, req.body).then(() => {
+
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.get('/logout', (req, res) => {
   req.session.loggedin = false;
   res.redirect('/admin')

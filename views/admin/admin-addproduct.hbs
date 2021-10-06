@@ -11,10 +11,10 @@
     <div class="card mb-4">
         <div class="card-body">
             <form>
-                <div class="mb-4">
+                {{!-- <div class="mb-4">
                     <label class="form-label">Main Image</label>
                     <input class="form-control" type="file">
-                </div>
+                </div> --}}
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #1</label>
@@ -45,17 +45,17 @@
                     <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
                 </div>
 
-                <div class="mb-4">
+                {{!-- <div class="mb-4">
                     <label class="form-label">Category</label>
                     <select class="form-select">
                         <option> Retail and Vet products </option>
                         <option> Accessories and Grooming </option>
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
-                        <label for="product_name" class="form-label">Type</label>
+                        <label for="product_name" class="form-label">Category</label>
                         <select class="form-select">
                             <option> Dog </option>
                             <option> Cat </option>
@@ -63,11 +63,10 @@
                         </select>
                     </div>
                     <div class="col-sm-6 mb-3">
-                        <label class="form-label">Age</label>
+                        <label class="form-label">Type</label>
                         <select class="form-select">
-                            <option> Puppy </option>
-                            <option> Adult </option>
-                            <option> Kitten </option>
+                            <option> Retail and Vet products </option>
+                            <option> Accessories and Grooming </option>
                         </select>
                     </div>
                 </div> <!-- row.// -->
