@@ -32,7 +32,11 @@
                                 <p class="upin">Don't have an account.</p>
                             </a>
                         </div>
-
+                        {{#if usererr}}
+                        <p class="text-danger">Invalid User Id or Password</p>
+                        {{else}}
+                        <p></p>
+                        {{/if}}
 
 
                         <div class="text-center text-lg-start mt-4 pt-2">

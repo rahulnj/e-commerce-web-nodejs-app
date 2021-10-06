@@ -11,13 +11,13 @@
         <header class="card-header">
             <div class="row gx-3">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Search..." class="form-control">
+                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search..." class="form-control">
                 </div>
             </div>
         </header> <!-- card-header end// -->
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="userTable" class="table table-hover">
                     <thead>
                         <tr>
 
@@ -37,12 +37,12 @@
                                 {{#if this.status}}
                                 <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
                                         href="/admin/users/blockuser/{{this._id}}" data-toggle="modal"
-                                        data-target="#exampleModalCenter"
+                                        data-target="#mymodal"
                                         style="text-decoration: none; color:white">Block</a></button>
                                 {{else}}
                                 <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
                                         href="/admin/users/unblockuser/{{this._id}}" data-toggle="modal"
-                                        data-target="#exampleModalCenter"
+                                        data-target="#mymodel"
                                         style="text-decoration: none; color:white">Unblock</a></button>
                                 {{/if}}
                             </td>
@@ -56,3 +56,27 @@
 
 
 </section> <!-- content-main end// -->
+<script>
+
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("userTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

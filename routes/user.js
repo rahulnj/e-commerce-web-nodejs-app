@@ -26,7 +26,8 @@ router.get('/user-signup', userAuth, (req, res) => {
 })
 
 router.get('/user-signin', userAuth, (req, res) => {
-  res.render('user/signin')
+  res.render('user/signin', { usererr: req.session.loginError })
+  req.session.loginError = false
 })
 
 router.get('/dogretailvet', (req, res) => {
@@ -46,12 +47,11 @@ router.get('/catgrooming', (req, res) => {
 })
 
 //user signup
-router.post('/signup', (req, res) => {
-  userhelpers.doSignup(req.body).then((response) => {
-    // console.log(req.body);
-    res.redirect('/user-signin')
-  })
+router.post('/signup', async (req, res) => {
+  await userhelpers.doSignup(req.body)
+  res.redirect('/user-signin')
 })
+
 
 // user signin
 router.post('/signin', (req, res) => {
@@ -61,6 +61,7 @@ router.post('/signin', (req, res) => {
       req.session.user = response.user
       res.redirect('/')
     } else {
+      req.session.loginError = "Invalid Username or Password"
       res.redirect('/user-signin')
     }
   })

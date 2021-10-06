@@ -4,40 +4,31 @@ const bcrypt = require('bcrypt')
 const { ObjectId } = require('bson')
 const { response } = require('express')
 module.exports = {
-    doSignup: (userData) => {
-
-        return new Promise(async (resolve, reject) => {
-            userData.status = true
-            userData.password = await bcrypt.hash(userData.password, 10)
-            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
-                // console.log(data);
-                resolve(data)
-            })
-        })
-
+    doSignup: async (userData) => {
+        userData.status = true
+        userData.password = await bcrypt.hash(userData.password, 10)
+        return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
-    adminLogin: (adminData) => {
-        return new Promise(async (resolve, reject) => {
-            let loginstatus = false
-            let response = {}
-            let admin = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ username: adminData.username })
-            if (admin) {
-                bcrypt.compare(adminData.password, admin.password).then((Status) => {
-                    if (Status) {
-                        console.log("Admin login success");
-                        response.admin = admin
-                        response.status = true
-                        resolve(response)
-                    } else {
-                        console.log("Admin login failed");
-                        resolve({ Status: false })
-                    }
-                })
+    adminLogin: async (adminData) => {
+        let loginstatus = false
+        let response = {}
+        let admin = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ username: adminData.username })
+        if (admin) {
+            const status = await bcrypt.compare(adminData.password, admin.password)
+            if (status) {
+                console.log("Admin login success");
+                return { admin, status }
+
             } else {
                 console.log("Admin login failed");
-                resolve({ Status: false })
+                return null
             }
-        })
+
+        } else {
+            console.log("Admin login failed");
+            return null
+        }
+
     },
     userLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -57,6 +48,8 @@ module.exports = {
                         console.log("User login failed");
                         resolve({ Status: false })
                     }
+                }).catch(() => {
+                    console.log("Error");
                 })
             } else {
                 console.log("User login failed");

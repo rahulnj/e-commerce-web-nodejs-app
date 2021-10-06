@@ -23,20 +23,22 @@ const adminReauth = (req, res, next) => {
 
 /*Admin login page*/
 router.get('/', adminReauth, function (req, res, next) {
-  res.render('admin/admin-login', { nonav: true })
+  res.render('admin/admin-login', { nonav: true, adminerr: req.session.adminError })
+  req.session.adminError = false
 });
 
 //admin signin
-router.post('/dashboard', (req, res) => {
-  userhelpers.adminLogin(req.body).then((response) => {
-    if (response.status) {
-      req.session.loggedin = true
-      req.session.admin = response.admin
-      res.render('admin/admin-dashboard', { admin: true })
-    } else {
-      res.redirect('/admin')
-    }
-  })
+router.post('/dashboard', async (req, res) => {
+  const response = await userhelpers.adminLogin(req.body)
+  if (response && response.status) {
+    req.session.loggedin = true
+    req.session.admin = response.admin
+    res.render('admin/admin-dashboard', { admin: true })
+  } else {
+    req.session.adminError = true
+    res.redirect('/admin')
+  }
+
 })
 
 router.get('/dashboard', adminAuth, (req, res) => {
