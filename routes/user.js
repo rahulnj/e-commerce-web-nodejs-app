@@ -54,17 +54,17 @@ router.post('/signup', async (req, res) => {
 
 
 // user signin
-router.post('/signin', (req, res) => {
-  userhelpers.userLogin(req.body).then((response) => {
-    if (response.status) {
-      req.session.loggedIn = true
-      req.session.user = response.user
-      res.redirect('/')
-    } else {
-      req.session.loginError = "Invalid Username or Password"
-      res.redirect('/user-signin')
-    }
-  })
+router.post('/signin', async (req, res) => {
+  const response = await userhelpers.userLogin(req.body)
+  if (response && response.status) {
+    req.session.loggedIn = true
+    req.session.user = response.user
+    res.redirect('/')
+  } else {
+    req.session.loginError = "Invalid Username or Password"
+    res.redirect('/user-signin')
+  }
+
 })
 
 // user signout

@@ -30,32 +30,27 @@ module.exports = {
         }
 
     },
-    userLogin: (userData) => {
-        return new Promise(async (resolve, reject) => {
-            let loginstatus = false
-            let response = {}
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: userData.username })
-            let userStatus = true
-            userStatus = user.status
-            if (user && userStatus) {
-                bcrypt.compare(userData.password, user.password).then((Status) => {
-                    if (Status) {
-                        console.log("User login success");
-                        response.user = user
-                        response.status = true
-                        resolve(response)
-                    } else {
-                        console.log("User login failed");
-                        resolve({ Status: false })
-                    }
-                }).catch(() => {
-                    console.log("Error");
-                })
+    userLogin: async (userData) => {
+        let loginstatus = false
+        let response = {}
+        let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: userData.username })
+
+        if (user && user.status) {
+
+            const status = await bcrypt.compare(userData.password, user.password)
+            if (status) {
+                console.log("User login success");
+                return { user, status }
             } else {
                 console.log("User login failed");
-                resolve({ Status: false })
+                return null
             }
-        })
+
+        } else {
+            console.log("User login failed");
+            return null
+        }
+
     },
     usersDetails: () => {
         return new Promise(async (resolve, reject) => {
