@@ -57,6 +57,9 @@ router.get('/products', adminAuth, (req, res) => {
 router.get('/addproduct', adminAuth, (req, res) => {
   res.render('admin/admin-addproduct', { admin: true })
 })
+router.get('/category', adminAuth, (req, res) => {
+  res.render('admin/admin-category', { admin: true })
+})
 
 router.get('/users', adminAuth, (req, res) => {
   userhelpers.usersDetails().then((newusers) => {
@@ -83,11 +86,6 @@ router.get('/users/blockuser/:id', async (req, res) => {
   let user = await userhelpers.blockUser(userId)
   res.redirect("/admin/users")
 })
-router.post('/users/blockuser', async (req, res) => {
-  userhelpers.blockUser(req.params.id, req.body).then(() => {
-
-  })
-})
 
 //unblock user
 router.get('/users/unblockuser/:id', async (req, res) => {
@@ -95,11 +93,6 @@ router.get('/users/unblockuser/:id', async (req, res) => {
   console.log(userId);
   let user = await userhelpers.unblockUser(userId)
   res.redirect("/admin/users")
-})
-router.post('/users/unblockuser', async (req, res) => {
-  userhelpers.unblockUser(req.params.id, req.body).then(() => {
-
-  })
 })
 
 

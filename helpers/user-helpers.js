@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const { ObjectId } = require('bson')
 const { response } = require('express')
 module.exports = {
-    doSignup: async (userData) => {
+    userSignup: async (userData) => {
         userData.status = true
         userData.password = await bcrypt.hash(userData.password, 10)
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
@@ -60,7 +60,7 @@ module.exports = {
     },
     blockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: { "$not": "status" } } }]).then((response) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: false } }]).then((response) => {
                 resolve();
             })
         })

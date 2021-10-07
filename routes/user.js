@@ -18,15 +18,14 @@ const verifyUser = (req, res, next) => {
   if (req.session.loggedIn) {
     next()
   } else {
-    res.redirect('/')
+    res.redirect('/user-signin')
   }
 }
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   let user = req.session.user
-
-  res.render('user/home', { user, nav: req.session.user })
+  res.render('user/home', { user })
 });
 
 router.get('/user-signup', userAuth, (req, res) => {
@@ -53,10 +52,13 @@ router.get('/doggrooming', (req, res) => {
 router.get('/catgrooming', (req, res) => {
   res.render('user/catgrooming')
 })
+router.get('/myorders', verifyUser, (req, res) => {
+  res.send("Coming soon")
+})
 
 //user signup
 router.post('/signup', async (req, res) => {
-  await userhelpers.doSignup(req.body)
+  const response = await userhelpers.userSignup(req.body)
   res.redirect('/user-signin')
 })
 
@@ -75,6 +77,11 @@ router.post('/signin', async (req, res) => {
   }
 
 })
+
+router.get('/single-product', (req, res) => {
+  res.render('user/product-detail')
+})
+
 
 // user signout
 router.get('/signout', (req, res) => {

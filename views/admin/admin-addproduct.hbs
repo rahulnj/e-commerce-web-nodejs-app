@@ -56,44 +56,68 @@
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label for="product_name" class="form-label">Category</label>
-                        <select class="form-select">
-                            <option> Dog </option>
-                            <option> Cat </option>
+                        <select class="form-select" id="maincat">
+                            <option id="dog" value="Dog"> Dog </option>
+                            <option id="cat" value="Cat"> Cat </option>
 
                         </select>
                     </div>
                     <div class="col-sm-6 mb-3">
-                        <label class="form-label">Type</label>
+                        <label class="form-label">Sub category</label>
                         <select class="form-select">
-                            <option> Retail and Vet products </option>
-                            <option> Accessories and Grooming </option>
+                            <option value="RetailandVet"> Retail and Vet products </option>
+                            <option value="AccessoriesandGroom"> Accessories and Grooming </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Type</label>
+                        <select id="subtype" class="form-select">
+                            <option id="subtype1"> Puppy </option>
+                            <option id="subtype2"> Adult </option>
                         </select>
                     </div>
                 </div> <!-- row.// -->
+                <div class="row gx-2">
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Price</label>
+                        <input placeholder="" type="text" name="price" class="form-control">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Qty</label>
+                        <input placeholder="" name="quantity" type="text" class="form-control">
+                    </div>
+                </div>
 
-
-                <div class="mb-4">
+                {{!-- <div class="mb-4">
                     <label class="form-label">Price</label>
                     <div class="row gx-2">
                         <div class="col-4">
                             <input placeholder="" type="text" class="form-control">
-                        </div>
-                        {{!-- <div class="col-2">
-                            <select class="form-select">
-                                <option> USD </option>
-                                <option> EUR </option>
-                                <option> RUBL </option>
-                            </select>
                         </div> --}}
-                    </div> <!-- row.// -->
-                </div>
 
-                {{!-- <label class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" value="">
-                    <span class="form-check-label"> Publish on website </span>
-                </label> --}}
+                        {{!-- <div class="mb-4">
+                            <label class="form-label">Stock</label>
+                            <div class="row gx-2">
+                                <div class="col-4">
+                                    <input placeholder="" type="number" class="form-control">
+                                </div> --}}
+                                {{!-- <div class="col-2">
+                                    <select class="form-select">
+                                        <option> USD </option>
+                                        <option> EUR </option>
+                                        <option> RUBL </option>
+                                    </select>
+                                </div> --}}
+                                {{!--
+                            </div> <!-- row.// -->
+                        </div> --}}
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                        {{!-- <label class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" value="">
+                            <span class="form-check-label"> Publish on website </span>
+                        </label> --}}
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
 
             </form>
         </div>
@@ -101,3 +125,23 @@
 
 
 </section> <!-- content-main end// -->
+
+<script>
+    document.getElementById('maincat').onchange = e => {
+        if (e.target.value == "Dog") {
+            document.getElementById('subtype1').innerHTML = "Puppy"
+            document.getElementById('subtype1').value = "Puppy"
+            document.getElementById('subtype2').innerHTML = "Adult"
+            document.getElementById('subtype2').value = "Adult"
+
+        } else if (e.target.value == "Cat") {
+            document.getElementById('subtype1').innerHTML = "Kitten"
+            document.getElementById('subtype1').value = "Kitten"
+            document.getElementById('subtype2').innerHTML = "Adult"
+            document.getElementById('subtype2').value = "Adult"
+
+
+        }
+
+    }
+</script>
