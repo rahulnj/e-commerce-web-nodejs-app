@@ -99,9 +99,8 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 //add product
 router.post('/add-product', async (req, res) => {
 
-  let response = await productHelpers.addProduct(req.body)
-  console.log("____________________________________________________" + response);
-  let id = "" + response
+  let id = await productHelpers.addProduct(req.body)
+  id = id.toString()
   console.log(id);
   let image1 = req.files.img1
   let image2 = req.files.img2
