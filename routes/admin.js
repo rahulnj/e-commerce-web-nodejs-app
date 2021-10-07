@@ -1,4 +1,5 @@
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
@@ -87,12 +88,30 @@ router.get('/users/blockuser/:id', async (req, res) => {
   res.redirect("/admin/users")
 })
 
-//unblock user
 router.get('/users/unblockuser/:id', async (req, res) => {
   let userId = req.params.id
   console.log(userId);
   let user = await userhelpers.unblockUser(userId)
   res.redirect("/admin/users")
+})
+//blockuser end
+
+//add product
+router.post('/add-product', async (req, res) => {
+
+  let response = await productHelpers.addProduct(req.body)
+  console.log("____________________________________________________" + response);
+  let id = "" + response
+  console.log(id);
+  let image1 = req.files.img1
+  let image2 = req.files.img2
+  let image3 = req.files.img3
+  let image4 = req.files.img4
+  image1.mv('./public/uploads/image-1/' + id + '.jpg')
+  image2.mv('./public/uploads/image-2/' + id + '.jpg')
+  image3.mv('./public/uploads/image-3/' + id + '.jpg')
+  image4.mv('./public/uploads/image-4/' + id + '.jpg')
+  res.redirect('/admin/addproduct')
 })
 
 

@@ -10,53 +10,39 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <form>
-                {{!-- <div class="mb-4">
-                    <label class="form-label">Main Image</label>
-                    <input class="form-control" type="file">
-                </div> --}}
+            <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #1</label>
-                        <input class="form-control" type="file">
+                        <input name="img1" class="form-control" type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #2</label>
-                        <input class="form-control" type="file">
+                        <input name="img2" class="form-control" type="file">
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #3</label>
-                        <input class="form-control" type="file">
+                        <input name="img3" class="form-control" type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #4</label>
-                        <input class="form-control" type="file">
+                        <input name="img4" class="form-control" type="file">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label for="product_name" class="form-label">Product Name</label>
-                    <input type="text" placeholder="Type here" class="form-control" id="product_name">
+                    <input type="text" name="product" placeholder="Type here" class="form-control" id="product_name">
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">Full description</label>
-                    <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
+                    <textarea placeholder="Type here" name="description" class="form-control" rows="4"></textarea>
                 </div>
-
-                {{!-- <div class="mb-4">
-                    <label class="form-label">Category</label>
-                    <select class="form-select">
-                        <option> Retail and Vet products </option>
-                        <option> Accessories and Grooming </option>
-                    </select>
-                </div> --}}
-
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label for="product_name" class="form-label">Category</label>
-                        <select class="form-select" id="maincat">
+                        <select class="form-select" name="category" id="maincat">
                             <option id="dog" value="Dog"> Dog </option>
                             <option id="cat" value="Cat"> Cat </option>
 
@@ -64,14 +50,14 @@
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub category</label>
-                        <select class="form-select">
+                        <select class="form-select" name="subcategory">
                             <option value="RetailandVet"> Retail and Vet products </option>
                             <option value="AccessoriesandGroom"> Accessories and Grooming </option>
                         </select>
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Type</label>
-                        <select id="subtype" class="form-select">
+                        <select id="subtype" name="type" class="form-select">
                             <option id="subtype1"> Puppy </option>
                             <option id="subtype2"> Adult </option>
                         </select>
@@ -87,38 +73,7 @@
                         <input placeholder="" name="quantity" type="text" class="form-control">
                     </div>
                 </div>
-
-                {{!-- <div class="mb-4">
-                    <label class="form-label">Price</label>
-                    <div class="row gx-2">
-                        <div class="col-4">
-                            <input placeholder="" type="text" class="form-control">
-                        </div> --}}
-
-                        {{!-- <div class="mb-4">
-                            <label class="form-label">Stock</label>
-                            <div class="row gx-2">
-                                <div class="col-4">
-                                    <input placeholder="" type="number" class="form-control">
-                                </div> --}}
-                                {{!-- <div class="col-2">
-                                    <select class="form-select">
-                                        <option> USD </option>
-                                        <option> EUR </option>
-                                        <option> RUBL </option>
-                                    </select>
-                                </div> --}}
-                                {{!--
-                            </div> <!-- row.// -->
-                        </div> --}}
-
-                        {{!-- <label class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" value="">
-                            <span class="form-check-label"> Publish on website </span>
-                        </label> --}}
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div> <!-- card end// -->

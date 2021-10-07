@@ -10,6 +10,7 @@ var bodyParser = require('body-parser')
 var app = express();
 var db = require('./config/connection')
 var session = require('express-session')
+var fileUpload = require('express-fileUpload')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -33,7 +34,8 @@ db.connect((err) => {
   else
     console.log("Database Connected");
 })
-
+// file upload
+app.use(fileUpload())
 
 
 app.use('/', userRouter);
