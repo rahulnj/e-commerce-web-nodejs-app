@@ -33,6 +33,11 @@ module.exports = {
             }
         })
         return prodDetails
+    },
+    getSingleproduct: async (proId, product) => {
+        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(proId) })
+        // console.log(prodDetails);
+        return prodDetails
     }
 }
 

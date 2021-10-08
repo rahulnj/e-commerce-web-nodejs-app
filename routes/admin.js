@@ -83,7 +83,20 @@ router.get('/editproduct/:id', adminAuth, async (req, res) => {
 router.post('/editproduct/:id', async (req, res) => {
   let proId = req.params.id
   await productHelpers.updateProduct(proId, req.body)
+  // console.log(req.files);
   res.redirect('/admin/products')
+  if (req.files.img1 || req.files.img2 || req.files.img3 || req.files.img4) {
+    console.log(req.files.img1);
+    let image1 = req.files.img1
+    let image2 = req.files.img2
+    let image3 = req.files.img3
+    let image4 = req.files.img4
+    image1.mv('./public/uploads/image-1/' + proId + '.jpg')
+    image2.mv('./public/uploads/image-2/' + proId + '.jpg')
+    image3.mv('./public/uploads/image-3/' + proId + '.jpg')
+    image4.mv('./public/uploads/image-4/' + proId + '.jpg')
+  }
+
 })
 
 
@@ -127,6 +140,7 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 router.post('/add-product', async (req, res) => {
 
   let id = await productHelpers.addProduct(req.body)
+  console.log(req.body);
   id = id.toString()
   let image1 = req.files.img1
   let image2 = req.files.img2

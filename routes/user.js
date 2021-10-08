@@ -1,5 +1,6 @@
 const { response } = require('express');
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
@@ -79,9 +80,11 @@ router.post('/signin', async (req, res) => {
 
 })
 
-router.get('/single-product', async (req, res) => {
-  let products = await productHelper.getProducts()
-  res.render('user/product-detail', { products })
+router.get('/single-product/:id', async (req, res) => {
+  let proId = req.params.id
+  // console.log(proId);
+  let product = await productHelpers.getSingleproduct(proId)
+  res.render('user/product-detail', { product })
 })
 
 
