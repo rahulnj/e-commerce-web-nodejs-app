@@ -43,10 +43,10 @@
                             <a href="#" class="title text-truncate">{{this.product}}</a>
                             <div class="price mb-2">₹{{this.price}}</div> <!-- price.// -->
 
-                            <a href="/admin/editproduct" class="btn btn-sm btn-light">
+                            <a href="/admin/editproduct/{{this._id}}" class="btn btn-sm btn-light">
                                 <i class="material-icons md-edit"></i> Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-outline-danger">
+                            <a href="/admin/deleteproduct/{{this._id}}" class="btn btn-sm btn-outline-danger">
                                 <i class="material-icons md-delete_forever"></i> Delete
                             </a>
                         </div>

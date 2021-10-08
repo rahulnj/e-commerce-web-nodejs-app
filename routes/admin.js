@@ -53,7 +53,7 @@ router.get('/orders', adminAuth, (req, res) => {
 
 router.get('/products', adminAuth, async (req, res) => {
   let products = await productHelper.getProducts()
-  console.log(products);
+  // console.log(products);
 
   // console.log(JSON.stringify(products))
 
@@ -67,14 +67,33 @@ router.get('/category', adminAuth, (req, res) => {
   res.render('admin/admin-category', { admin: true })
 })
 
-router.get('/users', adminAuth, (req, res) => {
-  userhelpers.usersDetails().then((newusers) => {
+router.get('/users', adminAuth, async (req, res) => {
+  await userhelpers.usersDetails().then((newusers) => {
     res.render('admin/admin-user', { admin: true, newusers })
   })
 })
 
-router.get('/editproduct', adminAuth, (req, res) => {
-  res.render('admin/admin-editproduct', { admin: true })
+// edit products
+router.get('/editproduct/:id', adminAuth, async (req, res) => {
+  let proId = req.params.id
+  let product = await productHelpers.editProduct(proId)
+  res.render('admin/admin-editproduct', { admin: true, product })
+})
+
+router.post('/editproduct/:id', async (req, res) => {
+  let proId = req.params.id
+  await productHelpers.updateProduct(proId, req.body)
+  res.redirect('/admin/products')
+})
+
+
+
+
+router.get('/deleteproduct/:id', async (req, res) => {
+  let proId = req.params.id
+  // console.log(proId);
+  await productHelpers.deleteProducts(proId)
+  res.redirect('/admin/products')
 })
 
 router.get('/orderdetails', adminAuth, (req, res) => {
@@ -88,14 +107,14 @@ router.get('/offers', adminAuth, (req, res) => {
 // block users
 router.get('/users/blockuser/:id', async (req, res) => {
   let userId = req.params.id
-  console.log(userId);
+  // console.log(userId);
   let user = await userhelpers.blockUser(userId)
   res.redirect("/admin/users")
 })
 
 router.get('/users/unblockuser/:id', async (req, res) => {
   let userId = req.params.id
-  console.log(userId);
+  // console.log(userId);
   let user = await userhelpers.unblockUser(userId)
   res.redirect("/admin/users")
 })
