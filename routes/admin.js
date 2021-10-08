@@ -86,11 +86,12 @@ router.post('/editproduct/:id', async (req, res) => {
   // console.log(req.files);
   res.redirect('/admin/products')
   if (req.files.img1 || req.files.img2 || req.files.img3 || req.files.img4) {
-    console.log(req.files.img1);
+    // console.log(req.files.img1);
     let image1 = req.files.img1
     let image2 = req.files.img2
     let image3 = req.files.img3
     let image4 = req.files.img4
+    console.log(image1);
     image1.mv('./public/uploads/image-1/' + proId + '.jpg')
     image2.mv('./public/uploads/image-2/' + proId + '.jpg')
     image3.mv('./public/uploads/image-3/' + proId + '.jpg')
