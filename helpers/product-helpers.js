@@ -28,8 +28,6 @@ module.exports = {
 
                 product: product.product,
                 description: product.description,
-                category: product.category,
-                subcategory: product.subcategory,
                 price: product.price,
                 quantity: product.quantity
             }

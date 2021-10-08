@@ -89,6 +89,9 @@ router.post('/editproduct/:id', async (req, res) => {
 
 
 
+
+
+// 
 router.get('/deleteproduct/:id', async (req, res) => {
   let proId = req.params.id
   // console.log(proId);

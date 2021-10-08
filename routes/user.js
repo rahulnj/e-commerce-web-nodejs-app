@@ -37,8 +37,9 @@ router.get('/user-signin', userAuth, (req, res) => {
   req.session.loginError = false
 })
 
-router.get('/dogretailvet', (req, res) => {
-  res.render('user/dogretail&vet')
+router.get('/dogretailvet', async (req, res) => {
+  let products = await productHelper.getProducts()
+  res.render('user/dogretail&vet', { products })
 })
 
 router.get('/catretailvet', (req, res) => {
@@ -78,8 +79,9 @@ router.post('/signin', async (req, res) => {
 
 })
 
-router.get('/single-product', (req, res) => {
-  res.render('user/product-detail')
+router.get('/single-product', async (req, res) => {
+  let products = await productHelper.getProducts()
+  res.render('user/product-detail', { products })
 })
 
 
