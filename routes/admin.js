@@ -51,8 +51,13 @@ router.get('/orders', adminAuth, (req, res) => {
   res.render('admin/admin-orders', { admin: true })
 })
 
-router.get('/products', adminAuth, (req, res) => {
-  res.render('admin/admin-products', { admin: true })
+router.get('/products', adminAuth, async (req, res) => {
+  let products = await productHelper.getProducts()
+  console.log(products);
+
+  // console.log(JSON.stringify(products))
+
+  res.render('admin/admin-products', { admin: true, products })
 })
 
 router.get('/addproduct', adminAuth, (req, res) => {
@@ -101,7 +106,6 @@ router.post('/add-product', async (req, res) => {
 
   let id = await productHelpers.addProduct(req.body)
   id = id.toString()
-  console.log(id);
   let image1 = req.files.img1
   let image2 = req.files.img2
   let image3 = req.files.img3
