@@ -1,96 +1,113 @@
 {{!-- --}}
-{{#if nonav}}
 
-{{else}}
-<header class="header_area">
-    <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
-        <!-- Classy Menu -->
-        <nav class="classy-navbar" id="essenceNav">
-            <!-- Logo -->
-            <a class="nav-brand" href=""><img src="/img/core-img/logo.png" alt=""></a>
-            <!-- Navbar Toggler -->
-            <div class="classy-navbar-toggler">
-                <span class="navbarToggler"><span></span><span></span><span></span></span>
-            </div>
-            <!-- Menu -->
-            <div class="classy-menu">
-                <!-- close btn -->
-                <div class="classycloseIcon">
-                    <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+<body>
+
+
+    {{#if nonav}}
+
+    {{else}}
+    <header class="header_area">
+        <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+            <!-- Classy Menu -->
+            <nav class="classy-navbar" id="essenceNav">
+                <!-- Logo -->
+                <a class="nav-brand" href=""><img src="/img/core-img/logo.png" alt=""></a>
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
                 </div>
-                <!-- Nav Start -->
-                <div class="classynav">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="#">Products</a>
-                            <div class="megamenu">
-                                <div class="single-mega cn-col-4">
-                                    <img src="/img/bg-img/bg-dog.jpg" alt="">
+                <!-- Menu -->
+                <div class="classy-menu">
+                    <!-- close btn -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="#">Products</a>
+                                <div class="megamenu">
+                                    <div class="single-mega cn-col-4">
+                                        <img src="/img/bg-img/bg-dog.jpg" alt="">
+                                    </div>
+                                    <ul class="single-mega cn-col-4">
+                                        <li class="title">Dog's Products</li>
+                                        <li><a href="/dogretailvet">Retail & Vet Products</a></li>
+                                        <li><a href="/doggrooming">Accessories & Grooming</a></li>
+
+                                    </ul>
+                                    <div class="single-mega cn-col-4">
+                                        <img src="/img/bg-img/bg-cat.png" alt="">
+                                    </div>
+                                    <ul class="single-mega cn-col-4">
+                                        <li class="title">Cat's Products</li>
+                                        <li><a href="/catretailvet">Retail & Vet Products</a></li>
+                                        <li><a href="/catgrooming">Accessories & Grooming</a></li>
+
+                                    </ul>
+
+
                                 </div>
-                                <ul class="single-mega cn-col-4">
-                                    <li class="title">Dog's Products</li>
-                                    <li><a href="/dogretailvet">Retail & Vet Products</a></li>
-                                    <li><a href="/doggrooming">Accessories & Grooming</a></li>
-
-                                </ul>
-                                <div class="single-mega cn-col-4">
-                                    <img src="/img/bg-img/bg-cat.png" alt="">
-                                </div>
-                                <ul class="single-mega cn-col-4">
-                                    <li class="title">Cat's Products</li>
-                                    <li><a href="/catretailvet">Retail & Vet Products</a></li>
-                                    <li><a href="/catgrooming">Accessories & Grooming</a></li>
-
-                                </ul>
-
-
-                            </div>
-                        </li>
-                        <li><a href="/myorders">My Orders</a></li>
-                    </ul>
+                            </li>
+                            <li><a href="/myorders">My Orders</a></li>
+                        </ul>
+                    </div>
+                    <!-- Nav End -->
                 </div>
-                <!-- Nav End -->
-            </div>
-        </nav>
+            </nav>
 
-        <!-- Header Meta Data -->
-        <div class="header-meta d-flex clearfix justify-content-end">
-            <!-- Search Area -->
-            {{!-- <div class="search-area">
-                <form action="#" method="post">
-                    <input type="search" name="search" id="headerSearch" placeholder="Search">
-                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-            </div> --}}
-            <!-- Favourite Area -->
-            <div class="favourite-area">
-                <a href="#"><img src="/img/core-img/heart.svg" alt=""></a>
-            </div>
-            <!-- User Login Info -->
-            {{#if user}}
-            <div class="user-login-info">
-                <a class="ddbtn" href="#"><img src="" alt="">Hi,{{user.username}}</a>
-                <div class="ddcontent">
-                    {{!-- <div> <a href="#"><img src="img/core-img/user.svg" alt="">&nbsp{{user.username}}</a></div>
-                    --}}
-                    <div><a href="/signout">Signout</a></div>
+            <!-- Header Meta Data -->
+            <div class="header-meta d-flex clearfix justify-content-end">
+                <!-- Search Area -->
+                {{!-- <div class="search-area">
+                    <form action="#" method="post">
+                        <input type="search" name="search" id="headerSearch" placeholder="Search">
+                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div> --}}
+                <!-- Favourite Area -->
+                <div class="favourite-area">
+                    <a href="#"><img src="/img/core-img/heart.svg" alt=""></a>
+                </div>
+                <!-- User Login Info -->
+                {{#if user}}
+                <div class="user-login-info">
+                    <a class="ddbtn" href="#"><img src="" alt="">Hi,{{user.username}}</a>
+                    <div class="ddcontent">
+                        {{!-- <div> <a href="#"><img src="img/core-img/user.svg" alt="">&nbsp{{user.username}}</a></div>
+                        --}}
+                        <div><a href="/signout">Signout</a></div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="user-login-info">
+                    <a class="ddbtn" href="#"><img src="/img/core-img/user.svg" alt=""></a>
+                    <div class="ddcontent">
+                        {{!-- <div> <a href="#"><img src="img/core-img/user.svg" alt="">&nbspUser</a></div> --}}
+                        <div><a href="/user-signup">Signup</a></div>
+                    </div>
+                </div>
+                {{/if}}
+                <!-- Cart Area -->
+                <div class="cart-area">
+                    <a href="#" id="essenceCartBtn"><img src="/img/core-img/bag.svg" alt=""> <span>0</span></a>
                 </div>
             </div>
-            {{else}}
-            <div class="user-login-info">
-                <a class="ddbtn" href="#"><img src="/img/core-img/user.svg" alt=""></a>
-                <div class="ddcontent">
-                    {{!-- <div> <a href="#"><img src="img/core-img/user.svg" alt="">&nbspUser</a></div> --}}
-                    <div><a href="/user-signup">Signup</a></div>
-                </div>
-            </div>
-            {{/if}}
-            <!-- Cart Area -->
-            <div class="cart-area">
-                <a href="#" id="essenceCartBtn"><img src="/img/core-img/bag.svg" alt=""> <span>0</span></a>
-            </div>
+
         </div>
-
-    </div>
-</header>
-{{/if}}
+    </header>
+    {{/if}}
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="/js/plugins.js"></script>
+    <!-- Classy Nav js -->
+    <script src="/js/classy-nav.min.js"></script>
+    <!-- Active js -->
+    <script src="/js/active.js"></script>
+</body>

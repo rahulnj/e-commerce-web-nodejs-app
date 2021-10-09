@@ -11,34 +11,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <form action="/admin/editproduct/{{product._id}}" method="POST" enctype="multipart/form-data">
-                <div class="row gx-2">
-                    <div class="col-sm-6 mb-3">
-                        <label class="form-label">Sub-Image #1</label>
-                        <img src="/uploads/image-1/{{product._id}}.jpg" id="imgview1" alt=""
-                            style="width: 100px;height: 100px;">
-                        <input name="img1" class="form-control" type="file" onchange="imgviewone(event)">
-                    </div>
-                    <div class="col-sm-6 mb-3">
-                        <label class="form-label">Sub-Image #2</label>
-                        <img src="/uploads/image-2/{{product._id}}.jpg" id="imgview2" alt=""
-                            style="width: 100px;height: 100px;">
-                        <input name="img2" class="form-control" type="file" onchange="imgviewtwo(event)">
-                    </div>
-                </div>
-                <div class="row gx-2">
-                    <div class="col-sm-6 mb-3">
-                        <label class="form-label">Sub-Image #3</label>
-                        <img src="/uploads/image-3/{{product._id}}.jpg" id="imgview3" alt=""
-                            style="width: 100px;height: 100px;">
-                        <input name="img3" class="form-control" type="file" onchange="imgviewthree(event)">
-                    </div>
-                    <div class="col-sm-6 mb-3">
-                        <label class="form-label">Sub-Image #4</label>
-                        <img src="/uploads/image-4/{{product._id}}.jpg" id="imgview4" alt=""
-                            style="width: 100px;height: 100px;">
-                        <input name="img4" class="form-control" type="file" onchange="imgviewfour(event)">
-                    </div>
-                </div>
+
                 <div class="mb-4">
                     <label for="product_name" class="form-label">Product Name</label>
                     <input type="text" value="{{product.product}}" name="product" placeholder="Type here"
@@ -85,6 +58,42 @@
                             class="form-control">
                     </div>
                 </div>
+                <div class="row gx-2">
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Sub-Image #1</label>
+                        <img src="/uploads/image-1/{{product._id}}.jpg" id="imgview1" alt=""
+                            style="width: 100px;height: 100px;">
+                        <input name="img1" class="form-control" type="file" onchange="imgviewone(event)">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Sub-Image #2</label>
+                        <img src="/uploads/image-2/{{product._id}}.jpg" id="imgview2" alt=""
+                            style="width: 100px;height: 100px;">
+                        <input name="img2" class="form-control" type="file" onchange="imgviewtwo(event)">
+                    </div>
+                </div>
+                <div class="row gx-2">
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Sub-Image #3</label>
+                        <img src="/uploads/image-3/{{product._id}}.jpg" id="imgview3" alt=""
+                            style="width: 100px;height: 100px;">
+                        <input name="img3" class="form-control" type="file" onchange="imgviewthree(event)">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Sub-Image #4</label>
+                        <img src="/uploads/image-4/{{product._id}}.jpg" id="imgview4" alt=""
+                            style="width: 100px;height: 100px;">
+                        <input name="img4" class="form-control" type="file" onchange="imgviewfour(event)">
+                    </div>
+                </div>
+                <div class="row gx-2">
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Sub-Image #4</label>
+                        <img src="/uploads/image-5/{{product._id}}.jpg" id="imgview5" alt=""
+                            style="width: 100px;height: 100px;">
+                        <input name="img5" class="form-control" type="file" onchange="imgviewfive(event)">
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -106,11 +115,8 @@
     function imgviewfour(event) {
         document.getElementById('imgview4').src = URL.createObjectURL(event.target.files[0])
     }
-
-
-
-
-
-
+    function imgviewfive(event) {
+        document.getElementById('imgview5').src = URL.createObjectURL(event.target.files[0])
+    }
 
 </script>

@@ -91,11 +91,13 @@ router.post('/editproduct/:id', async (req, res) => {
     let image2 = req.files.img2
     let image3 = req.files.img3
     let image4 = req.files.img4
+    let image5 = req.files.img5
     console.log(image1);
     image1.mv('./public/uploads/image-1/' + proId + '.jpg')
     image2.mv('./public/uploads/image-2/' + proId + '.jpg')
     image3.mv('./public/uploads/image-3/' + proId + '.jpg')
     image4.mv('./public/uploads/image-4/' + proId + '.jpg')
+    image5.mv('./public/uploads/image-5/' + proId + '.jpg')
   }
 
 })
@@ -147,10 +149,12 @@ router.post('/add-product', async (req, res) => {
   let image2 = req.files.img2
   let image3 = req.files.img3
   let image4 = req.files.img4
+  let image5 = req.files.img5
   image1.mv('./public/uploads/image-1/' + id + '.jpg')
   image2.mv('./public/uploads/image-2/' + id + '.jpg')
   image3.mv('./public/uploads/image-3/' + id + '.jpg')
   image4.mv('./public/uploads/image-4/' + id + '.jpg')
+  image5.mv('./public/uploads/image-5/' + id + '.jpg')
   res.redirect('/admin/addproduct')
 })
 
