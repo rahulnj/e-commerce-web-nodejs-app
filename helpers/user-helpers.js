@@ -1,7 +1,8 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
-const { ObjectId } = require('bson')
+// const { ObjectId } = require('bson')
+var objectId = require('mongodb').ObjectId
 const { response } = require('express')
 module.exports = {
     userSignup: async (userData) => {
@@ -60,14 +61,14 @@ module.exports = {
     },
     blockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: false } }]).then((response) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, [{ $set: { status: false } }]).then((response) => {
                 resolve(response);
             })
         })
     },
     unblockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: true } }]).then((response) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, [{ $set: { status: true } }]).then((response) => {
                 resolve()
             })
         })

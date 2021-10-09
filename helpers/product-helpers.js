@@ -1,7 +1,7 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
-const { ObjectId } = require('bson')
-
+// const { ObjectId } = require('bson')
+var objectId = require('mongodb').ObjectId
 module.exports = {
     addProduct: async (product) => {
 
@@ -15,15 +15,15 @@ module.exports = {
         return proDetails
     },
     deleteProducts: async (product) => {
-        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: ObjectId(product) })
+        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectId(product) })
         return prodDetails
     },
     editProduct: async (product) => {
-        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(product) })
+        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(product) })
         return prodDetails
     },
     updateProduct: async (proId, product) => {
-        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(proId) }, {
+        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, {
             $set: {
 
                 product: product.product,
@@ -35,7 +35,7 @@ module.exports = {
         return prodDetails
     },
     getSingleproduct: async (proId, product) => {
-        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(proId) })
+        let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) })
         // console.log(prodDetails);
         return prodDetails
     }
