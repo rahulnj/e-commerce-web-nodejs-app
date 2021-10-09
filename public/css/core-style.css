@@ -1329,7 +1329,7 @@ img {
   text-transform: uppercase;
   font-weight: 600; }
   .checkout_details_area form label span {
-    color: #0315ff; }
+    color: rgb(143, 0, 0); }
 .checkout_details_area form .form-control {
   height: 42px;
   border: 1px solid #ebebeb;

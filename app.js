@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
   next();
 });
 //session
-app.use(session({ secret: "key", cookie: { maxAge: 6000000 } }))
+app.use(session({ secret: "key", cookie: { maxAge: 6000000 }, resave: false, saveUninitialized: true }))
 // Database connect
 db.connect((err) => {
   if (err)

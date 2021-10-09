@@ -57,6 +57,9 @@ router.get('/catgrooming', (req, res) => {
 router.get('/myorders', verifyUser, (req, res) => {
   res.send("Coming soon")
 })
+router.get('/mybag', (req, res) => {
+  res.render('user/mybag')
+})
 
 //user signup
 router.post('/signup', async (req, res) => {
