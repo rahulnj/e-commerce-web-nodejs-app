@@ -37,14 +37,12 @@
                                 {{#if this.status}}
                                 <button id="block" class='btn btn-success btn-success me-md-2' type='button'><a
                                         href="/admin/users/blockuser/{{this._id}}"
-                                        onclick="return confirm('Block {{this.username}}?')" data-toggle="modal"
-                                        data-target="#mymodal"
+                                        onclick="return confirm('Block {{this.username}}?')"
                                         style="text-decoration: none; color:white">Block</a></button>
                                 {{else}}
                                 <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
                                         href="/admin/users/unblockuser/{{this._id}}"
-                                        onclick="return confirm('UnBlock {{this.username}}?')" data-toggle="modal"
-                                        data-target="#mymodel"
+                                        onclick="return confirm('UnBlock {{this.username}}?')"
                                         style="text-decoration: none; color:white">Unblock</a></button>
                                 {{/if}}
                             </td>

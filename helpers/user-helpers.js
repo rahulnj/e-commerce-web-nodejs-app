@@ -61,7 +61,7 @@ module.exports = {
     blockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: false } }]).then((response) => {
-                resolve();
+                resolve(response);
             })
         })
     },
