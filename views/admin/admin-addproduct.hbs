@@ -35,13 +35,13 @@
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub category</label>
 
-                        <select id="subcategory" name="type" class="form-select">
+                        <select id="subcategory" name="subcategory" class="form-select">
                             <option> select </option>
                         </select>
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Type</label>
-                        <select class="form-select" id="subtype" name="subtype">
+                        <select class="form-select" id="subtype" name="type">
 
                         </select>
                     </div>
@@ -105,8 +105,8 @@
                 document.getElementById('subtype').innerHTML = '';
                 // console.log(response.category.type[0])
                 for (let i = 0; i < response.category.subcategory.length; i++) {
-                    let element = `<option value= " ${response.category.subcategory[i].name}" > ${response.category.subcategory[i].name} </option>`
-                    let typeelement = `<option value= " ${response.category.type[i].name}" > ${response.category.type[i].name} </option>`
+                    let element = `<option value= "${response.category.subcategory[i].name}" > ${response.category.subcategory[i].name} </option>`
+                    let typeelement = `<option value= "${response.category.type[i].name}" > ${response.category.type[i].name} </option>`
                     document.getElementById('subcategory').innerHTML += element
                     document.getElementById('subtype').innerHTML += typeelement
                 }

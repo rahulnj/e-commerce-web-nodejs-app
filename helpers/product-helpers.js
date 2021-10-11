@@ -49,15 +49,15 @@ module.exports = {
             if (!categoryDetails) {
                 let catDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category })
                 if (catDetails) {
-                    console.log(categoryDetails);
-                    console.log("yeah");
+                    // console.log(categoryDetails);
+                    // console.log("yeah");
                     db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
 
                         $push: { subcategory: { name: sub } }
 
                     }
                     ).then((response) => {
-                        console.log(catDetails);
+                        // console.log(catDetails);
 
                         let alreadyTypeFound = catDetails.type.find(elem => elem.name == type);
                         if (alreadyTypeFound) {
@@ -100,7 +100,7 @@ module.exports = {
     },
     showSubcategory: async (category) => {
         let show = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category }, { subcategory: 0 })
-        console.log(show.subcategory);
+        // console.log(show.subcategory);
         return show
     }
 
