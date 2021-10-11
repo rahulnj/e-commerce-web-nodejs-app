@@ -59,31 +59,53 @@ module.exports = {
     //     }
     //     return categoryDetails
     // }
-    createCategory: (category, sub, full) => {
+    createCategory: (category, sub, type) => {
         return new Promise(async (resolve, reject) => {
-            let type = full.type
-            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category })
+
+            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category, "subcategory.name": sub })
             // console.log(categoryDetails);
-            if (categoryDetails) {
-                console.log(categoryDetails);
-                console.log("yeah");
-                db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
+            if (!categoryDetails) {
+                let catDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category })
+                if (catDetails) {
+                    console.log(categoryDetails);
+                    console.log("yeah");
+                    db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
 
-                    $push: { subcategory: sub, type: type }
+                        $push: { subcategory: { name: sub } }
 
+                    }
+                    ).then((response) => {
+                        console.log(catDetails);
+
+                        let alreadyTypeFound = catDetails.type.find(elem => elem.name == type);
+                        if (alreadyTypeFound) {
+                            resolve()
+                        }
+                        else {
+                            db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
+
+                                $push: { type: { name: type } }
+
+                            }).then(() => {
+                                resolve();
+                            })
+                        }
+
+                    })
+                } else {
+                    let createObj = {
+                        category: category,
+                        subcategory: [{ name: sub }],
+                        type: [{ name: type }]
+                    }
+                    db.get().collection(collection.CATEGORY_COLLECTION).insertOne(createObj).then((response) => {
+                        resolve()
+                    })
                 }
-                ).then((response) => {
-                    resolve()
-                })
+
             } else {
-                let createObj = {
-                    category: full.category,
-                    subcategory: [full.subcategory],
-                    type: [full.type]
-                }
-                db.get().collection(collection.CATEGORY_COLLECTION).insertOne(createObj).then((response) => {
-                    resolve()
-                })
+                resolve()
+
             }
         })
     }, categoryDetails: async () => {

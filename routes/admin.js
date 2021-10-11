@@ -74,7 +74,8 @@ router.get('/category', adminAuth, async (req, res) => {
 router.post('/createCategory', (req, res) => {
   let cat = req.body.category
   let sub = req.body.subcategory
-  productHelper.createCategory(cat, sub, req.body).then(() => {
+  let type = req.body.type
+  productHelper.createCategory(cat, sub, type).then(() => {
 
     res.redirect('/admin/category')
   })

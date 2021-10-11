@@ -52,8 +52,9 @@
                             <tr>
                                 <td>{{this.category}}
                                 </td>
-                                <td><b>{{this.subcategory}}</b></td>
-                                <td>{{this.type}}</td>
+                                <td><b>{{#each this.subcategory}}{{this.name}} {{/each}}</b></td>
+
+                                <td>{{#each this.type}}{{this.name}} {{/each}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
