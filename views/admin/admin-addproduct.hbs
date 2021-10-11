@@ -26,6 +26,7 @@
 
                         <select class="form-select" name="category" id="maincat">
                             {{#each details}}
+
                             <option id="dog" value="{{this.category}}"> {{this.category}} </option>
                             {{/each}}
                         </select>
@@ -93,7 +94,6 @@
 <script>
     document.getElementById('maincat').onchange = e => {
         console.log(e.target.value)
-        console.log("vanuuuu")
         let detail = e.target.value
         $.ajax({
             url: "/admin/getSubcategory",
@@ -103,10 +103,10 @@
                 console.log(response.category.subcategory[0])
                 document.getElementById('subcategory').innerHTML = '';
                 document.getElementById('subtype').innerHTML = '';
-                console.log(response.category.type[0])
+                // console.log(response.category.type[0])
                 for (let i = 0; i < response.category.subcategory.length; i++) {
-                    let element = `<option value= " ${response.category.subcategory[i]}" > ${response.category.subcategory[i]} </option>`
-                    let typeelement = `<option value= " ${response.category.type[i]}" > ${response.category.type[i]} </option>`
+                    let element = `<option value= " ${response.category.subcategory[i].name}" > ${response.category.subcategory[i].name} </option>`
+                    let typeelement = `<option value= " ${response.category.type[i].name}" > ${response.category.type[i].name} </option>`
                     document.getElementById('subcategory').innerHTML += element
                     document.getElementById('subtype').innerHTML += typeelement
                 }

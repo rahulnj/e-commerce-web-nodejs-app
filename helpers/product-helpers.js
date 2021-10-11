@@ -41,24 +41,6 @@ module.exports = {
         // console.log(prodDetails);
         return prodDetails
     },
-    // createCategory: async (category, sub, full) => {
-    //     let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category })
-    //     console.log(categoryDetails);
-
-    //     if (categoryDetails.category) {
-    //         console.log("yeah");
-    //         await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
-
-    //             $push: { subcategory: sub }
-
-    //         })
-    //     } else {
-    //         console.log("nnah");
-    //         await db.get().collection(collection.CATEGORY_COLLECTION).insertOne(full)
-
-    //     }
-    //     return categoryDetails
-    // }
     createCategory: (category, sub, type) => {
         return new Promise(async (resolve, reject) => {
 
