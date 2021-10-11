@@ -39,6 +39,7 @@
 
                     <table class="table table-hover">
                         <thead>
+
                             <tr>
                                 <th>Category</th>
                                 <th>Sub category</th>
@@ -47,22 +48,25 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#each details}}
                             <tr>
-                                <td>Dog
+                                <td>{{this.category}}
                                 </td>
-                                <td><b>Reatail&vet</b></td>
-                                <td>Adult</td>
+                                <td><b>{{this.subcategory}}</b></td>
+                                <td>{{this.type}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
                                                 class="material-icons md-more_horiz"></i> </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                            <a class="dropdown-item text-danger"
+                                                href="/admin/delete-category/{{this._id}}">Delete</a>
                                         </div>
                                     </div>
                                     <!-- dropdown //end -->
                                 </td>
                             </tr>
+                            {{/each}}
                         </tbody>
                     </table>
 

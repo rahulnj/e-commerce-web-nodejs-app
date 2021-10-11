@@ -62,14 +62,14 @@ module.exports = {
     createCategory: (category, sub, full) => {
         return new Promise(async (resolve, reject) => {
             let type = full.type
-            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ $and: [{ category }, { type }] })
-            console.log(categoryDetails);
+            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category })
+            // console.log(categoryDetails);
             if (categoryDetails) {
                 console.log(categoryDetails);
                 console.log("yeah");
-                db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category, type: type }, {
+                db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
 
-                    $push: { subcategory: sub }
+                    $push: { subcategory: sub, type: type }
 
                 }
                 ).then((response) => {
@@ -79,13 +79,25 @@ module.exports = {
                 let createObj = {
                     category: full.category,
                     subcategory: [full.subcategory],
-                    type: full.type
+                    type: [full.type]
                 }
                 db.get().collection(collection.CATEGORY_COLLECTION).insertOne(createObj).then((response) => {
                     resolve()
                 })
             }
         })
+    }, categoryDetails: async () => {
+        let details = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
+        return details
+    },
+    deleteCategory: async (categoryId) => {
+        let deleteCat = await db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({ _id: objectId(categoryId) })
+        return deleteCat
+    },
+    showSubcategory: async (category) => {
+        let show = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category }, { subcategory: 0 })
+        console.log(show.subcategory);
+        return show
     }
 
 

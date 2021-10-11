@@ -23,24 +23,25 @@
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label for="product_name" class="form-label">Category</label>
-                        <select class="form-select" name="category" id="maincat">
-                            <option id="dog" value="Dog"> Dog </option>
-                            <option id="cat" value="Cat"> Cat </option>
 
+                        <select class="form-select" name="category" id="maincat">
+                            {{#each details}}
+                            <option id="dog" value="{{this.category}}"> {{this.category}} </option>
+                            {{/each}}
                         </select>
+
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub category</label>
-                        <select id="subtype" name="type" class="form-select">
-                            <option id="subtype1"> Puppy </option>
-                            <option id="subtype2"> Adult </option>
+
+                        <select id="subcategory" name="type" class="form-select">
+                            <option> select </option>
                         </select>
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Type</label>
-                        <select class="form-select" name="subcategory">
-                            <option value="RetailandVet"> Retail and Vet products </option>
-                            <option value="AccessoriesandGroom"> Accessories and Grooming </option>
+                        <select class="form-select" id="subtype" name="subtype">
+
                         </select>
                     </div>
 
@@ -87,22 +88,33 @@
 
 </section> <!-- content-main end// -->
 
+
+
 <script>
     document.getElementById('maincat').onchange = e => {
-        if (e.target.value == "Dog") {
-            document.getElementById('subtype1').innerHTML = "Puppy"
-            document.getElementById('subtype1').value = "Puppy"
-            document.getElementById('subtype2').innerHTML = "Adult"
-            document.getElementById('subtype2').value = "Adult"
+        console.log(e.target.value)
+        console.log("vanuuuu")
+        let detail = e.target.value
+        $.ajax({
+            url: "/admin/getSubcategory",
+            method: "POST",
+            data: { detail },
+            success: function (response) {
+                console.log(response.category.subcategory[0])
+                document.getElementById('subcategory').innerHTML = '';
+                document.getElementById('subtype').innerHTML = '';
+                console.log(response.category.type[0])
+                for (let i = 0; i < response.category.subcategory.length; i++) {
+                    let element = `<option value= " ${response.category.subcategory[i]}" > ${response.category.subcategory[i]} </option>`
+                    let typeelement = `<option value= " ${response.category.type[i]}" > ${response.category.type[i]} </option>`
+                    document.getElementById('subcategory').innerHTML += element
+                    document.getElementById('subtype').innerHTML += typeelement
+                }
 
-        } else if (e.target.value == "Cat") {
-            document.getElementById('subtype1').innerHTML = "Kitten"
-            document.getElementById('subtype1').value = "Kitten"
-            document.getElementById('subtype2').innerHTML = "Adult"
-            document.getElementById('subtype2').value = "Adult"
-
-
-        }
+            }
+        })
 
     }
+
+
 </script>

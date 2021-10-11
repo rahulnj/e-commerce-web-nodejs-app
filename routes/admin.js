@@ -54,17 +54,20 @@ router.get('/orders', adminAuth, (req, res) => {
 router.get('/products', adminAuth, async (req, res) => {
   let products = await productHelper.getProducts()
   // console.log(products);
-
   // console.log(JSON.stringify(products))
-
   res.render('admin/admin-products', { admin: true, products })
 })
 
-router.get('/addproduct', adminAuth, (req, res) => {
-  res.render('admin/admin-addproduct', { admin: true })
+router.get('/addproduct', adminAuth, async (req, res) => {
+  let details = await productHelper.categoryDetails()
+
+  res.render('admin/admin-addproduct', { admin: true, details })
+
 })
-router.get('/category', adminAuth, (req, res) => {
-  res.render('admin/admin-category', { admin: true })
+
+router.get('/category', adminAuth, async (req, res) => {
+  let details = await productHelper.categoryDetails()
+  res.render('admin/admin-category', { admin: true, details })
 })
 
 // creating category
@@ -75,7 +78,20 @@ router.post('/createCategory', (req, res) => {
 
     res.redirect('/admin/category')
   })
-
+})
+// Delete category
+router.get('/delete-category/:id', async (req, res) => {
+  let categoryId = req.params.id
+  // console.log(categoryId);
+  await productHelper.deleteCategory(categoryId)
+  res.redirect('/admin/category')
+})
+// show category
+router.post('/getSubcategory', async (req, res) => {
+  console.log(req.body);
+  let show = await productHelper.showSubcategory(req.body.detail)
+  res.json({ category: show })
+  // console.log(show.subcategory);
 
 })
 
@@ -118,11 +134,7 @@ router.post('/editproduct/:id', async (req, res) => {
 })
 
 
-
-
-
-
-// 
+//delete product 
 router.get('/deleteproduct/:id', async (req, res) => {
   let proId = req.params.id
   // console.log(proId);
