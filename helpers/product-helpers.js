@@ -2,6 +2,8 @@ var db = require('../config/connection')
 var collection = require('../config/collections')
 // const { ObjectId } = require('bson')
 var objectId = require('mongodb').ObjectId
+const { Db } = require('mongodb')
+const { response } = require('express')
 module.exports = {
     addProduct: async (product) => {
 
@@ -38,6 +40,54 @@ module.exports = {
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) })
         // console.log(prodDetails);
         return prodDetails
+    },
+    // createCategory: async (category, sub, full) => {
+    //     let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category })
+    //     console.log(categoryDetails);
+
+    //     if (categoryDetails.category) {
+    //         console.log("yeah");
+    //         await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
+
+    //             $push: { subcategory: sub }
+
+    //         })
+    //     } else {
+    //         console.log("nnah");
+    //         await db.get().collection(collection.CATEGORY_COLLECTION).insertOne(full)
+
+    //     }
+    //     return categoryDetails
+    // }
+    createCategory: (category, sub, full) => {
+        return new Promise(async (resolve, reject) => {
+            let type = full.type
+            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ $and: [{ category }, { type }] })
+            console.log(categoryDetails);
+            if (categoryDetails) {
+                console.log(categoryDetails);
+                console.log("yeah");
+                db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category, type: type }, {
+
+                    $push: { subcategory: sub }
+
+                }
+                ).then((response) => {
+                    resolve()
+                })
+            } else {
+                let createObj = {
+                    category: full.category,
+                    subcategory: [full.subcategory],
+                    type: full.type
+                }
+                db.get().collection(collection.CATEGORY_COLLECTION).insertOne(createObj).then((response) => {
+                    resolve()
+                })
+            }
+        })
     }
+
+
 }
 

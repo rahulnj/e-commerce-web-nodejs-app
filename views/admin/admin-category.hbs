@@ -7,24 +7,31 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <form>
+                    <form action="/admin/createCategory" method="POST">
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Category</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="product_cat" />
+                            <input type="text" name="category" placeholder="Type here" class="form-control"
+                                id="product_cat" />
                         </div>
                         <div class="mb-4">
                             <label for="product_slug" class="form-label">Sub Category</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="product_subcat" />
+                            <input type="text" name="subcategory" placeholder="Type here" class="form-control"
+                                id="product_subcat" />
                         </div>
+                        {{!-- <div class="mb-4">
+                            <label for="product_slug" class="form-label">Type</label>
+                            <input type="text" name="type" placeholder="Type here" class="form-control"
+                                id="product_type" />
+                        </div> --}}
                         <div class="mb-4">
                             <label class="form-label">Type</label>
-                            <select class="form-select" id="product_type">
-                                <option>Retail and vet</option>
-                                <option>Accessories</option>
+                            <select name="type" class="form-select" id="product_type">
+                                <option value="retailandvet">Retail and vet</option>
+                                <option value="accessories">Accessories</option>
                             </select>
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-primary">Create category</button>
+                            <button type="submit" class="btn btn-primary">Create category</button>
                         </div>
                     </form>
                 </div>

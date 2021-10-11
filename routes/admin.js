@@ -67,6 +67,21 @@ router.get('/category', adminAuth, (req, res) => {
   res.render('admin/admin-category', { admin: true })
 })
 
+// creating category
+router.post('/createCategory', (req, res) => {
+  let cat = req.body.category
+  let sub = req.body.subcategory
+  productHelper.createCategory(cat, sub, req.body).then(() => {
+
+    res.redirect('/admin/category')
+  })
+
+
+})
+
+
+
+
 router.get('/users', adminAuth, async (req, res) => {
   await userhelpers.usersDetails().then((newusers) => {
     res.render('admin/admin-user', { admin: true, newusers })
@@ -143,7 +158,7 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 router.post('/add-product', async (req, res) => {
 
   let id = await productHelpers.addProduct(req.body)
-  console.log(req.body);
+  // console.log(req.body);
   id = id.toString()
   let image1 = req.files.img1
   let image2 = req.files.img2
