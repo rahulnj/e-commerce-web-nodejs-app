@@ -26,6 +26,8 @@
                         <div class="mb-4">
                             <label class="form-label">Type</label>
                             <select name="type" class="form-select" id="product_type">
+                                <option value=""></option>
+
                                 <option value="retailandvet">Retail and vet</option>
                                 <option value="accessories">Accessories</option>
                             </select>
@@ -52,9 +54,9 @@
                             <tr>
                                 <td>{{this.category}}
                                 </td>
-                                <td><b>{{#each this.subcategory}}{{this.name}} {{/each}}</b></td>
+                                <td><b>{{#each this.subcategory}}{{this.name}} <br />{{/each}}</b></td>
 
-                                <td>{{#each this.type}}{{this.name}} {{/each}}</td>
+                                <td>{{#each this.type}}{{this.name}}<br /> {{/each}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i

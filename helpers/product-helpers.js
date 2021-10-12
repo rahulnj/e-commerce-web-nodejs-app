@@ -64,13 +64,17 @@ module.exports = {
                             resolve()
                         }
                         else {
-                            db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
+                            if (!type) {
+                                resolve()
+                            } else {
+                                db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
 
-                                $push: { type: { name: type } }
+                                    $push: { type: { name: type } }
 
-                            }).then(() => {
-                                resolve();
-                            })
+                                }).then(() => {
+                                    resolve();
+                                })
+                            }
                         }
 
                     })
