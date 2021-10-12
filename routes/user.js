@@ -39,12 +39,14 @@ router.get('/user-signin', userAuth, (req, res) => {
 })
 
 router.get('/dogretailvet', async (req, res) => {
+  let user = req.session.user
   let products = await productHelper.getProducts()
-  res.render('user/dogretail&vet', { products })
+  res.render('user/dogretail&vet', { products, user })
 })
 
 router.get('/catretailvet', (req, res) => {
-  res.render('user/catretail&vet')
+  let user = req.session.user
+  res.render('user/catretail&vet', { user })
 })
 
 router.get('/doggrooming', (req, res) => {
@@ -57,8 +59,14 @@ router.get('/catgrooming', (req, res) => {
 router.get('/myorders', verifyUser, (req, res) => {
   res.send("Coming soon")
 })
-router.get('/mybag', (req, res) => {
-  res.render('user/mybag')
+
+//my bag 
+router.get('/mybag', verifyUser, async (req, res) => {
+  let user = req.session.user
+  // console.log(user._id);
+  let products = await userhelpers.getMybag(user._id)
+  console.log(products);
+  res.render('user/mybag', { user, products })
 })
 
 //user signup
@@ -89,6 +97,19 @@ router.get('/single-product/:id', async (req, res) => {
   let product = await productHelpers.getSingleproduct(proId)
   res.render('user/product-detail', { product })
 })
+
+// Add-to-bag
+router.get('/add-to-bag/:id', verifyUser, (req, res) => {
+  userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
+
+  })
+  res.redirect('/dogretailvet')
+})
+
+
+
+
+
 
 
 // user signout

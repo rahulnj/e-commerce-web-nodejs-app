@@ -26,27 +26,34 @@
 
                                 <hr>
 
-                                <div class="d-flex justify-content-between"><span>You have 4 items in your bag</span>
+                                <div class="d-flex justify-content-between"><span></span>
 
                                 </div>
+                                {{#each products}}
                                 <div
                                     class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
 
-                                    <div class="d-flex flex-row"><img class="rounded"
-                                            src="https://i.imgur.com/QRwjbm5.jpg" width="40"><a href="#home"></a>
+                                    <div class="d-flex flex-row">
+                                        {{#each this.product}}
+                                        <img class="rounded" src="/uploads/image-1/{{this._id}}.jpg" width="40"
+                                            height="50"><a href=""></a>
                                         <a href="" style="text-decoration: none; color:black">
-                                            <div class="ml-2"><span class="font-weight-bold d-block">Iphone 11
-                                                    pro</span><span class="spec">256GB, Navy Blue</span></div>
+                                            <div class="ml-2"><span
+                                                    class="font-weight-bold d-block">{{this.product}}</span>Rs.
+                                                {{this.price}}<span class="spec"></span></div>
                                         </a>
 
                                     </div>
+                                    {{/each}}
                                     <div class="d-flex flex-row align-items-center"><button type="button"
-                                            class="btn btn-default btn-circle m-2 cart-item-count">-</button>1<button
-                                            type="button"
+                                            class="btn btn-default btn-circle m-2 cart-item-count">-</button>{{this.quantity}}<button
+                                            type="button" {{#each this.product}}
                                             class="btn btn-default btn-circle m-2 cart-item-count">+</button><span
-                                            class="d-block ml-5 font-weight-bold">$900</span><a href=""><i
+                                            class="d-block ml-5 font-weight-bold"></span><a href=""><i
                                                 class="fa fa-trash-o ml-3 text-black-50"></i></a></div>
+                                    {{/each}}
                                 </div>
+                                {{/each}}
 
                             </div>
                         </div>

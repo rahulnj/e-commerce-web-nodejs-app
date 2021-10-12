@@ -3,7 +3,10 @@ var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
 // const { ObjectId } = require('bson')
 var objectId = require('mongodb').ObjectId
+// const { response } = require('express')
+const { ObjectId } = require('bson')
 const { response } = require('express')
+const { PRODUCT_COLLECTION } = require('../config/collections')
 module.exports = {
     userSignup: async (userData) => {
         userData.status = true
@@ -72,5 +75,76 @@ module.exports = {
                 resolve()
             })
         })
-    }
+    },
+    addtoBag: (prodId, userId) => {
+        let proObj = {
+            item: ObjectId(prodId),
+            quantity: 1
+
+        }
+        return new Promise(async (resolve, reject) => {
+            let userBag = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
+            if (userBag) {
+                let proExist = userBag.products.findIndex(product => product.item == prodId)
+                console.log(proExist);
+                if (proExist != -1) {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ 'products.item': ObjectId(prodId) },
+                        {
+                            $inc: { 'products.$.quantity': 1 }
+                        }
+                    ).then(() => {
+                        resolve()
+                    })
+                } else {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId) },
+                        {
+
+                            $push: { products: proObj }
+
+                        }
+                    ).then((response) => {
+                        resolve()
+                    })
+                }
+
+
+            } else {
+                let cartObj = {
+                    user: objectId(userId),
+                    products: [proObj]
+                }
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
+                    resolve()
+                })
+            }
+        })
+    },
+    getMybag: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                }
+            ]).toArray()
+            // console.log(cartItems);
+            resolve(cartItems)
+        })
+    },
 }
