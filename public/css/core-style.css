@@ -40,7 +40,14 @@ p {
   font-size: 14px;
   line-height: 2;
   font-weight: 400; }
-
+a{
+  text-decoration: none;
+  color: #fbf5f5;
+}
+a:focus,a:hover{
+  text-decoration: none;
+  color: #000000;
+}
 /* a {
   -webkit-transition: all 500ms ease 0s;
   transition: all 500ms ease 0s;

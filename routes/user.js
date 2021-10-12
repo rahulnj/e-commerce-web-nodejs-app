@@ -108,8 +108,9 @@ router.get('/single-product/:id', async (req, res) => {
 
 // Add-to-bag
 router.get('/add-to-bag/:id', verifyUser, (req, res) => {
+  // console.log("kitti");
   userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
-
+    // res.json({ status: true })
   })
   res.redirect('/dogretailvet')
 })

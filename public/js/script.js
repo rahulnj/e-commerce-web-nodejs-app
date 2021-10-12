@@ -1,5 +1,6 @@
 
 
+
 // to search
 function myFunction() {
     // Declare variables
@@ -25,7 +26,23 @@ function myFunction() {
 
 
 // 
-
+// function addTobag(proId) {
+//     $.ajax({
+//         url: '/add-to-bag/' + proId,
+//         method: 'get',
+//         success: (response) => {
+//             console.log(response)
+//             if (response.status) {
+//                 let count = $('#bag-count').html()
+//                 console.log(count)
+//                 count = parseInt(count) + 1
+//                 $("#bag-count").html(count)
+//             }
+//             // alert(response)
+//             // location.href = "/dogretailvet"
+//         }
+//     })
+// }
 //
 
 
