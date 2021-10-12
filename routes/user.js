@@ -24,9 +24,13 @@ const verifyUser = (req, res, next) => {
 }
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
   let user = req.session.user
-  res.render('user/home', { user })
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  res.render('user/home', { user, bagCount })
 });
 
 router.get('/user-signup', userAuth, (req, res) => {
@@ -40,8 +44,12 @@ router.get('/user-signin', userAuth, (req, res) => {
 
 router.get('/dogretailvet', async (req, res) => {
   let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   let products = await productHelper.getProducts()
-  res.render('user/dogretail&vet', { products, user })
+  res.render('user/dogretail&vet', { products, user, bagCount })
 })
 
 router.get('/catretailvet', (req, res) => {
