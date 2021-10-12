@@ -51,14 +51,19 @@ module.exports = {
                 if (catDetails) {
                     // console.log(categoryDetails);
                     // console.log("yeah");
-                    db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
+                    if (sub) {
+                        db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
 
-                        $push: { subcategory: { name: sub } }
+                            $push: { subcategory: { name: sub } }
 
+                        }
+                        ).then((response) => {
+
+                        });
                     }
-                    ).then((response) => {
-                        // console.log(catDetails);
+                    typeManage();
 
+                    function typeManage() {
                         let alreadyTypeFound = catDetails.type.find(elem => elem.name == type);
                         if (alreadyTypeFound) {
                             resolve()
@@ -76,8 +81,7 @@ module.exports = {
                                 })
                             }
                         }
-
-                    })
+                    }
                 } else {
                     let createObj = {
                         category: category,
