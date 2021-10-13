@@ -34,24 +34,25 @@
                                     class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
 
                                     <div class="d-flex flex-row">
-                                        {{#each this.product}}
-                                        <img class="rounded" src="/uploads/image-1/{{this._id}}.jpg" width="40"
+
+                                        <img class="rounded" src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
                                             height="50"><a href=""></a>
                                         <a href="" style="text-decoration: none; color:black">
                                             <div class="ml-2"><span
-                                                    class="font-weight-bold d-block">{{this.product}}</span>Rs.
-                                                {{this.price}}<span class="spec"></span></div>
+                                                    class="font-weight-bold d-block">{{this.product.product}}</span>Rs.
+                                                {{this.product.price}}<span class="spec"></span></div>
                                         </a>
 
                                     </div>
-                                    {{/each}}
-                                    <div class="d-flex flex-row align-items-center"><button type="button"
-                                            class="btn btn-default btn-circle m-2 cart-item-count">-</button>{{this.quantity}}<button
-                                            type="button" {{#each this.product}}
-                                            class="btn btn-default btn-circle m-2 cart-item-count">+</button><span
+
+                                    <div class="d-flex flex-row align-items-center"><button
+                                            class="btn btn-default btn-circle m-2 cart-item-count"
+                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>{{this.quantity}}<button
+                                            type="button" class="btn btn-default btn-circle m-2 cart-item-count"
+                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button><span
                                             class="d-block ml-5 font-weight-bold"></span><a href=""><i
                                                 class="fa fa-trash-o ml-3 text-black-50"></i></a></div>
-                                    {{/each}}
+
                                 </div>
                                 {{/each}}
 

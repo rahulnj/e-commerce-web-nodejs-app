@@ -73,7 +73,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user._id);
   let products = await userhelpers.getMybag(user._id)
-  console.log(products);
+  // console.log(products);
   res.render('user/mybag', { user, products })
 })
 

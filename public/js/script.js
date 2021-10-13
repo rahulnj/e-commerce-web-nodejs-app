@@ -45,6 +45,27 @@ function myFunction() {
 // }
 //
 
+//
+function changeQuantity(cartId, proId, value) {
+    $.ajax({
+        url: '/change-quantity',
+        data: {
+            cart: cartId,
+            product: proId,
+            count: value
+        },
+        method: 'post',
+        success: (response) => {
+            alert(response)
+        }
+    })
+}
+
+
+
+
+
+
 
 
 
