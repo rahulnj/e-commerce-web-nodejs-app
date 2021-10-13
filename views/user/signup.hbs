@@ -8,7 +8,7 @@
                 <img src="/img/bg-img/bg-signup.jpg" class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form action="/signup" method="POST">
+                <form id="signupform">
 
                     <div class="pt-5">
 
@@ -16,25 +16,28 @@
                         <!-- Username input -->
                         <div class="form-outline mb-4 shadow-sm">
                             <label class="form-label fs-6">USERNAME</label>
-                            <input type="text" id="form3Example3" name="username" class="form-control form-control-lg"
+                            <input type="text" id="usersu" name="username" class="form-control form-control-lg"
                                 placeholder="Username" />
-
                         </div>
+                        <div class="text-danger h-25 mb-2" id="error-name"></div>
 
                         <!-- E-mail input -->
                         <div class="form-outline mb-4 shadow-sm">
                             <label class="form-label fs-6">Email</label>
-                            <input type="text" id="form3Example3" name="mail" class="form-control form-control-lg"
+                            <input type="text" id="mailsu" name="mail" class="form-control form-control-lg"
                                 placeholder="E-mail" />
 
                         </div>
+                        <div class="text-danger h-25 mb-2" id="error-email"></div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4 shadow-sm">
                             <label class="form-label fs-6">PASSWORD</label>
-                            <input type="password" name="password" id="form3Example4"
-                                class="form-control form-control-lg" placeholder="Password" />
+                            <input type="password" name="password" id="passwordsu" class="form-control form-control-lg"
+                                placeholder="Password" />
                         </div>
+                        <div class="text-danger h-25 mb-2" id="error-password"></div>
+                        <div class="text-danger" id="submit-message"></div>
                         <div>
                             <a href="/user-signin">
                                 <p class="upin">Already have an account ?</p>
@@ -46,9 +49,6 @@
                             <div><i class="favme fa fa-facebook fa-2x"></i></div>
 
                         </div> --}}
-
-
-
 
 
                         <div class="text-center text-lg-start mt-4 pt-2">
@@ -63,3 +63,10 @@
         </div>
     </div>
 </section>
+
+{{!-- validation of signup page --}}
+
+
+<script>
+
+</script>
