@@ -151,7 +151,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            console.log(cartItems);
+            // console.log(cartItems);
             resolve(cartItems)
         })
     },
@@ -177,6 +177,7 @@ module.exports = {
                         $pull: { products: { item: ObjectId(prodDetails.product) } }
                     }
                 ).then((response) => {
+                    // console.log(response);
                     resolve({ removeProduct: true })
                 })
             } else {
@@ -192,5 +193,14 @@ module.exports = {
 
         })
     },
+    deletebagItem: async (cartDetails) => {
+        // console.log(cartDetails.cart, cartDetails.product);
+        let itemDetails = await db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(cartDetails.cart) },
+            {
+                $pull: { products: { item: ObjectId(cartDetails.product) } }
+            }
+        )
+        return { deleteItem: true }
+    }
 
 }
