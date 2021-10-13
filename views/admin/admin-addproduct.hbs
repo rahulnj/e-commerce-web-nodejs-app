@@ -18,7 +18,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="form-label">Full description</label>
-                    <textarea placeholder="Type here" name="description" class="form-control" rows="4"></textarea>
+                    <textarea placeholder="Type here" name="description" id="product_des" class="form-control"
+                        rows="4"></textarea>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
@@ -50,11 +51,11 @@
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Price</label>
-                        <input placeholder="" type="text" name="price" class="form-control">
+                        <input placeholder="" type="text" id="product_price" name="price" class="form-control">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Qty</label>
-                        <input placeholder="" name="quantity" type="text" class="form-control">
+                        <input placeholder="" name="quantity" id="product_qty" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="row gx-2">
@@ -81,7 +82,7 @@
                         <input name="img5" class="form-control" type="file">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="subbtn" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div> <!-- card end// -->
@@ -115,6 +116,20 @@
         })
 
     }
+
+
+    //disable button
+
+    var pname = document.getElementById('product_name')
+    var pdes = document.getElementById('product_des')
+    var sbtn = document.getElementById('subbtn')
+
+
+    pname.addEventListener('keyup', () => {
+        if (pname.value.length != 0 && pname.value.length < 10 && pname.value.length < 15) sbtn.disabled = true
+        else sbtn.disabled = false
+    });
+
 
 
 </script>

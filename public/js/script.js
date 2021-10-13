@@ -62,25 +62,6 @@ $('#signupform').on("submit", (e) => {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // to search
 function myFunction() {
     // Declare variables
@@ -170,6 +151,8 @@ function deleteItem(cartId, proId) {
     })
 }
 
+
+// add product validation
 
 
 
