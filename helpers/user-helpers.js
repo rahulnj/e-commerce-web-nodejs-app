@@ -166,17 +166,31 @@ module.exports = {
         })
     },
     changeQuantity: (prodDetails) => {
-        console.log(prodDetails.cart, prodDetails.product, prodDetails.count);
+        // console.log(prodDetails.cart, prodDetails.product, prodDetails.count);
         prodDetails.count = parseInt(prodDetails.count)
+        prodDetails.quantity = parseInt(prodDetails.quantity)
+
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(prodDetails.cart), 'products.item': ObjectId(prodDetails.product) },
-                {
-                    $inc: { 'products.$.quantity': prodDetails.count }
-                }
-            ).then((response) => {
-                console.log(response);
-                resolve()
-            })
+            if (prodDetails.count == -1 && prodDetails.quantity == 1) {
+                db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(prodDetails.cart) },
+                    {
+                        $pull: { products: { item: ObjectId(prodDetails.product) } }
+                    }
+                ).then((response) => {
+                    resolve({ removeProduct: true })
+                })
+            } else {
+                db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(prodDetails.cart), 'products.item': ObjectId(prodDetails.product) },
+                    {
+                        $inc: { 'products.$.quantity': prodDetails.count }
+                    }
+                ).then((response) => {
+                    // console.log(response);
+                    resolve(true)
+                })
+            }
+
         })
-    }
+    },
+
 }

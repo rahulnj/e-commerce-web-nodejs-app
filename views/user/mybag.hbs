@@ -47,8 +47,9 @@
 
                                     <div class="d-flex flex-row align-items-center"><button
                                             class="btn btn-default btn-circle m-2 cart-item-count"
-                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>{{this.quantity}}<button
-                                            type="button" class="btn btn-default btn-circle m-2 cart-item-count"
+                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button><span
+                                            id="{{this.product._id}}">{{this.quantity}}</span><button type="button"
+                                            class="btn btn-default btn-circle m-2 cart-item-count"
                                             onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button><span
                                             class="d-block ml-5 font-weight-bold"></span><a href=""><i
                                                 class="fa fa-trash-o ml-3 text-black-50"></i></a></div>

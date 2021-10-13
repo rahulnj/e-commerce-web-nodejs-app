@@ -47,16 +47,25 @@ function myFunction() {
 
 //
 function changeQuantity(cartId, proId, count) {
+    let quantity = parseInt(document.getElementById(proId).innerHTML)
+    count = parseInt(count)
     $.ajax({
         url: '/change-quantity',
         data: {
             cart: cartId,
             product: proId,
-            count: count
+            count: count,
+            quantity: quantity
         },
         method: 'post',
         success: (response) => {
-            alert(response)
+            if (response.removeProduct) {
+                alert("Removed from bag")
+                location.reload()
+            } else {
+                document.getElementById(proId).innerHTML = quantity + count
+            }
+
         }
     })
 }
