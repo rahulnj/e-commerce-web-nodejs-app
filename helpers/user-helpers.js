@@ -164,5 +164,19 @@ module.exports = {
             }
             resolve(count)
         })
+    },
+    changeQuantity: (prodDetails) => {
+        console.log(prodDetails.cart, prodDetails.product, prodDetails.count);
+        prodDetails.count = parseInt(prodDetails.count)
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(prodDetails.cart), 'products.item': ObjectId(prodDetails.product) },
+                {
+                    $inc: { 'products.$.quantity': prodDetails.count }
+                }
+            ).then((response) => {
+                console.log(response);
+                resolve()
+            })
+        })
     }
 }

@@ -46,13 +46,13 @@ function myFunction() {
 //
 
 //
-function changeQuantity(cartId, proId, value) {
+function changeQuantity(cartId, proId, count) {
     $.ajax({
         url: '/change-quantity',
         data: {
             cart: cartId,
             product: proId,
-            count: value
+            count: count
         },
         method: 'post',
         success: (response) => {

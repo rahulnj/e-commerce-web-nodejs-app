@@ -115,6 +115,14 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
   res.redirect('/dogretailvet')
 })
 
+// change bag product quantity
+router.post('/change-quantity', (req, res, next) => {
+  // console.log(req.body);
+  userhelpers.changeQuantity(req.body).then(() => {
+
+  })
+})
+
 
 
 
