@@ -119,7 +119,7 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
 router.post('/change-quantity', (req, res) => {
   // console.log(req.body);
   userhelpers.changeQuantity(req.body).then((response) => {
-    // console.log(response);
+    console.log(response);
     res.json(response)
   })
 })

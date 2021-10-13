@@ -1,4 +1,23 @@
 
+// form validation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // to search
@@ -45,7 +64,7 @@ function myFunction() {
 // }
 //
 
-//
+//To change quantity
 function changeQuantity(cartId, proId, count) {
     let quantity = parseInt(document.getElementById(proId).innerHTML)
     count = parseInt(count)

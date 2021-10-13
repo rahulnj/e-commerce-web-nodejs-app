@@ -57,9 +57,11 @@ module.exports = {
 
     },
     usersDetails: () => {
-        return new Promise(async (resolve, reject) => {
-            let newusers = await db.get().collection(collection.USER_COLLECTION).find().toArray()
-            resolve(newusers)
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).find().toArray().then((newusers) => {
+                resolve(newusers)
+            })
+
         })
     },
     blockUser: (userId) => {
@@ -200,6 +202,7 @@ module.exports = {
                 $pull: { products: { item: ObjectId(cartDetails.product) } }
             }
         )
+        // console.log(itemDetails);
         return { deleteItem: true }
     }
 

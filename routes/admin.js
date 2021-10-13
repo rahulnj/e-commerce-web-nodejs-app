@@ -97,8 +97,6 @@ router.post('/getSubcategory', async (req, res) => {
 })
 
 
-
-
 router.get('/users', adminAuth, async (req, res) => {
   await userhelpers.usersDetails().then((newusers) => {
     res.render('admin/admin-user', { admin: true, newusers })
@@ -124,7 +122,7 @@ router.post('/editproduct/:id', async (req, res) => {
     let image3 = req.files.img3
     let image4 = req.files.img4
     let image5 = req.files.img5
-    console.log(image1);
+    // console.log(image1);
     image1.mv('./public/uploads/image-1/' + proId + '.jpg')
     image2.mv('./public/uploads/image-2/' + proId + '.jpg')
     image3.mv('./public/uploads/image-3/' + proId + '.jpg')
@@ -185,13 +183,6 @@ router.post('/add-product', async (req, res) => {
   image5.mv('./public/uploads/image-5/' + id + '.jpg')
   res.redirect('/admin/addproduct')
 })
-
-
-
-
-
-
-
 
 
 
