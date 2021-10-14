@@ -141,8 +141,8 @@ router.post('/change-quantity', (req, res) => {
 })
 
 // delete bag item
-router.post('/delete-item', async (req, res) => {
-  // console.log(req.body);
+router.post('/delete-item', verifyUser, async (req, res) => {
+  console.log(req.body);
   const response = await userhelpers.deletebagItem(req.body)
   // console.log(response);
   res.json(response)

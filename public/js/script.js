@@ -136,7 +136,7 @@ function changeQuantity(cartId, proId, count) {
 
 // deleteItem
 function deleteItem(cartId, proId) {
-    console.log(cartId, proId)
+    // console.log(cartId, proId)
     $.ajax({
         url: '/delete-item',
         data: {
