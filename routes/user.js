@@ -143,19 +143,21 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
 })
 
 // change bag product quantity
-router.post('/change-quantity', (req, res) => {
-  // console.log(req.body);
-  userhelpers.changeQuantity(req.body).then((response) => {
-    // console.log(req.body.user);
-
-    // console.log(response);
-    res.json(response)
-  })
+router.post('/change-quantity', async (req, res) => {
+  // console.log(req.body.user);
+  let products = await userhelpers.getMybag(req.body.user);
+  if (products.length != 0) {
+    userhelpers.changeQuantity(req.body).then(async (response) => {
+      response.totalPrice = await userhelpers.getTotalprice(req.body.user)
+      // console.log(response);
+      res.json(response)
+    })
+  }
 })
 
 // delete bag item
 router.post('/delete-item', verifyUser, async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const response = await userhelpers.deletebagItem(req.body)
   // console.log(response);
   res.json(response)

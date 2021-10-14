@@ -71,10 +71,10 @@
 
                                     <div class="d-flex flex-row align-items-center"><button
                                             class="btn btn-light btn-circle m-2 cart-item-count"
-                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button><span
+                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button><span
                                             id="{{this.product._id}}">{{this.quantity}}</span><button type="button"
                                             class="btn btn-light btn-circle m-2 cart-item-count"
-                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button><span
+                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button><span
                                             class="d-block ml-5 font-weight-bold"></span>
                                         <button class="btn mr-2 pl-1 btn btn-light shadow-sm"
                                             onclick="deleteItem('{{this._id}}','{{this.product._id}}')"><i

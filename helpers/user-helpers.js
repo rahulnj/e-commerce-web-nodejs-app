@@ -189,7 +189,7 @@ module.exports = {
                     }
                 ).then((response) => {
                     // console.log(response);
-                    resolve(true)
+                    resolve({ status: true })
                 })
             }
 
