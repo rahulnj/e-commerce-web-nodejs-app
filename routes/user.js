@@ -98,7 +98,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
     // console.log(products);
     res.render('user/mybag', { user, products, totalPrice })
   } else {
-    res.render('user/mybag', { cartempty: true, message: "Cart is empty" })
+    res.render('user/mybag', { cartempty: true })
   }
 
 })
