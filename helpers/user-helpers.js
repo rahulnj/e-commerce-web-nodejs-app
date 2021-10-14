@@ -252,6 +252,7 @@ module.exports = {
             // console.log(totalPrice[0].total);
             resolve(totalPrice[0].total)
         })
-    }
+    },
+
 
 }

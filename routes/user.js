@@ -70,8 +70,15 @@ router.get('/myorders', verifyUser, (req, res) => {
 
 router.get('/checkout', verifyUser, async (req, res) => {
   let user = req.session.user
-  let totalPrice = await userhelpers.getTotalprice(user._id)
-  res.render('user/checkout', { totalPrice })
+  let products = await userhelpers.getMybag(user._id);
+  if (products != 0) {
+    let totalPrice = await userhelpers.getTotalprice(user._id)
+    res.render('user/checkout', { totalPrice })
+  } else {
+    res.redirect('/mybag')
+  }
+
+
 })
 
 router.get('/payment', verifyUser, (req, res) => {
@@ -85,11 +92,17 @@ router.get('/success', verifyUser, (req, res) => {
 router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user._id);
-  let products = await userhelpers.getMybag(user._id)
-  let totalPrice = await userhelpers.getTotalprice(user._id)
-  // console.log(products);
-  res.render('user/mybag', { user, products, totalPrice })
+  let products = await userhelpers.getMybag(user._id);
+  if (products.length != 0) {
+    let totalPrice = await userhelpers.getTotalprice(user._id)
+    // console.log(products);
+    res.render('user/mybag', { user, products, totalPrice })
+  } else {
+    res.render('user/mybag', { cartempty: true, message: "Cart is empty" })
+  }
+
 })
+
 
 //user signup
 router.post('/signup', async (req, res) => {
