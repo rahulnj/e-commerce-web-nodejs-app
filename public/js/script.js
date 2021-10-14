@@ -129,6 +129,7 @@ function changeQuantity(cartId, proId, userId, count) {
             } else {
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.totalPrice
+                document.getElementById('subtotal-price').innerHTML = response.totalPrice
             }
 
         }
