@@ -81,8 +81,15 @@ router.get('/checkout', verifyUser, async (req, res) => {
 
 })
 
-router.get('/payment', verifyUser, (req, res) => {
-  res.render('user/payment')
+router.get('/payment', verifyUser, async (req, res) => {
+  let user = req.session.user
+  let products = await userhelpers.getMybag(user._id);
+  if (products != 0) {
+    let totalPrice = await userhelpers.getTotalprice(user._id)
+    res.render('user/payment', { totalPrice })
+  } else {
+    res.redirect('/mybag')
+  }
 })
 router.get('/success', verifyUser, (req, res) => {
   res.render('user/success')
