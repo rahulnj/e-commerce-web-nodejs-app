@@ -68,6 +68,19 @@ router.get('/myorders', verifyUser, (req, res) => {
   res.send("Coming soon")
 })
 
+router.get('/checkout', verifyUser, async (req, res) => {
+  let user = req.session.user
+  let totalPrice = await userhelpers.getTotalprice(user._id)
+  res.render('user/checkout', { totalPrice })
+})
+
+router.get('/payment', verifyUser, (req, res) => {
+  res.render('user/payment')
+})
+router.get('/success', verifyUser, (req, res) => {
+  res.render('user/success')
+})
+
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user

@@ -206,6 +206,7 @@ module.exports = {
         return { deleteItem: true }
     },
     getTotalprice: (userId) => {
+
         // console.log(userId);
         return new Promise(async (resolve, reject) => {
             let totalPrice = await db.get().collection(collection.CART_COLLECTION).aggregate([

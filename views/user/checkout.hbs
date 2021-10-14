@@ -1,0 +1,74 @@
+<section>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>checkout</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Checkout Area Start ##### -->
+    <div class="checkout_area  ">
+        <div class="container">
+            <div class="row">
+                {{!-- --}}
+                <div class="container mt-5 p-3 rounded cart ">
+                    <div class="row no-gutters">
+                        <div class="col-md-8 col-12 col-md-6 col-lg-5 ml-lg-auto ">
+                            <div class="product-details mr-2 shadow-sm p-3 ">
+                                <div>
+                                    <h4>Delivery Address</h4>
+                                </div>
+                                <hr>
+                                <p>Home Address</p>
+                                <div class="d-flex justify-content-between">
+                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel" value=""
+                                        aria-label="..."><span class="ml-4">Rahul N Jayaraman</span>
+                                </div>
+                                <span class="ml-4">Address : house no.</span>
+                            </div>
+                        </div>
+                        {{!-- --}}
+
+                        <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+                            <div class="order-details-confirmation">
+                                <div class="cart-page-heading">
+                                    <h5>Your Order</h5>
+                                    <p>The Details</p>
+                                </div>
+                                <ul class="order-details-form mb-4">
+
+                                    <li><span>Subtotal</span> <span>₹{{totalPrice}}</span></li>
+                                    <li><span>Shipping</span> <span>Free</span></li>
+                                    <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
+                                    </li>
+                                </ul>
+                                <a href="/payment" class="btn essence-btn">Confirm order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ##### Checkout Area End ##### -->
+</section>
+
+{{!--
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- Classy Nav js -->
+<script src="/js/classy-nav.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script> --}}
