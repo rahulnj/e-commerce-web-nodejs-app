@@ -72,10 +72,16 @@
                                 </div>
                                 <ul class="order-details-form mb-4">
                                     <li><span>Product</span> <span>Total</span></li>
-                                    <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>
+                                    {{#each products}}
+                                    <li><span
+                                            style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">{{this.product.product}}</span>
+                                        <span>₹</span>
+                                    </li>
+                                    {{/each }}
                                     <li><span>Subtotal</span> <span>$59.90</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
-                                    <li><span>Total</span> <span>$59.90</span></li>
+                                    <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
+                                    </li>
                                 </ul>
                                 <a href="#" class="btn essence-btn">Checkout</a>
                             </div>

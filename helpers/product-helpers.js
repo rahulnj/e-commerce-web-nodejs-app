@@ -5,9 +5,18 @@ var objectId = require('mongodb').ObjectId
 const { Db } = require('mongodb')
 const { response } = require('express')
 module.exports = {
-    addProduct: async (product) => {
-
-        let data = await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product)
+    addProduct: async (productDetails) => {
+        proDetails = {
+            product: productDetails.product,
+            description: productDetails.description,
+            category: productDetails.category,
+            subcategory: productDetails.subcategory,
+            type: productDetails.subcategory,
+            price: parseInt(productDetails.price),
+            qty: parseInt(productDetails.quantity)
+        }
+        // console.log(product);
+        let data = await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proDetails)
         return data.insertedId
     },
 

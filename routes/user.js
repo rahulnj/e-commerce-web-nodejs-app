@@ -73,8 +73,9 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user._id);
   let products = await userhelpers.getMybag(user._id)
+  let totalPrice = await userhelpers.getTotalprice(user._id)
   // console.log(products);
-  res.render('user/mybag', { user, products })
+  res.render('user/mybag', { user, products, totalPrice })
 })
 
 //user signup
@@ -119,7 +120,9 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
 router.post('/change-quantity', (req, res) => {
   // console.log(req.body);
   userhelpers.changeQuantity(req.body).then((response) => {
-    console.log(response);
+    // console.log(req.body.user);
+
+    // console.log(response);
     res.json(response)
   })
 })
