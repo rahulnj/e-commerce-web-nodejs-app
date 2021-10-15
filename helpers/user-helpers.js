@@ -275,14 +275,36 @@ module.exports = {
     getBagProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            response(cart.products)
+            resolve(cart.products)
         })
     },
-    placeOrder: (order, products, total) => {
-        console.log(order, products, total);
-        return new Promise((resolve, reject) => {
+    placeOrder: (address, products, total, payment) => {
+        console.log(address, products, total, payment);
+        return new Promise(async (resolve, reject) => {
+            if (payment === 'COD') {
+                var status = 'placed'
+            } else {
+                status = 'pending'
+            }
+            let order = {
+                deliveryaddress: {
+                    address: address.address,
+                    city: address.city,
+                    place: address.place,
+                    pincode: address.pincode
+                },
+                userId: ObjectId(address.user),
+                paymentmethod: payment,
+                products: products,
+                amount: total,
+                status: status
+
+            }
+            db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
+                resolve()
+            })
 
         })
-    }
+    },
 
 }

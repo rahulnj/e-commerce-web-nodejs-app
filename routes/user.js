@@ -92,6 +92,9 @@ router.post('/add-address', async (req, res) => {
   res.redirect('/checkout')
 })
 
+router.get('/success', (req, res) => {
+  res.render('user/success')
+})
 
 router.get('/payment', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -105,14 +108,15 @@ router.get('/payment', verifyUser, async (req, res) => {
   }
 })
 router.post('/place-order', verifyUser, async (req, res) => {
-  console.log(req.body);
-  let products = await userhelpers.getBagProductList(req.body.user)
-  let totalPrice = await userhelpers.getTotalprice(req.body.user)
-  let addressDetails = await userhelpers.getAddress(user._id)
-  await userhelpers.placeOrder(req.body, addressDetails, products, totalPrice).then((response) => {
-
+  // console.log(req.session.user._id);
+  let payment = req.body.method
+  let products = await userhelpers.getBagProductList(req.session.user._id)
+  let totalPrice = await userhelpers.getTotalprice(req.session.user._id)
+  let addressDetails = await userhelpers.getAddress(req.session.user._id)
+  await userhelpers.placeOrder(addressDetails, products, totalPrice, payment).then((response) => {
+    res.json({ status: true })
   })
-  res.render('user/success')
+  // res.render('user/success')
 })
 
 //my bag 

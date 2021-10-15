@@ -81,7 +81,7 @@
                                     <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
                                     </li>
                                 </ul>
-                                <div class="p-2"> <button class="btn essence-btn " type="submit">
+                                <div class="p-2"> <button class="btn essence-btn " type="button" onclick="placeorder()">
                                         Place Order </button></div>
                             </div>
                         </div>
@@ -93,6 +93,25 @@
 
 <script>
 
+
+
+
+
+    function placeorder() {
+        let method = document.getElementById('checkboxpayment').value
+        $.ajax({
+            url: "/place-order",
+            method: "post",
+            data: { method },
+            success: (response) => {
+                if (response.status) {
+                    location.href = '/success'
+                }
+            }
+        })
+
+
+    }
 
 
 </script>
