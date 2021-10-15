@@ -46,18 +46,23 @@
 
                             <div class="product-details mr-2 shadow-sm p-2 ">
 
-                                <div class="d-flex justify-content-between">
-                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxpayment"
-                                        value="COD" name="payment">
-                                    <span class="ml-4">Cash on delivery</span>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" value="COD" name="payment" type="radio"
+                                        name="flexRadioDefault" id="radiopayment1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Cash on Delivery
+                                    </label>
                                 </div>
                             </div>
                             <div class="product-details mr-2 shadow-sm p-2 ">
 
-                                <div class="d-flex justify-content-between">
-                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel"
-                                        name="payment" value="">
-                                    <span class="ml-4">Online payment</span>
+                                <div class="form-check">
+                                    <input class="form-check-input" value="ONLINEPAYMENT" name="payment" type="radio"
+                                        name="flexRadioDefault" id="radiopayment2">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Online Payment
+                                    </label>
                                 </div>
 
                             </div>
@@ -96,9 +101,11 @@
 
 
 
-
     function placeorder() {
-        let method = document.getElementById('checkboxpayment').value
+        let cod = document.getElementById('radiopayment1').checked
+
+        let onlinepayment = document.getElementById('radiopayment2').checked
+        let method = cod ? 'COD' : onlinepayment ? 'onlinepayment' : null;
         $.ajax({
             url: "/place-order",
             method: "post",

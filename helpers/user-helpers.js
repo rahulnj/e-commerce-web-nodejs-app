@@ -279,7 +279,7 @@ module.exports = {
         })
     },
     placeOrder: (address, products, total, payment) => {
-        console.log(address, products, total, payment);
+        console.log(payment);
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'

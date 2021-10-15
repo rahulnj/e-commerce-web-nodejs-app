@@ -30,14 +30,15 @@
                                 <hr>
 
                                 <p>Home Address</p>
-                                <div class="d-flex justify-content-between">
-                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel" value=""
-                                        aria-label=""><span class="ml-4">{{user.username}}</span>
+                                <div class="d-flex justify-content-between p-2">
+                                    <input class="form-check-input " value="" name="address" type="radio" checked
+                                        name="flexRadioDefault" id="" <span class="ml-4">{{user.username}}</span>
                                 </div>
                                 <span class="ml-4">{{ addressDetails.address}}</span> <span> {{
                                     addressDetails.city}},</span>
                                 <span>{{addressDetails.place}},</span> <span>{{
                                     addressDetails.pincode}}</span>
+                                >
 
                             </div>
                             <div class="p-2"> <a href="/address" class="btn essence-btn">+ Add New Address</a>

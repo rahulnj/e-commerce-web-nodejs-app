@@ -92,7 +92,7 @@ router.post('/add-address', async (req, res) => {
   res.redirect('/checkout')
 })
 
-router.get('/success', (req, res) => {
+router.get('/success', verifyUser, (req, res) => {
   res.render('user/success')
 })
 
