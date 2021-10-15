@@ -21,20 +21,30 @@
                 {{!-- --}}
                 <div class="container mt-5 p-3 rounded cart ">
                     <div class="row no-gutters">
+
                         <div class="col-md-8 col-12 col-md-6 col-lg-5 ml-lg-auto ">
                             <div class="product-details mr-2 shadow-sm p-3 ">
                                 <div>
                                     <h4>Delivery Address</h4>
                                 </div>
                                 <hr>
+
                                 <p>Home Address</p>
                                 <div class="d-flex justify-content-between">
                                     <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel" value=""
-                                        aria-label="..."><span class="ml-4">Rahul N Jayaraman</span>
+                                        aria-label=""><span class="ml-4">{{user.username}}</span>
                                 </div>
-                                <span class="ml-4">Address : house no.</span>
+                                <span class="ml-4">{{ addressDetails.address}}</span> <span> {{
+                                    addressDetails.city}},</span>
+                                <span>{{addressDetails.place}},</span> <span>{{
+                                    addressDetails.pincode}}</span>
+
+                            </div>
+                            <div class="p-2"> <a href="/address" class="btn essence-btn">+ Add New Address</a>
                             </div>
                         </div>
+
+
                         {{!-- --}}
 
                         <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">

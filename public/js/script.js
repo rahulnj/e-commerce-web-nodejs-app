@@ -1,4 +1,5 @@
 
+
 // form validation
 var submitname = false; var submitemail = false; var submitpassword = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
@@ -156,9 +157,7 @@ function deleteItem(cartId, proId) {
 }
 
 
-// add product validation
-
-
+// 
 
 
 

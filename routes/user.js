@@ -73,25 +73,45 @@ router.get('/checkout', verifyUser, async (req, res) => {
   let products = await userhelpers.getMybag(user._id);
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    res.render('user/checkout', { totalPrice })
+    let addressDetails = await userhelpers.getAddress(user._id)
+    // console.log(addressDetails);
+    res.render('user/checkout', { totalPrice, addressDetails, user })
   } else {
     res.redirect('/mybag')
   }
-
-
 })
+// address page 
+router.get('/address', verifyUser, (req, res) => {
+  res.render('user/address')
+})
+
+// add address
+router.post('/add-address', async (req, res) => {
+  let user = req.session.user._id
+  await userhelpers.addAddress(user, req.body)
+  res.redirect('/checkout')
+})
+
 
 router.get('/payment', verifyUser, async (req, res) => {
   let user = req.session.user
   let products = await userhelpers.getMybag(user._id);
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    res.render('user/payment', { totalPrice })
+    let addressDetails = await userhelpers.getAddress(user._id)
+    res.render('user/payment', { totalPrice, addressDetails, user })
   } else {
     res.redirect('/mybag')
   }
 })
-router.get('/success', verifyUser, (req, res) => {
+router.post('/place-order', verifyUser, async (req, res) => {
+  console.log(req.body);
+  let products = await userhelpers.getBagProductList(req.body.user)
+  let totalPrice = await userhelpers.getTotalprice(req.body.user)
+  let addressDetails = await userhelpers.getAddress(user._id)
+  await userhelpers.placeOrder(req.body, addressDetails, products, totalPrice).then((response) => {
+
+  })
   res.render('user/success')
 })
 

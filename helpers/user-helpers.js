@@ -253,6 +253,36 @@ module.exports = {
             resolve(totalPrice[0].total)
         })
     },
+    addAddress: (user, addressDetails) => {
+        addDetails = {
+            user: ObjectId(user),
+            address: addressDetails.address,
+            city: addressDetails.city,
+            place: addressDetails.place,
+            pincode: addressDetails.pincode
+        }
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ADDRESS_COLLECTION).insertOne(addDetails).then((response) => {
+                resolve()
+            })
+        })
 
+    },
+    getAddress: async (user) => {
+        let details = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: objectId(user) })
+        return details
+    },
+    getBagProductList: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
+            response(cart.products)
+        })
+    },
+    placeOrder: (order, products, total) => {
+        console.log(order, products, total);
+        return new Promise((resolve, reject) => {
+
+        })
+    }
 
 }

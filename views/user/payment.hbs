@@ -25,14 +25,17 @@
                             <div class="product-details mr-2 shadow-sm p-1 ">
                                 <p>Login</p>
                                 <div class="d-flex justify-content-between">
-                                    <span class="ml-4">Rahul N Jayaraman</span>
+                                    <span class="ml-4 p-2">{{user.username}}</span>
                                 </div>
-                                <span class="ml-4">Address : house no.</span>
                             </div>
                             <div class="product-details mr-2 shadow-sm p-1 ">
                                 <p>Address</p>
-                                <div class="d-flex justify-content-between">
-                                    <span class="ml-4">Address : house no.</span>
+                                <div>
+                                    <span id="address" class="ml-4">{{ addressDetails.address}}</span><span id="city">
+                                        {{
+                                        addressDetails.city}},</span>
+                                    <span id="place">{{addressDetails.place}},</span> <span id="pincode">{{
+                                        addressDetails.pincode}}</span>
                                 </div>
                                 {{!-- <i class="bi bi-check"></i> --}}
 
@@ -40,24 +43,29 @@
                             <hr>
                             <br>
                             <h5 class="pb-3">payment</h5>
+
                             <div class="product-details mr-2 shadow-sm p-2 ">
 
                                 <div class="d-flex justify-content-between">
-                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel" value=""
-                                        aria-label="...">
+                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxpayment"
+                                        value="COD" name="payment">
                                     <span class="ml-4">Cash on delivery</span>
                                 </div>
                             </div>
                             <div class="product-details mr-2 shadow-sm p-2 ">
 
                                 <div class="d-flex justify-content-between">
-                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel" value=""
-                                        aria-label="...">
+                                    <input class="form-check-input ml-1" type="checkbox" id="checkboxNoLabel"
+                                        name="payment" value="">
                                     <span class="ml-4">Online payment</span>
                                 </div>
+
                             </div>
 
+
                         </div>
+
+
                         {{!-- --}}
 
                         <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
@@ -73,7 +81,8 @@
                                     <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
                                     </li>
                                 </ul>
-                                <a href="/success" class="btn essence-btn">place order</a>
+                                <div class="p-2"> <button class="btn essence-btn " type="submit">
+                                        Place Order </button></div>
                             </div>
                         </div>
                     </div>
@@ -82,7 +91,20 @@
             <!-- ##### Checkout Area End ##### -->
 </section>
 
+<script>
 
+
+
+</script>
+
+
+
+
+
+
+
+
+{{!--
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
 <script src="/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
@@ -94,4 +116,4 @@
 <!-- Classy Nav js -->
 <script src="/js/classy-nav.min.js"></script>
 <!-- Active js -->
-<script src="/js/active.js"></script>
+<script src="/js/active.js"></script> --}}
