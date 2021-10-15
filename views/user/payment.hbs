@@ -103,7 +103,6 @@
 
     function placeorder() {
         let cod = document.getElementById('radiopayment1').checked
-
         let onlinepayment = document.getElementById('radiopayment2').checked
         let method = cod ? 'COD' : onlinepayment ? 'onlinepayment' : null;
         $.ajax({

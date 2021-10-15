@@ -279,7 +279,7 @@ module.exports = {
         })
     },
     placeOrder: (address, products, total, payment) => {
-        console.log(payment);
+        // console.log(payment);
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'
@@ -306,5 +306,53 @@ module.exports = {
 
         })
     },
+    getSingleprice: (userId) => {
 
+        // console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let totalPrice = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $project: {
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        product: 1,
+                    }
+                },
+                // {
+                //     $group: {
+                //         _id: null,
+                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                //     }
+                // }
+            ]).toArray()
+            // console.log(totalPrice);
+            resolve(totalPrice)
+        })
+    }
 }

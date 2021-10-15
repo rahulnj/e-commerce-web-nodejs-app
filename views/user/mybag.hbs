@@ -96,10 +96,10 @@
                                 </div>
                                 <ul class="order-details-form mb-4">
                                     <li><span>Product</span> <span>Total</span></li>
-                                    {{#each products}}
+                                    {{#each singlePrice}}
                                     <li><span
                                             style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">{{this.product.product}}</span>
-                                        <span>₹</span>
+                                        <span>₹{{this.total}}</span>
                                     </li>
                                     {{/each }}
                                     <li><span>Subtotal</span> <span id="subtotal-price">₹{{totalPrice}}</span></li>

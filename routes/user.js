@@ -126,8 +126,9 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let products = await userhelpers.getMybag(user._id);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    // console.log(products);
-    res.render('user/mybag', { user, products, totalPrice })
+    let singlePrice = await userhelpers.getSingleprice(user._id)
+    console.log(singlePrice);
+    res.render('user/mybag', { user, products, totalPrice, singlePrice })
   } else {
     res.render('user/mybag', { cartempty: true })
   }
