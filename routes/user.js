@@ -160,9 +160,14 @@ router.post('/signin', async (req, res) => {
 
 router.get('/single-product/:id', async (req, res) => {
   let proId = req.params.id
+  let user = req.session.user
   // console.log(proId);
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   let product = await productHelpers.getSingleproduct(proId)
-  res.render('user/product-detail', { product })
+  res.render('user/product-detail', { product, user, bagCount })
 })
 
 // Add-to-bag
@@ -173,6 +178,16 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
   })
   res.redirect('/dogretailvet')
 })
+
+// Add-to-bag from product detail page
+// router.get('/add-to-bagdetail/:id', verifyUser, (req, res) => {
+
+//   userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
+//     // res.json({ status: true })
+//   })
+//   res.redirect('/single-product')
+// })
+
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
