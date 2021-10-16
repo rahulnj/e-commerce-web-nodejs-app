@@ -87,25 +87,29 @@ function myFunction() {
 }
 
 
-// 
-// function addTobag(proId) {
-//     $.ajax({
-//         url: '/add-to-bag/' + proId,
-//         method: 'get',
-//         success: (response) => {
-//             console.log(response)
-//             if (response.status) {
-//                 let count = $('#bag-count').html()
-//                 console.log(count)
-//                 count = parseInt(count) + 1
-//                 $("#bag-count").html(count)
-//             }
-//             // alert(response)
-//             // location.href = "/dogretailvet"
-//         }
-//     })
-// }
-//
+
+function addTobag(proId) {
+    $.ajax({
+        url: '/add-to-bag/' + proId,
+        method: 'get',
+        success: (response) => {
+            // console.log(response)
+            if (response.status) {
+                location.reload()
+                // location.href = "/dogretailvet"
+                // let count = $('#bag-count').html()
+                // console.log(count)
+                // count = parseInt(count) + 1
+                // $("#bag-count").html(count)
+            } else {
+                location.href = "/user-signin"
+            }
+            // alert(response)
+
+        }
+    })
+}
+
 
 //To change quantity
 function changeQuantity(cartId, proId, userId, count) {
