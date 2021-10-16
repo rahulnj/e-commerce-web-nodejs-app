@@ -96,15 +96,10 @@ function addTobag(proId) {
             // console.log(response)
             if (response.status) {
                 location.reload()
-                // location.href = "/dogretailvet"
-                // let count = $('#bag-count').html()
-                // console.log(count)
-                // count = parseInt(count) + 1
-                // $("#bag-count").html(count)
+
             } else {
                 location.href = "/user-signin"
             }
-            // alert(response)
 
         }
     })

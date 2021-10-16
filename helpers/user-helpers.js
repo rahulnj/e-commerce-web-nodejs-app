@@ -253,25 +253,92 @@ module.exports = {
             resolve(totalPrice[0].total)
         })
     },
-    addAddress: (user, addressDetails) => {
-        addDetails = {
-            user: ObjectId(user),
+    addAddress: (userId, addressDetails) => {
+        let address = {
+            fullname: addressDetails.fullname,
             address: addressDetails.address,
             city: addressDetails.city,
             place: addressDetails.place,
-            pincode: addressDetails.pincode
+            pincode: addressDetails.pincode,
+            phone: addressDetails.phone
         }
+
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.ADDRESS_COLLECTION).insertOne(addDetails).then((response) => {
-                resolve()
-            })
+            let addCollection = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) })
+            if (addCollection) {
+                console.log("vanu");
+                db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ user: ObjectId(userId) },
+                    {
+                        $push: { address: address }
+                    }).then((response) => {
+                        resolve()
+                    })
+            } else {
+                let addObj = {
+                    user: objectId(userId),
+                    address: [address]
+                }
+                await db.get().collection(collection.ADDRESS_COLLECTION).insertOne(addObj).then((response) => {
+                    resolve()
+                })
+            }
+
+
+        })
+    },
+    getAddress: async (userId) => {
+
+        return new Promise(async (resolve, reject) => {
+            let address = await db.get().collection(collection.ADDRESS_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$address'
+                },
+                {
+                    $project: {
+                        address: '$address',
+
+                    }
+                },
+                // {
+                //     $lookup: {
+                //         from: collection.PRODUCT_COLLECTION,
+                //         localField: 'item',
+                //         foreignField: '_id',
+                //         as: 'product'
+                //     }
+                // },
+                // {
+                //     $project: {
+                //         user: 1,
+                //         address: { $arrayElemAt: ['$product', 0] }
+                //     }
+                // }
+            ]).toArray()
+            console.log(address);
+            resolve(address)
         })
 
+
+
+
     },
-    getAddress: async (user) => {
-        let details = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: objectId(user) })
-        return details
-    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     getBagProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
