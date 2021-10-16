@@ -102,6 +102,7 @@ router.get('/payment', verifyUser, async (req, res) => {
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let addressDetails = await userhelpers.getAddress(user._id)
+    console.log(addressDetails);
     res.render('user/payment', { totalPrice, addressDetails, user })
   } else {
     res.redirect('/mybag')

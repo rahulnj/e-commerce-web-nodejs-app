@@ -298,40 +298,23 @@ module.exports = {
                 },
                 {
                     $project: {
+                        user: 1,
                         address: '$address',
 
                     }
                 },
-                // {
-                //     $lookup: {
-                //         from: collection.PRODUCT_COLLECTION,
-                //         localField: 'item',
-                //         foreignField: '_id',
-                //         as: 'product'
-                //     }
-                // },
-                // {
-                //     $project: {
-                //         user: 1,
-                //         address: { $arrayElemAt: ['$product', 0] }
-                //     }
-                // }
             ]).toArray()
-            console.log(address);
+            // console.log(address);
             resolve(address)
         })
-
-
-
-
     },
-
-
-
-
-
-
-
+    // deleteAddress: async (userId) => {
+    //     let addDetails = await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ _id: ObjectId(userId) },
+    //         {
+    //             $pull: { address }
+    //         })
+    //     returnItem = true
+    // },
 
 
 
