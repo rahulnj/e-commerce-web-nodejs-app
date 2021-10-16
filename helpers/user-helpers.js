@@ -301,6 +301,7 @@ module.exports = {
 
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
+                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(address.user) })
                 resolve()
             })
 

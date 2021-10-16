@@ -394,7 +394,7 @@ img {
     .header_area .cart-area a span {
       font-family: "Ubuntu", sans-serif;
       font-size: 18px;
-      color: #0315ff;
+      color: rgb(143, 0, 0);
       font-weight: 700;
       position: absolute;
       top: -10px; }
