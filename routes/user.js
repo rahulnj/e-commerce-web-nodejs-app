@@ -69,9 +69,28 @@ router.get('/doggrooming', (req, res) => {
 router.get('/catgrooming', (req, res) => {
   res.render('user/catgrooming')
 })
-router.get('/myorders', verifyUser, (req, res) => {
-  res.send("Coming soon")
+router.get('/myorders', verifyUser, async (req, res) => {
+  let user = req.session.user
+  console.log(user);
+  if (user) {
+    let orders = await userhelpers.getMyOrders(user._id)
+    console.log(orders);
+    res.render('user/myorders', { user, orders })
+  } else {
+    res.render('user/myorders',)
+
+  }
 })
+
+// 
+router.get('/view-order/:id', verifyUser, async (req, res) => {
+  let user = req.session.user
+  let orders = await userhelpers.getMyOrders(user._id)
+  let products = await userhelpers.getMyOrderProd(req.params.id)
+  res.render('user/vieworders', { user, products, orders })
+})
+
+
 
 router.get('/checkout', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -115,13 +134,13 @@ router.get('/success', verifyUser, (req, res) => {
 // })
 
 router.post('/place-order', verifyUser, async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
-  let products = await userhelpers.getBagProductList(req.session.user._id)
-  let totalPrice = await userhelpers.getTotalprice(req.session.user._id)
-  let addressDetails = await userhelpers.getSelectedAdd(req.session.user._id, address)
+  let products = await userhelpers.getBagProductList(user._id)
+  let totalPrice = await userhelpers.getTotalprice(user._id)
+  let addressDetails = await userhelpers.getSelectedAdd(user._id, address)
   // console.log(addressDetails);
   await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
     res.json({ status: true })

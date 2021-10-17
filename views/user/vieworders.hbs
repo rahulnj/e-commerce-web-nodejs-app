@@ -1,0 +1,83 @@
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(/img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+<!-- ##### Checkout Area Start ##### -->
+
+<div class="checkout_area  ">
+    <div class="container-fluid p-3  ml-4 mt-4"><a href="/myorders" id="" style="background-color: #f0f0f0;
+  color: rgb(46, 46, 46); text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;" class="previous">&laquo; back</a></div>
+    <div class="container">
+        <div class="row">
+            {{!-- --}}
+            <div class="container mt-5 p-3 rounded cart">
+                <div class="row no-gutters">
+                    <div class="col-md-8 col-12 col-md-6 col-lg-5 ml-lg-auto">
+                        <div class="product-details mr-2">
+
+
+
+                            <div class="d-flex justify-content-between"><span></span>
+
+                            </div>
+                            {{#each products}}
+                            <div
+                                class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
+
+                                <div class="d-flex flex-row">
+
+                                    <img class="rounded" src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
+                                        height="50"><a href=""></a>
+                                    <a href="" style="text-decoration: none; color:black">
+                                        <div class="ml-2"><span
+                                                class="font-weight-bold d-block">{{this.product.product}}</span>Rs.
+                                            {{this.product.price}}<span class="spec"></span></div>
+                                    </a>
+
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center"><span
+                                        id="{{this.product._id}}">{{this.quantity}}</span><span
+                                        class="d-block ml-5 font-weight-bold"></span>
+
+                                </div>
+
+                            </div>
+                            {{/each}}
+
+                        </div>
+                    </div>
+                    {{!-- --}}
+                    {{#each orders}}
+                    <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+                        <div class="order-details-confirmation">
+                            <div class="cart-page-heading">
+                                <h5>Order Details</h5>
+                            </div>
+                            <ul class="order-details-form mb-4">
+                                <li><span>Amount</span> <span class="text-success">{{this.amount}}</span></li>
+                                <li><span>Shipping</span> <span class="text-success">Free</span></li>
+                                <li><span>Payment method</span><span class="text-success">{{this.paymentmethod}}</span>
+                                </li>
+                                <li><span>STATUS : </span><span class="text-success">{{this.status}}</span></li>
+                                </li>
+                            </ul>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ##### Checkout Area End ##### -->
+        </section>

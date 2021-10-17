@@ -1,0 +1,84 @@
+<section>
+    {{#if user}}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>My Orders</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+    <!-- ##### Checkout Area Start ##### -->
+    {{!-- --}}
+
+
+    {{!-- --}}
+
+    {{#each orders}}
+    <div class="order p-3 my-3 bg-light container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="d-flex flex-column justify-content-between order-summary">
+                    <div class="d-flex align-items-center">
+                        <img src="/img/core-img/myorderbox.png" style="height: 80px; width: 70px;" alt="">
+                        <div class="text-uppercase pl-2"><span>Address : {{this.deliveryaddress.address}}
+                                {{this.deliveryaddress.city}}</span>
+                            {{this.deliveryaddress.place}} <br><span>pincode : {{this.deliveryaddress.pincode}}</span>
+                            <br> <span>Phone : {{this.deliveryaddress.phone}} </span>
+                        </div>
+
+                    </div>
+                    {{!-- <div class="fs-8">Products #03</div> --}}
+                    <div>Ordered on</div>
+                    <div class="">{{this.date}}</div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                    <div class="status">
+                        <h5 class="text-success"><span class="text-success">Status :</span> {{this.status}}</h5>
+                    </div>
+                    <a href="/view-order/{{this._id}}">
+                        <div class="btn btn-outline-dark p-2 m-5">order info</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+
+    <!-- ##### Checkout Area End ##### -->
+</section>
+
+
+{{else}}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>My Orders</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+<div class="product-details shadow-sm text-center  p-3 m-2  ">
+    <h3 class=" text-center page-title justify-content-center p-2">Login to see your <br> Orders !!!</h3>
+</div>
+
+<div class="text-center p-2">
+    <a href="/user-signin" class="btn essence-btn ">Login</a>
+</div>
+
+
+{{/if}}
