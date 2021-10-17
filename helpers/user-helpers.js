@@ -309,13 +309,13 @@ module.exports = {
         })
     },
     getSelectedAdd: async (userId, add) => {
-        console.log(add);
+        // console.log(add);
         return new Promise(async (resolve, reject) => {
-            let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ "address.address": add }, { address: { $elemMatch: { address: add } } })
-
-
+            let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) }, { address: { $elemMatch: { address: add } } })
+            address = address.address.filter((addr) => (addr.address === add))
+            // console.log(address);
             resolve(address)
-            console.log(address);
+
         })
     },
 
@@ -348,16 +348,22 @@ module.exports = {
         })
     },
     placeOrder: (address, products, total, payment) => {
-        // console.log(payment);
+        console.log("any==>", address);
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'
             } else {
                 status = 'pending'
             }
+            address = address[0]
             let order = {
                 deliveryaddress: {
+                    fullname: address.fullname,
                     address: address.address,
+                    city: address.city,
+                    place: address.place,
+                    pincode: address.pincode,
+                    phone: address.phone
                 },
                 userId: ObjectId(address.user),
                 paymentmethod: payment,
@@ -421,5 +427,7 @@ module.exports = {
             // console.log(totalPrice);
             resolve(totalPrice)
         })
+    }, getOrderAdmin: {
+
     }
 }
