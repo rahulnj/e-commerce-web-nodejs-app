@@ -28,21 +28,23 @@
                                     <h4>Delivery Address</h4>
                                 </div>
                                 <hr>
+                                <form action="" id="checkout-form">
+                                    <p>Home Address</p>
+                                    {{#each addressDetails}}
+                                    <div class="d-flex justify-content-between p-2">
+                                        <input class="form-check-input " value="{{this.address.address}}" name="address"
+                                            type="radio" name="flexRadioDefault" id=""> <span
+                                            class="ml-4">{{this.address.fullname}}</span><button
+                                            class="btn mr-2 pl-1 btn-light"
+                                            onclick="deleteItem('{{this._id}}','{{this.product._id}}')"><i
+                                                class="fa fa-trash-o ml-2 text-white-60"></i></button>
+                                    </div>
+                                    <span class="ml-4">{{ this.address.address}}</span> <span> {{this.address.city}}
+                                    </span>
+                                    <span>{{this.address.place}} </span>
+                                    <span>{{this.address.pincode}}</span>
 
-                                <p>Home Address</p>
-                                {{#each addressDetails}}
-                                <div class="d-flex justify-content-between p-2">
-                                    <input class="form-check-input " value="" name="address" type="radio" checked
-                                        name="flexRadioDefault" id="" <span
-                                        class="ml-4">{{this.address.fullname}}</span><button
-                                        class="btn mr-2 pl-1 btn-light"
-                                        onclick="deleteItem('{{this._id}}','{{this.product._id}}')"><i
-                                            class="fa fa-trash-o ml-2 text-white-60"></i></button>
-                                </div>
-                                <span class="ml-4">{{ this.address.address}}</span> <span> {{this.address.city}} </span>
-                                <span>{{this.address.place}} </span> <span>{{this.address.pincode}}</span>
-                                >
-                                {{/each}}
+                                    {{/each}}
 
                             </div>
 
@@ -66,13 +68,41 @@
                                     <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
                                     </li>
                                 </ul>
-                                <a href="/payment" class="btn essence-btn">Confirm order</a>
+                                <h5 class="pb-3">payment</h5>
+                                <div class="product-details mr-2 shadow-sm p-2 ">
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="COD" name="payment" type="radio"
+                                            name="flexRadioDefault" id="radiopayment1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Cash on Delivery
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="product-details mr-2 shadow-sm p-2 ">
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="ONLINEPAYMENT" name="payment"
+                                            type="radio" name="flexRadioDefault" id="radiopayment2">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Online Payment
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="p-2"> <button class="btn essence-btn " type="submit">
+                                        Place Order </button></div>
                             </div>
+
+                            </form>
+
+
                         </div>
                     </div>
+
                 </div>
             </div>
-            <!-- ##### Checkout Area End ##### -->
+        </div>
+        <!-- ##### Checkout Area End ##### -->
 </section>
 
 {{!--

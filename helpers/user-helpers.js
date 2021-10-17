@@ -308,6 +308,25 @@ module.exports = {
             resolve(address)
         })
     },
+    getSelectedAdd: async (userId, add) => {
+        console.log(add);
+        return new Promise(async (resolve, reject) => {
+            let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ "address.address": add }, { address: { $elemMatch: { address: add } } })
+
+
+            resolve(address)
+            console.log(address);
+        })
+    },
+
+
+
+
+
+
+
+
+
     // deleteAddress: async (userId) => {
     //     let addDetails = await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ _id: ObjectId(userId) },
     //         {
@@ -339,9 +358,6 @@ module.exports = {
             let order = {
                 deliveryaddress: {
                     address: address.address,
-                    city: address.city,
-                    place: address.place,
-                    pincode: address.pincode
                 },
                 userId: ObjectId(address.user),
                 paymentmethod: payment,

@@ -1,5 +1,6 @@
 
 
+
 // form validation
 var submitname = false; var submitemail = false; var submitpassword = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
@@ -156,8 +157,68 @@ function deleteItem(cartId, proId) {
 }
 
 
-// 
+// get address
+// function displayRadioValue() {
+//     // var ele = document.getElementById('address').checked
+//     var checkedValue = null;
+//     var inputElements = document.getElementById('addressradio')
+//     for (var i = 0; inputElements[i]; ++i) {
+//         if (inputElements[i].checked) {
+//             checkedValue = inputElements[i].value;
+//             break;
+//         }
+//     }
 
+//     // var checkedValue = null;
+//     // var inputElements = document.getElementById('addressradio').value
+//     // checkedValue = inputElements
+//     console.log(inputElements);
+
+//     $.ajax({
+//         url: "/checkout",
+//         method: "get",
+//         data: { checkedValue },
+//         success: (response) => {
+//             if (response.status) {
+//                 location.href = '/payment'
+//             }
+//         }
+//     })
+// }
+
+
+$("#checkout-form").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+        url: "/place-order",
+        method: "POST",
+        data: $('#checkout-form').serialize(),
+        success: (response) => {
+            // alert(response)
+            location.href = '/success'
+        }
+    })
+})
+
+
+
+// function placeOrder() {
+//     let cod = document.getElementById('radiopayment1').checked
+//     let onlinepayment = document.getElementById('radiopayment2').checked
+//     let method = cod ? 'COD' : onlinepayment ? 'onlinepayment' : null;
+//     $.ajax({
+//         url: "/place-order",
+//         method: "post",
+//         data: { method },
+//         success: (response) => {
+//             if (response.status) {
+//                 location.href = '/success'
+//             }
+//         }
+//     })
+
+
+// }
 
 
 
