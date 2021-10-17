@@ -52,6 +52,11 @@ router.get('/dogretailvet', async (req, res) => {
   res.render('user/dogretail&vet', { products, user, bagCount })
 })
 
+router.get('/otp', (req, res) => {
+  res.render('user/otp', { nonav: true })
+})
+
+
 router.get('/catretailvet', (req, res) => {
   let user = req.session.user
   res.render('user/catretail&vet', { user })

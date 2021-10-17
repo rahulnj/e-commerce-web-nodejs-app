@@ -2,7 +2,7 @@
 
 
 // form validation
-var submitname = false; var submitemail = false; var submitpassword = false;
+var submitname = false; var submitemail = false; var submitpassword = false; submitphone = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 $(document).ready(function () {
     $("#usersu").on('input', function () {
@@ -28,6 +28,19 @@ $(document).ready(function () {
 
         }
     })
+    $('#phonesu').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+            submitphone = false;
+            $("#error-phone").html("Invalid Number");
+
+        } else {
+            submitphone = true;
+            $("#error-phone").html(" ");
+
+        }
+    })
     $('#passwordsu').blur(function () {
         var password = $(this).val()
         if (password.length <= 2 && password.includes('')) {
@@ -44,7 +57,8 @@ $('#signupform').on("submit", (e) => {
     console.log(submitname)
     console.log(submitemail)
     console.log(submitpassword)
-    if (submitname == true && submitemail == true && submitpassword == true) {
+    console.log(submitphone)
+    if (submitname == true && submitemail == true && submitpassword == true && submitphone == true) {
         $.ajax({
             url: "/signup",
             data: $("#signupform").serialize(),
@@ -157,34 +171,7 @@ function deleteItem(cartId, proId) {
 }
 
 
-// get address
-// function displayRadioValue() {
-//     // var ele = document.getElementById('address').checked
-//     var checkedValue = null;
-//     var inputElements = document.getElementById('addressradio')
-//     for (var i = 0; inputElements[i]; ++i) {
-//         if (inputElements[i].checked) {
-//             checkedValue = inputElements[i].value;
-//             break;
-//         }
-//     }
 
-//     // var checkedValue = null;
-//     // var inputElements = document.getElementById('addressradio').value
-//     // checkedValue = inputElements
-//     console.log(inputElements);
-
-//     $.ajax({
-//         url: "/checkout",
-//         method: "get",
-//         data: { checkedValue },
-//         success: (response) => {
-//             if (response.status) {
-//                 location.href = '/payment'
-//             }
-//         }
-//     })
-// }
 
 
 $("#checkout-form").submit((e) => {
@@ -202,23 +189,7 @@ $("#checkout-form").submit((e) => {
 
 
 
-// function placeOrder() {
-//     let cod = document.getElementById('radiopayment1').checked
-//     let onlinepayment = document.getElementById('radiopayment2').checked
-//     let method = cod ? 'COD' : onlinepayment ? 'onlinepayment' : null;
-//     $.ajax({
-//         url: "/place-order",
-//         method: "post",
-//         data: { method },
-//         success: (response) => {
-//             if (response.status) {
-//                 location.href = '/success'
-//             }
-//         }
-//     })
 
-
-// }
 
 
 
