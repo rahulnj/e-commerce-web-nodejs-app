@@ -111,13 +111,14 @@ router.get('/success', verifyUser, (req, res) => {
 
 router.post('/place-order', verifyUser, async (req, res) => {
   console.log(req.body);
+  let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
   let products = await userhelpers.getBagProductList(req.session.user._id)
   let totalPrice = await userhelpers.getTotalprice(req.session.user._id)
   let addressDetails = await userhelpers.getSelectedAdd(req.session.user._id, address)
   // console.log(addressDetails);
-  await userhelpers.placeOrder(addressDetails, products, totalPrice, payment).then((response) => {
+  await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
     res.json({ status: true })
   })
   // res.render('user/success')

@@ -347,8 +347,7 @@ module.exports = {
             resolve(cart.products)
         })
     },
-    placeOrder: (address, products, total, payment) => {
-        console.log("any==>", address);
+    placeOrder: (address, products, total, payment, user) => {
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'
@@ -357,6 +356,7 @@ module.exports = {
             }
             address = address[0]
             let order = {
+                user: ObjectId(address.user),
                 deliveryaddress: {
                     fullname: address.fullname,
                     address: address.address,
@@ -365,15 +365,13 @@ module.exports = {
                     pincode: address.pincode,
                     phone: address.phone
                 },
-                userId: ObjectId(address.user),
-                paymentmethod: payment,
                 products: products,
+                paymentmethod: payment,
                 amount: total,
                 status: status
-
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
-                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(address.user) })
+                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) })
                 resolve()
             })
 
