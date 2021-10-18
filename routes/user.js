@@ -13,12 +13,6 @@ const authToken = "a92ad84f0903387bf5ffcf9ccc862d6a"
 const clientTwillo = require("twilio")(accountSSID, authToken);
 
 
-
-
-
-
-
-
 // Auth middleware for user
 const userAuth = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -102,15 +96,7 @@ router.post('/verifyotp', async (req, res) => {
       res.redirect('/')
     })
 })
-
-
-
-
-
-
-
-
-
+// otp end
 
 router.get('/catretailvet', (req, res) => {
   let user = req.session.user
@@ -126,10 +112,10 @@ router.get('/catgrooming', (req, res) => {
 })
 router.get('/myorders', verifyUser, async (req, res) => {
   let user = req.session.user
-  console.log(user);
+  // console.log(user);
   if (user) {
     let orders = await userhelpers.getMyOrders(user._id)
-    console.log(orders);
+    // console.log(orders);
     res.render('user/myorders', { user, orders })
   } else {
     res.render('user/myorders',)
@@ -137,7 +123,7 @@ router.get('/myorders', verifyUser, async (req, res) => {
   }
 })
 
-// 
+// view order
 router.get('/view-order/:id', verifyUser, async (req, res) => {
   let user = req.session.user
   let orders = await userhelpers.getMyOrders(user._id)
@@ -175,19 +161,6 @@ router.get('/success', verifyUser, (req, res) => {
   res.render('user/success')
 })
 
-// router.get('/payment', verifyUser, async (req, res) => {
-//   let user = req.session.user
-//   let products = await userhelpers.getMybag(user._id);
-//   if (products != 0) {
-//     let totalPrice = await userhelpers.getTotalprice(user._id)
-//     let addressDetails = await userhelpers.getAddress(user._id)
-//     console.log(addressDetails);
-//     res.render('user/payment', { totalPrice, addressDetails, user })
-//   } else {
-//     res.redirect('/mybag')
-//   }
-// })
-
 router.post('/place-order', verifyUser, async (req, res) => {
   // console.log(req.body);
   let user = req.session.user
@@ -200,7 +173,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
   await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
     res.json({ status: true })
   })
-  // res.render('user/success')
+
 })
 
 //my bag 
@@ -219,13 +192,11 @@ router.get('/mybag', verifyUser, async (req, res) => {
 
 })
 
-
 //user signup
 router.post('/signup', async (req, res) => {
   const response = await userhelpers.userSignup(req.body)
   res.redirect('/user-signin')
 })
-
 
 // user signin
 router.post('/signin', async (req, res) => {
@@ -235,11 +206,9 @@ router.post('/signin', async (req, res) => {
     req.session.user = response.user
     res.redirect('/')
   } else {
-
     req.session.loginError = true
     res.redirect('/user-signin')
   }
-
 })
 
 router.get('/single-product/:id', async (req, res) => {
@@ -286,12 +255,6 @@ router.post('/delete-item', verifyUser, async (req, res) => {
   // console.log(response);
   res.json(response)
 })
-
-
-
-
-
-
 
 // user signout
 router.get('/signout', (req, res) => {

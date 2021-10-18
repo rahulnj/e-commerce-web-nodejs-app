@@ -22,7 +22,7 @@
                         <tr>
                             <th>#ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Total</th>
                             <th scope="col">Status</th>
                             <th scope="col">Date</th>
@@ -30,33 +30,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{#each orders}}
                         <tr>
-                            <td>0901</td>
-                            <td><b>Marvin McKinney</b></td>
-                            <td>marvin@example.com</td>
-                            <td>$9.00</td>
-                            <td><span class="badge rounded-pill alert-warning">Pending</span></td>
-                            <td>03.12.2020</td>
+                            <td>0001</td>
+                            <td><b>{{this.deliveryaddress.fullname}}</b></td>
+                            <td>{{this.deliveryaddress.phone}}</td>
+                            <td>₹ {{this.amount}}</td>
+                            <td><span class="badge rounded-pill alert-warning">{{this.status}}</span></td>
+                            <td>{{this.date}}</td>
                             <td class="text-end">
                                 <button class='btn btn-primary btn-primary me-md-2' type='button'><a
-                                        href="/admin/orderdetails"
+                                        href="/admin/orderdetails/{{user}}"
                                         style="text-decoration: none; color:white">Details</a></button>
                             </td>
                         </tr>
+                        {{/each}}
 
-                        <tr>
-                            <td>0901</td>
-                            <td><b>Marvin McKinney</b></td>
-                            <td>marvin@example.com</td>
-                            <td>$9.00</td>
-                            <td><span class="badge rounded-pill alert-warning">Pending</span></td>
-                            <td>03.12.2020</td>
-                            <td class="text-end">
-                                <button class='btn btn-primary btn-primary me-md-2' type='button'><a
-                                        href="/admin/orderdetails"
-                                        style="text-decoration: none; color:white">Details</a></button>
-                            </td>
-                        </tr>
+
 
 
                     </tbody>

@@ -43,12 +43,21 @@ router.post('/dashboard', async (req, res) => {
 })
 
 router.get('/dashboard', adminAuth, (req, res) => {
-  // console.log(req.session.admin);
   res.render('admin/admin-dashboard', { admin: true })
 })
 
-router.get('/orders', adminAuth, (req, res) => {
-  res.render('admin/admin-orders', { admin: true })
+router.get('/orders', adminAuth, async (req, res) => {
+  await userhelpers.orderDetailsAdmin().then((orders) => {
+    // console.log(orders);
+    res.render('admin/admin-orders', { admin: true, orders })
+  })
+})
+router.get('/orderdetails/:id', adminAuth, async (req, res) => {
+  // console.log(req.params.id);
+  let orderdetails = await userhelpers.getMyOrders(req.params.id)
+  // console.log(orderdetails);
+  let products = await userhelpers.getadminOrderProd(req.params.id)
+  res.render('admin/admin-orderdetails', { admin: true, orderdetails, products, })
 })
 
 router.get('/products', adminAuth, async (req, res) => {
@@ -141,9 +150,7 @@ router.get('/deleteproduct/:id', async (req, res) => {
   res.redirect('/admin/products')
 })
 
-router.get('/orderdetails', adminAuth, (req, res) => {
-  res.render('admin/admin-orderdetails', { admin: true })
-})
+
 
 router.get('/offers', adminAuth, (req, res) => {
   res.send('coming soon')
