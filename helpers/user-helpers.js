@@ -318,13 +318,19 @@ module.exports = {
 
         })
     },
-    // deleteAddress: async (userId) => {
-    //     let addDetails = await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ _id: ObjectId(userId) },
-    //         {
-    //             $pull: { address }
-    //         })
-    //     returnItem = true
-    // },
+
+
+    deleteAddress: async (addId, userId, address) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ _id: ObjectId(addId), user: ObjectId(userId) }, {
+                $pull: { address: { address: address } }
+            }).then((response) => {
+                resolve({ status: true })
+            })
+        })
+
+
+    },
     getBagProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })

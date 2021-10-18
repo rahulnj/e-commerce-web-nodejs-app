@@ -125,7 +125,7 @@ router.get('/myorders', verifyUser, async (req, res) => {
 
 // view order
 router.get('/view-order/:id', verifyUser, async (req, res) => {
-  console.log(req.params);
+  // console.log(req.params);
   let user = req.session.user
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await userhelpers.getMyOrderProd(req.params.id)
@@ -150,9 +150,10 @@ router.get('/checkout', verifyUser, async (req, res) => {
   let products = await userhelpers.getMybag(user._id);
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    let addressDetails = await userhelpers.getAddress(user._id)
-    // console.log(addressDetails);
-    res.render('user/checkout', { totalPrice, addressDetails, user })
+    await userhelpers.getAddress(user._id).then((addressDetails) => {
+      console.log(addressDetails);
+      res.render('user/checkout', { totalPrice, addressDetails, user })
+    })
   } else {
     res.redirect('/mybag')
   }
@@ -178,14 +179,15 @@ router.post('/place-order', verifyUser, async (req, res) => {
   let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
-  let products = await userhelpers.getBagProductList(user._id)
-  let totalPrice = await userhelpers.getTotalprice(user._id)
-  let addressDetails = await userhelpers.getSelectedAdd(user._id, address)
-  // console.log(addressDetails);
-  await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
-    res.json({ status: true })
+  await userhelpers.getBagProductList(user._id).then(async (products) => {
+    let totalPrice = await userhelpers.getTotalprice(user._id)
+    await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
+      await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
+        res.json({ status: true })
+      })
+    })
+    // console.log(addressDetails);
   })
-
 })
 
 //my bag 
@@ -267,6 +269,20 @@ router.post('/delete-item', verifyUser, async (req, res) => {
   // console.log(response);
   res.json(response)
 })
+
+//delete address
+router.post('/deleteaddress', async (req, res) => {
+  console.log(req.body.add);
+  let addId = req.body.add
+  let userId = req.body.user
+  let address = req.body.address
+  await userhelpers.deleteAddress(addId, userId, address).then((response) => {
+    res.json({ status: true })
+  })
+})
+
+
+
 
 // user signout
 router.get('/signout', (req, res) => {
