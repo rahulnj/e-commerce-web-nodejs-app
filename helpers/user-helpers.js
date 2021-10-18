@@ -418,7 +418,24 @@ module.exports = {
             // console.log(orders);
             resolve(orders)
         })
+    }, getAdminOrders: (cartId) => {
+        // console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: ObjectId(cartId) }).toArray()
+            // console.log(orders);
+            resolve(orders)
+        })
     },
+
+    getOneOrder: (cartId) => {
+        // console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: ObjectId(cartId) }).toArray()
+            // console.log(orders);
+            resolve(orders)
+        })
+    }
+    ,
     getMyOrderProd: (orderId) => {
         return new Promise(async (resolve, reject) => {
             let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -460,11 +477,11 @@ module.exports = {
             resolve(orderItems)
         })
     },
-    getadminOrderProd: (userId) => {
+    getadminOrderProd: (cartId) => {
         return new Promise(async (resolve, reject) => {
             let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                    $match: { user: ObjectId(userId) }
+                    $match: { _id: ObjectId(cartId) }
                 },
                 {
                     $unwind: '$products'

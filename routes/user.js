@@ -125,10 +125,11 @@ router.get('/myorders', verifyUser, async (req, res) => {
 
 // view order
 router.get('/view-order/:id', verifyUser, async (req, res) => {
+  console.log(req.params);
   let user = req.session.user
-  await userhelpers.getMyOrders(user._id).then(async (orders) => {
+  await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await userhelpers.getMyOrderProd(req.params.id)
-    console.log(orders);
+    // console.log(orders);
     res.render('user/vieworders', { user, products, orders })
   })
 })
