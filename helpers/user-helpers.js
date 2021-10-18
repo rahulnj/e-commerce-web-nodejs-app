@@ -517,13 +517,23 @@ module.exports = {
         })
     },
     changestatus: (cartId, userId, status) => {
-        console.log(cartId);
+        // console.log(cartId);
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
                 {
                     $set: { status: status }
                 }).then((response) => {
-                    console.log(response);
+                    // console.log(response);
+                    resolve({ status: true })
+                })
+        })
+    },
+    cancelOrder: (cartId, cancel) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
+                {
+                    $set: { status: cancel }
+                }).then((response) => {
                     resolve({ status: true })
                 })
         })

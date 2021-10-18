@@ -126,9 +126,20 @@ router.get('/myorders', verifyUser, async (req, res) => {
 // view order
 router.get('/view-order/:id', verifyUser, async (req, res) => {
   let user = req.session.user
-  let orders = await userhelpers.getMyOrders(user._id)
-  let products = await userhelpers.getMyOrderProd(req.params.id)
-  res.render('user/vieworders', { user, products, orders })
+  await userhelpers.getMyOrders(user._id).then(async (orders) => {
+    let products = await userhelpers.getMyOrderProd(req.params.id)
+    console.log(orders);
+    res.render('user/vieworders', { user, products, orders })
+  })
+})
+
+router.post('/cancelorder', async (req, res) => {
+  // console.log(req.body);
+  let cart = req.body.cart
+  let status = req.body.status
+  await userhelpers.cancelOrder(cart, status).then((response) => {
+    res.json(response)
+  })
 })
 
 

@@ -20,6 +20,7 @@
   padding: 8px 16px;" class="previous">&laquo; back</a></div>
     <div class="container">
         <div class="row">
+
             {{!-- --}}
             <div class="container mt-5 p-3 rounded cart">
                 <div class="row no-gutters">
@@ -73,6 +74,8 @@
                                 <li><span>STATUS : </span><span class="text-success">{{this.status}}</span></li>
                                 </li>
                             </ul>
+
+                            <button class="btn essence-btn" onclick="cancelorder('{{this._id}}')">Cancel</button>
                             {{/each}}
                         </div>
                     </div>
@@ -81,3 +84,25 @@
         </div>
         <!-- ##### Checkout Area End ##### -->
         </section>
+
+        <script>
+            function cancelorder(cartId) {
+                console.log(cartId)
+                $.ajax({
+                    url: '/cancelorder',
+                    data: {
+                        cart: cartId,
+                        status: "cancelled"
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        if (response.status) {
+                            // alert("Deleted")
+                            location.reload()
+                        } else {
+
+                        }
+                    }
+                })
+            }
+        </script>
