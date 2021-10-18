@@ -1,9 +1,23 @@
+const { Code } = require('bson');
 const { response } = require('express');
 var express = require('express');
 const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
+
+// 
+const servicesSSID = "	VAcc710d22d3d0cb7e51e0a59715f643c3"
+const accountSSID = "ACbe1c37edc9560c82fe7b569d383d98b3"
+const authToken = "a92ad84f0903387bf5ffcf9ccc862d6a"
+const clientTwillo = require("twilio")(accountSSID, authToken);
+
+
+
+
+
+
+
 
 // Auth middleware for user
 const userAuth = (req, res, next) => {
@@ -51,10 +65,51 @@ router.get('/dogretailvet', async (req, res) => {
   let products = await productHelper.getProducts()
   res.render('user/dogretail&vet', { products, user, bagCount })
 })
-
+//otp
 router.get('/otp', (req, res) => {
   res.render('user/otp', { nonav: true })
 })
+router.get('/verifyotp', (req, res) => {
+  res.render('user/enterotp', { nonav: true })
+})
+
+router.post('/enterotp', async (req, res) => {
+  req.session.number = req.body.phone
+  await userhelpers.checkNumber(req.body.phone).then((response) => {
+    console.log(response);
+    if (response) {
+      console.log('session no', req.session.number);
+      clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
+        .then((verification) => console.log(verification.status));
+      res.redirect('/verifyotp')
+
+    } else {
+      res.redirect('/user-signup')
+    }
+  })
+})
+
+router.post('/verifyotp', async (req, res) => {
+  let otp = req.body.otp
+  let number = req.session.number
+  await userhelpers.checkNumber(number).then((response) => {
+    req.session.user = response;
+    req.session.user._id = response._id;
+  })
+  clientTwillo.verify.services(servicesSSID).verificationChecks
+    .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
+      req.session.loggedIn = true;
+      res.redirect('/')
+    })
+})
+
+
+
+
+
+
+
+
 
 
 router.get('/catretailvet', (req, res) => {

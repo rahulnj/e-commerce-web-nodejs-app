@@ -460,4 +460,11 @@ module.exports = {
             resolve(orderItems)
         })
     },
+    checkNumber: (phone) => {
+        return new Promise(async (resolve, reject) => {
+            let userNumber = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: phone }).then((response) => {
+                resolve(response)
+            })
+        })
+    }
 }
