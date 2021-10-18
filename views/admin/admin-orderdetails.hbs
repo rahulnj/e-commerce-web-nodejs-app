@@ -9,21 +9,27 @@
         <header class="card-header">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6">
+
                     <span>
-                        <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2020, 4:34PM</b>
+                        {{#each orderdetails}}
+                        <i class="material-icons md-calendar_today"></i> <b>{{this.date}}</b>
                     </span> <br>
+
                     <small class="text-muted">Order ID: 3453012</small>
                 </div>
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                    <select class="form-select d-inline-block" style="max-width: 200px">
+                    <select class="form-select d-inline-block" id="status" style="max-width: 200px"
+                        onchange="changestatus('{{this._id}}','{{this.user}}')">
                         <option>Change status</option>
-                        <option>Confirmed</option>
-                        <option>Shipped</option>
-                        <option>Delivered</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
                     </select>
-                    <button class='btn btn-primary btn-primary me-md-2' type='button'><a href="/admin/orders"
-                            style="text-decoration: none; color:white">Confirm</a></button>
+                    {{!-- <button class='btn btn-primary btn-primary me-md-2' type='submit'
+                        style="text-decoration: none; color:white">Confirm</button> --}}
                 </div>
+                {{/each}}
         </header> <!-- card-header end// -->
         {{#each orderdetails}}
         <div class="card-body">
@@ -138,3 +144,38 @@
 
 
 </section> <!-- content-main end// -->
+<script>
+    ///
+
+
+
+    function changestatus(cartId, userId) {
+        let stat = document.getElementById('status').value
+        console.log(cartId, userId, stat)
+        $.ajax({
+            url: '/admin/changestatus',
+            data: {
+                cart: cartId,
+                user: userId,
+                status: stat
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    // alert("Deleted")
+                    location.reload()
+                } else {
+
+                }
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+</script>

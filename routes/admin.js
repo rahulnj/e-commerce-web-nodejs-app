@@ -54,11 +54,29 @@ router.get('/orders', adminAuth, async (req, res) => {
 })
 router.get('/orderdetails/:id', adminAuth, async (req, res) => {
   // console.log(req.params.id);
-  let orderdetails = await userhelpers.getMyOrders(req.params.id)
-  // console.log(orderdetails);
-  let products = await userhelpers.getadminOrderProd(req.params.id)
-  res.render('admin/admin-orderdetails', { admin: true, orderdetails, products, })
+  await userhelpers.getMyOrders(req.params.id).then(async (orderdetails) => {
+    // console.log(orderdetails);
+    let products = await userhelpers.getadminOrderProd(req.params.id)
+    res.render('admin/admin-orderdetails', { admin: true, orderdetails, products, })
+  })
 })
+// 
+router.post('/changestatus', async (req, res) => {
+  // console.log(req.body.cart);
+  let cart = req.body.cart
+  let user = req.body.user
+  let status = req.body.status
+  await userhelpers.changestatus(cart, user, status).then((response) => {
+    // console.log(response);
+    res.json(response)
+  })
+})
+
+
+
+
+
+
 
 router.get('/products', adminAuth, async (req, res) => {
   let products = await productHelper.getProducts()
