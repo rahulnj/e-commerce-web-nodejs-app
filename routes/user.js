@@ -114,9 +114,10 @@ router.get('/myorders', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user);
   if (user) {
-    let orders = await userhelpers.getMyOrders(user._id)
-    // console.log(orders);
-    res.render('user/myorders', { user, orders })
+    await userhelpers.getMyOrders(user._id).then(async (orders) => {
+      // console.log(orders);
+      res.render('user/myorders', { user, orders })
+    })
   } else {
     res.render('user/myorders',)
 
@@ -129,10 +130,9 @@ router.get('/view-order/:id', verifyUser, async (req, res) => {
   let user = req.session.user
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await userhelpers.getMyOrderProd(req.params.id)
-    // console.log(orders[0].status);
     let IsCancelled = orders[0].status === 'cancelled'
-    // console.log(IsCancelled);
-    res.render('user/vieworders', { user, products, IsCancelled, orders })
+    let IsDelivered = orders[0].status === 'delivered'
+    res.render('user/vieworders', { user, products, IsCancelled, IsDelivered, orders })
   })
 })
 
@@ -235,6 +235,7 @@ router.post('/signin', async (req, res) => {
   if (response && response.status) {
     req.session.loggedIn = true
     req.session.user = response.user
+    // res.json({ response: true })
     res.redirect('/')
   } else {
     req.session.loginError = true

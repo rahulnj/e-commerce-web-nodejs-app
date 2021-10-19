@@ -59,6 +59,8 @@
 
                         </div>
                     </div>
+
+
                     {{!-- --}}
                     {{#each orders}}
                     <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
@@ -79,10 +81,16 @@
                                 <h5 class="text-danger">Order has cancelled</h5>
                             </div>
                             {{else}}
+                            {{#if ../IsDelivered}}
+                            <img class="" src="/img/core-img/My Post (3).png" style="height: 250px; width: 290px;"
+                                alt="">
+                            {{else}}
                             <div>
                                 <button class="btn essence-btn" onclick="cancelorder('{{this._id}}')">Cancel</button>
                             </div>
                             {{/if}}
+                            {{/if}}
+
                         </div>
                     </div>
                 </div>
