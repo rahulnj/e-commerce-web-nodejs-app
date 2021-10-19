@@ -187,6 +187,108 @@ $("#checkout-form").submit((e) => {
     })
 })
 
+// address field validation
+var nameadd = false; var addressadd = false; var cityadd = false; var placeadd = false; var pinadd = false; var phoneadd = false;
+
+$("#nameadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#").text("Invalid Name");
+        nameadd = false;
+    } else {
+        nameadd = true;
+        $("#").text(" ");
+
+    }
+})
+$("#addressadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 10 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#").text("Invalid Name");
+        addressadd = false;
+    } else {
+        addressadd = true;
+        $("#").text(" ");
+
+    }
+})
+$("#cityadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#").text("Invalid Name");
+        cityadd = false;
+    } else {
+        cityadd = true;
+        $("#").text(" ");
+
+    }
+})
+$("#placeadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#").text("Invalid Name");
+        placeadd = false;
+    } else {
+        placeadd = true;
+        $("#").text(" ");
+
+    }
+})
+$("#pinadd").on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var name = $(this).val()
+    if (name.length == 6) {
+        $("#").text("Invalid Name");
+        pinadd = false;
+    } else {
+        pinadd = true;
+        $("#").text(" ");
+
+    }
+})
+$('#phoneadd').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var phone = $(this).val()
+    if (phone.length < 10) {
+        phoneadd = false;
+        $("#").html("Invalid Number");
+
+    } else {
+        phoneadd = true;
+        $("#").html(" ");
+
+    }
+})
+$('#addressform').on("submit", (e) => {
+    e.preventDefault()
+    console.log(nameadd)
+    console.log(addressadd)
+    console.log(cityadd)
+    console.log(placeadd)
+    console.log(pinadd)
+    console.log(phoneadd)
+    if (nameadd == true && addressadd == true && cityadd == true && placeadd == true && pinadd == true && phoneadd == true) {
+        $.ajax({
+            url: "/add-address",
+            data: $("#addressform").serialize(),
+            method: "post",
+            success: function (response) {
+                // alert("Form submitted successfully")
+                location.replace('/checkout')
+            },
+            error: function (err) {
+                alert("Something Error")
+            }
+        })
+    } else {
+        $("#submit-message").html("Fill the Fields");
+    }
+
+})
 
 
 

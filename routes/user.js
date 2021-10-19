@@ -166,6 +166,7 @@ router.get('/address', verifyUser, (req, res) => {
 // add address
 router.post('/add-address', async (req, res) => {
   let user = req.session.user._id
+  console.log(req.body);
   await userhelpers.addAddress(user, req.body)
   res.redirect('/checkout')
 })
