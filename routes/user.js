@@ -181,9 +181,12 @@ router.post('/place-order', verifyUser, async (req, res) => {
   let payment = req.body.payment
   await userhelpers.getBagProductList(user._id).then(async (products) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
-        res.json({ status: true })
+    await userhelpers.getSingleprice(user._id).then(async (singlePrice) => {
+      // console.log(products);
+      await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
+        await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
+          res.json({ status: true })
+        })
       })
     })
     // console.log(addressDetails);
@@ -197,9 +200,10 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let products = await userhelpers.getMybag(user._id);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    let singlePrice = await userhelpers.getSingleprice(user._id)
-    // console.log(singlePrice);
-    res.render('user/mybag', { user, products, totalPrice, singlePrice })
+    await userhelpers.getSingleprice(user._id).then((singlePrice) => {
+      // console.log(singlePrice);
+      res.render('user/mybag', { user, products, totalPrice, singlePrice })
+    })
   } else {
     res.render('user/mybag', { cartempty: true })
   }

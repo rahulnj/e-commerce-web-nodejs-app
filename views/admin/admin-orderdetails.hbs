@@ -72,44 +72,46 @@
                             <thead>
                                 <tr>
                                     <th width="40%">Product</th>
-                                    <th width="20%">Price</th>
 
-                                    <th width="20%" class="text-end">Total</th>
+                                    <th width="20%">Price</th>
+                                    <th>qty</th>
+                                    <th width="40%" class="text-end">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each products}}
+                                {{#each singlePrice}}
                                 <tr>
                                     <td>
                                         <a class="itemside" href="#">
                                             <div class="left">
-                                                <img src="/uploads/image-1/{{this.item}}.jpg" width="40" height="50"
-                                                    class="img-xs" alt="Item">
+                                                <img src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
+                                                    height="50" class="img-xs" alt="Item">
                                             </div>
                                             <div class="info"> {{this.product.product}} </div>
                                         </a>
                                     </td>
                                     <td>₹ {{this.product.price}}</td>
-
-                                    <td class="text-end"> $99.50 </td>
+                                    <td class="text-end"> {{this.quantity}} </td>
+                                    <td class="text-end"> {{this.total}} </td>
                                 </tr>
                                 {{/each}}
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         <article class="float-end">
-                                            <dl class="dlist">
+                                            {{!-- <dl class="dlist">
                                                 <dt>Subtotal:</dt>
                                                 <dd>₹ 46425</dd>
-                                            </dl>
+                                            </dl> --}}
                                             <dl class="dlist">
                                                 <dt>Shipping cost:</dt>
                                                 <dd>free</dd>
                                             </dl>
+                                            {{#each orderdetails}}
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>
-                                                <dd> <b class="h5">₹ 2464</b> </dd>
+                                                <dd> <b class="h5">₹ {{this.amount}}</b> </dd>
                                             </dl>
-
+                                            {{/each}}
                                         </article>
                                     </td>
                                 </tr>

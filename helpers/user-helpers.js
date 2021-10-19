@@ -338,6 +338,7 @@ module.exports = {
         })
     },
     placeOrder: (address, products, total, payment, user) => {
+
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'
@@ -414,8 +415,56 @@ module.exports = {
             // console.log(totalPrice);
             resolve(totalPrice)
         })
-    }, getOrderAdmin: {
+    },
+    getSinglepriceAdmin: (orderId, orderdetails) => {
+        // console.log(cartId);
+        return new Promise(async (resolve, reject) => {
+            let totalPrice = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: { _id: ObjectId(orderId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $project: {
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        quantity: 1,
+                        product: 1,
+                    }
+                },
+                // {
+                //     $group: {
+                //         _id: null,
+                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                //     }
+                // }
+            ]).toArray()
 
+            resolve(totalPrice)
+            // console.log(totalPrice);
+        })
     },
     getMyOrders: (userId) => {
         // console.log(userId);
