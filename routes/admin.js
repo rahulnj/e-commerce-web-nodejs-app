@@ -120,7 +120,7 @@ router.get('/delete-category/:id', async (req, res) => {
 })
 // show category
 router.post('/getSubcategory', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let show = await productHelper.showSubcategory(req.body.detail)
   res.json({ category: show })
   // console.log(show.subcategory);
