@@ -7,6 +7,7 @@ var objectId = require('mongodb').ObjectId
 const { ObjectId } = require('bson')
 const { response } = require('express')
 const { PRODUCT_COLLECTION } = require('../config/collections')
+const moment = require("moment")
 module.exports = {
     userSignup: async (userData) => {
         userData.status = true
@@ -360,7 +361,7 @@ module.exports = {
                 paymentmethod: payment,
                 amount: total,
                 status: status,
-                date: new Date()
+                date: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) })
