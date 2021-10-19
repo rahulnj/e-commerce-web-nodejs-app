@@ -8,7 +8,7 @@
                 <img src="/img/bg-img/bg-signin.jpg" class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form action="/signin" method="POST">
+                <form id="signinform">
 
                     <div class="pt-1">
 
@@ -16,17 +16,20 @@
                         <!-- Username input -->
                         <div class="form-outline mb-4 shadow-sm">
                             <label class="form-label fs-6">USERNAME</label>
-                            <input type="text" id="form3Example3" name="username" class="form-control form-control-lg"
+                            <input type="text" id="signinuser" name="username" class="form-control form-control-lg"
                                 placeholder="Username" />
 
                         </div>
+                        <p id="error-name" class="text-danger"></p>
+
 
                         <!-- Password input -->
                         <div class="form-outline mb-4 shadow-sm">
                             <label class="form-label fs-6">PASSWORD</label>
-                            <input type="password" name="password" id="form3Example4"
-                                class="form-control form-control-lg" placeholder="Password" />
+                            <input type="password" name="password" id="signinpass" class="form-control form-control-lg"
+                                placeholder="Password" />
                         </div>
+                        <p id="error-password" class="text-danger"></p>
                         <div>
                             <a href="/user-signup">
                                 <p class="upin">Don't have an account ?</p>
@@ -54,3 +57,53 @@
         </div>
     </div>
 </section>
+
+<script>
+    var signinuser = false; var signinpass = false;
+    $("#signinuser").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#error-name").text("Invalid Name");
+            signinuser = false;
+        } else {
+            signinuser = true;
+            $("#error-name").text(" ");
+
+        }
+    })
+    $('#signinpass').blur(function () {
+        var password = $(this).val()
+        if (password.length < 2) {
+            $("#error-password").text("Min 3 input needed");
+            signinpass = false;
+        } else {
+            signinpass = true;
+            $("#error-password").text(" ");
+        }
+    })
+    $('#signinform').on("submit", (e) => {
+        e.preventDefault()
+        console.log(signinuser)
+        console.log(signinpass)
+        if (signinuser == true && signinpass == true) {
+            $.ajax({
+                url: "/signin",
+                data: $("#signinform").serialize(),
+                method: "post",
+                success: function (response) {
+                    // alert("Form submitted successfully")
+                    location.replace('/')
+                },
+                error: function (err) {
+                    alert("Something Error")
+                }
+            })
+        } else {
+            $("#submit-message").html("Fill the Fields");
+        }
+
+    })
+
+
+</script>
