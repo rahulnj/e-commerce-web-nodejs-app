@@ -74,14 +74,21 @@
                                 <li><span>STATUS : </span><span class="text-success">{{this.status}}</span></li>
                                 </li>
                             </ul>
-
-                            <button class="btn essence-btn" onclick="cancelorder('{{this._id}}')">Cancel</button>
-                            {{/each}}
+                            {{#if ../IsCancelled}}
+                            <div>
+                                <h5 class="text-danger">Order has cancelled</h5>
+                            </div>
+                            {{else}}
+                            <div>
+                                <button class="btn essence-btn" onclick="cancelorder('{{this._id}}')">Cancel</button>
+                            </div>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {{/each}}
         <!-- ##### Checkout Area End ##### -->
         </section>
 

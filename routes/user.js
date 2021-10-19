@@ -129,8 +129,10 @@ router.get('/view-order/:id', verifyUser, async (req, res) => {
   let user = req.session.user
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await userhelpers.getMyOrderProd(req.params.id)
-    // console.log(orders);
-    res.render('user/vieworders', { user, products, orders })
+    // console.log(orders[0].status);
+    let IsCancelled = orders[0].status === 'cancelled'
+    // console.log(IsCancelled);
+    res.render('user/vieworders', { user, products, IsCancelled, orders })
   })
 })
 
