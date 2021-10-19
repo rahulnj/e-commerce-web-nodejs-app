@@ -481,7 +481,6 @@ module.exports = {
             resolve(orders)
         })
     },
-
     getOneOrder: (cartId) => {
         // console.log(userId);
         return new Promise(async (resolve, reject) => {

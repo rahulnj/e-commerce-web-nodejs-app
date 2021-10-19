@@ -48,18 +48,20 @@ router.get('/dashboard', adminAuth, (req, res) => {
 
 router.get('/orders', adminAuth, async (req, res) => {
   await userhelpers.orderDetailsAdmin().then((orders) => {
-    // console.log(orders);
     res.render('admin/admin-orders', { admin: true, orders })
   })
 })
 router.get('/orderdetails/:id', adminAuth, async (req, res) => {
   // console.log(req.params.id);
   await userhelpers.getAdminOrders(req.params.id).then(async (orderdetails) => {
-    // console.log(orderdetails.user);
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
-      await userhelpers.getadminOrderProd(req.params.id).then((products) => {
+      await userhelpers.getadminOrderProd(req.params.id).then(async (products) => {
+        // console.log(orderdetails);
+        const isCancelled = orderdetails[0].status === 'cancelled'
+        // console.log(isCancelled);
+        res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, singlePrice, products, })
+
         // console.log(products);
-        res.render('admin/admin-orderdetails', { admin: true, orderdetails, singlePrice, products, })
       })
     })
   })

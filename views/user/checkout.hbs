@@ -34,7 +34,7 @@
                                     {{#each addressDetails}}
                                     <div class="d-flex justify-content-between p-2">
                                         <input class="form-check-input " value="{{this.address.address}}" name="address"
-                                            type="radio" name="flexRadioDefault" id=""> <span
+                                            type="radio" name="flexRadioDefault" id="" checked> <span
                                             class="ml-4">{{this.address.fullname}}</span><button
                                             class="btn mr-2 pl-1 btn-light"
                                             onclick="deleteAddress('{{this._id}}','{{this.user}}','{{this.address.address}}')"><i
@@ -75,7 +75,7 @@
                                 <div class="product-details mr-2 shadow-sm p-2 ">
                                     <div class="form-check">
                                         <input class="form-check-input" value="COD" name="payment" type="radio"
-                                            name="flexRadioDefault" id="radiopayment1">
+                                            name="flexRadioDefault" id="radiopayment1" checked>
                                         <label class="form-check-label" for="flexRadioDefault1">
                                             Cash on Delivery
                                         </label>

@@ -17,15 +17,18 @@
 
                     <small class="">Order Status: <span class="text-success">{{this.status}}</span> </small>
                 </div>
+
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    {{#if isCancelled}}
+                    {{else}}
                     <select class="form-select d-inline-block" id="status" style="max-width: 200px"
                         onchange="changestatus('{{this._id}}','{{this.user}}')">
                         <option>Change status</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="shipped">Shipped</option>
                         <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
                     </select>
+                    {{/if}}
                     {{!-- <button class='btn btn-primary btn-primary me-md-2' type='submit'
                         style="text-decoration: none; color:white">Confirm</button> --}}
                 </div>
@@ -172,7 +175,6 @@
             }
         })
     }
-
 
 
 
