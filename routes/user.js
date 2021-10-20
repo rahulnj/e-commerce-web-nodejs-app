@@ -284,7 +284,7 @@ router.post('/change-quantity', async (req, res) => {
   if (products.length != 0) {
     userhelpers.changeQuantity(req.body).then(async (response) => {
       response.totalPrice = await userhelpers.getTotalprice(req.body.user)
-
+      singlePrice = await userhelpers.getSingleprice(req.body.user)
       // console.log(response);
       res.json(response)
 

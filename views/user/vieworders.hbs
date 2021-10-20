@@ -103,21 +103,56 @@
         <script>
             function cancelorder(cartId) {
                 console.log(cartId)
-                $.ajax({
-                    url: '/cancelorder',
-                    data: {
-                        cart: cartId,
-                        status: "cancelled"
-                    },
-                    method: 'post',
-                    success: (response) => {
-                        if (response.status) {
-                            // alert("Deleted")
-                            location.reload()
-                        } else {
-
-                        }
+                Swal.fire({
+                    title: 'Cancel Order ?',
+                    text: "You won't be able to change this!",
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Cancel Order'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/cancelorder',
+                            data: {
+                                cart: cartId,
+                                status: "cancelled"
+                            },
+                            method: 'post',
+                            success: (response) => {
+                                if (response.status) {
+                                    // alert("Deleted")
+                                    location.reload()
+                                } else {
+                                }
+                            },
+                        })
+                    } else {
                     }
                 })
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </script>

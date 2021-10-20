@@ -186,7 +186,7 @@ function changeQuantity(cartId, proId, userId, count) {
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.totalPrice
                 document.getElementById('subtotal-price').innerHTML = response.totalPrice
-                // location.reload();
+                window.location.reload()
             }
 
         }

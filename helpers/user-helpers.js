@@ -252,7 +252,7 @@ module.exports = {
                 }
             ]).toArray()
             if (totalPrice[0]) {
-                console.log(totalPrice[0]);
+                // console.log(totalPrice[0]);
                 resolve(totalPrice[0].total)
             } else {
                 resolve(false)
