@@ -251,8 +251,12 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            // console.log(totalPrice[0].total);
-            resolve(totalPrice[0].total)
+            if (totalPrice[0]) {
+                console.log(totalPrice[0]);
+                resolve(totalPrice[0].total)
+            } else {
+                resolve(false)
+            }
         })
     },
     addAddress: (userId, addressDetails) => {

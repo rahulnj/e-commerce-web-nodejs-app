@@ -218,7 +218,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
       res.render('user/mybag', { user, products, totalPrice, singlePrice })
     })
   } else {
-    res.render('user/mybag', { cartempty: true })
+    res.render('user/mybag', { cartempty: true, user })
   }
 
 })
@@ -237,7 +237,7 @@ router.post('/signin', async (req, res) => {
     req.session.loggedIn = true
     req.session.user = response.user
     res.json(response)
-    console.log(response);
+    // console.log(response);
     // res.redirect('/')
   } else {
     req.session.loginError = true
@@ -265,8 +265,16 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
       res.json({ status: true })
     })
   }
-
 })
+//////
+
+
+
+
+
+
+
+
 
 
 // change bag product quantity
@@ -291,6 +299,7 @@ router.post('/delete-item', verifyUser, async (req, res) => {
   // console.log(response);
   res.json(response)
 })
+//Buy Now
 
 
 

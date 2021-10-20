@@ -137,6 +137,28 @@ function addTobag(proId) {
         }
     })
 }
+//
+function buynow(proId) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //To change quantity
@@ -160,11 +182,11 @@ function changeQuantity(cartId, proId, userId, count) {
                 // alert("Removed from bag")
                 location.reload()
             } else {
+                console.log("changed")
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.totalPrice
                 document.getElementById('subtotal-price').innerHTML = response.totalPrice
-                document.getElementById('single-price').innerHTML = response.singlePrice
-                console.log(response.singlePrice.total)
+                // location.reload();
             }
 
         }
