@@ -110,7 +110,25 @@ function addTobag(proId) {
         success: (response) => {
             // console.log(response)
             if (response.status) {
-                location.reload()
+                // location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Added to Bag'
+                }).then((res) => {
+                    location.reload()
+                })
 
             } else {
                 location.href = "/user-signin"
@@ -156,22 +174,37 @@ function changeQuantity(cartId, proId, userId, count) {
 // deleteItem
 function deleteItem(cartId, proId) {
     // console.log(cartId, proId)
-    $.ajax({
-        url: '/delete-item',
-        data: {
-            cart: cartId,
-            product: proId,
-        },
-        method: 'post',
-        success: (response) => {
-            if (response) {
-                // alert("Deleted")
-                location.reload()
-            }
-        }
-    })
-}
+    Swal.fire({
+        title: 'Remove from Bag?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Remove'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/delete-item',
+                data: {
+                    cart: cartId,
+                    product: proId,
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response) {
+                        // alert("Deleted")
+                        location.reload()
+                    } else {
 
+                    }
+                },
+            })
+        } else {
+
+        }
+    });
+}
 
 
 
@@ -243,12 +276,12 @@ $("#placeadd").on('input', function () {
 $("#pinadd").on('input', function () {
     this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
     var name = $(this).val()
-    if (name.length == 6) {
-        $("#").text("Invalid Name");
+    if (name.length < 6) {
+        $("#pinerr").text("Invalid pincode");
         pinadd = false;
     } else {
         pinadd = true;
-        $("#").text(" ");
+        $("#pinerr").text(" ");
 
     }
 })
@@ -257,11 +290,11 @@ $('#phoneadd').on('input', function () {
     var phone = $(this).val()
     if (phone.length < 10) {
         phoneadd = false;
-        $("#").html("Invalid Number");
+        $("#phnerr").html("Invalid Number");
 
     } else {
         phoneadd = true;
-        $("#").html(" ");
+        $("#phnerr").html(" ");
 
     }
 })
