@@ -200,21 +200,25 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 
 //add product
 router.post('/add-product', async (req, res) => {
+  // console.log(req.files.file1);
+  console.log(req.body);
+  console.log(req.body.product);
 
+  // console.log(data.product);
   let id = await productHelpers.addProduct(req.body)
   // console.log(req.body);
   id = id.toString()
-  let image1 = req.files.img1
-  let image2 = req.files.img2
-  let image3 = req.files.img3
-  let image4 = req.files.img4
-  let image5 = req.files.img5
+  let image1 = req.files.file1
+  let image2 = req.files.file2
+  let image3 = req.files.file3
+  let image4 = req.files.file4
+  let image5 = req.files.file5
   image1.mv('./public/uploads/image-1/' + id + '.jpg')
   image2.mv('./public/uploads/image-2/' + id + '.jpg')
   image3.mv('./public/uploads/image-3/' + id + '.jpg')
   image4.mv('./public/uploads/image-4/' + id + '.jpg')
   image5.mv('./public/uploads/image-5/' + id + '.jpg')
-  res.redirect('/admin/addproduct')
+  res.json({ status: true })
 })
 
 

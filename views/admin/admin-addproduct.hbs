@@ -10,7 +10,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+            <form id="addproduct">
 
                 <div class="mb-4">
                     <label for="product_name" class="form-label">Product Name</label>
@@ -61,28 +61,30 @@
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Thumbnail</label>
-                        <input name="img1" class="form-control" type="file">
+                        <input name="img1" id="img1" class="form-control" type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #1</label>
-                        <input name="img2" class="form-control" type="file">
+                        <input name="img2" id="img2" class="form-control" type="file">
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #2</label>
-                        <input name="img3" class="form-control" type="file">
+                        <input name="img3" id="img3" class="form-control" type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #3</label>
-                        <input name="img4" class="form-control" type="file">
+                        <input name="img4" id="img4" class="form-control" type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #4</label>
-                        <input name="img5" class="form-control" type="file">
+                        <input name="img5" id="img5" class="form-control" type="file">
                     </div>
                 </div>
                 <button type="submit" id="subbtn" class="btn btn-primary">Submit</button>
+                <p id="submit-pmessage" class="text-danger"></p>
+
             </form>
         </div>
     </div> <!-- card end// -->
@@ -120,16 +122,101 @@
 
     //disable button
 
-    var pname = document.getElementById('product_name')
-    var pdes = document.getElementById('product_des')
-    var sbtn = document.getElementById('subbtn')
+    var product_name = false; var product_des = false; var product_price = false; product_qty = false;
+    $("#product_name").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#error-adname").text("Invalid Name");
+            product_name = false;
+        } else {
+            product_name = true;
+            $("#error-adname").text(" ");
+
+        }
+    })
+    $('#product_des').blur(function () {
+        var password = $(this).val()
+        if (password.length < 2) {
+            $("#error-adpassword").text("Min 3 input needed");
+            product_des = false;
+        } else {
+            product_des = true;
+            $("#error-adpassword").text(" ");
+        }
+    })
+    $('#product_price').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var password = $(this).val()
+        if (password.length < 2) {
+            $("#error-adpassword").text("Min 3 input needed");
+            product_price = false;
+        } else {
+            product_price = true;
+            $("#error-adpassword").text(" ");
+        }
+    })
+    $('#product_qty').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var password = $(this).val()
+        if (password.length < 1) {
+            $("#error-adpassword").text("Min 3 input needed");
+            product_qty = false;
+        } else {
+            product_qty = true;
+            $("#error-adpassword").text(" ");
+        }
+    })
+    $('#addproduct').on("submit", (e) => {
+        e.preventDefault()
+        console.log(product_name)
+        console.log(product_des)
+        console.log(product_price)
+        console.log(product_qty)
+
+        if (product_name == true && product_des == true && product_price == true && product_qty == true) {
+            let data = $("#addproduct")[0];
+            let formData = new FormData(data);
+            var file1 = $('#img1')[0].files[0];
+            var file2 = $('#img2')[0].files[0];
+            var file3 = $('#img3')[0].files[0];
+            var file4 = $('#img4')[0].files[0];
+            var file5 = $('#img5')[0].files[0];
 
 
-    pname.addEventListener('keyup', () => {
-        if (pname.value.length != 0 && pname.value.length < 10 && pname.value.length < 15) sbtn.disabled = true
-        else sbtn.disabled = false
-    });
 
+            formData.append('data', data);
+            formData.append('file1', file1)
+            formData.append('file2', file2)
+            formData.append('file3', file3)
+            formData.append('file4', file4)
+            formData.append('file5', file5)
+            console.log(formData)
+            $.ajax({
+                url: "/admin/add-product",
+                data: formData,
+                method: "post",
+                enctype: 'multipart/formdata',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // alert("Form submitted successfully")
+                    if (response.status == true) {
+                        location.reload()
+                    } else {
+                        $("#submit-pmessage").html("fill the fields");
+                    }
+
+                },
+                error: function (err) {
+                    alert("Something Error")
+                }
+            })
+        } else {
+            $("#submit-pmessage").html("Fill the Fields");
+        }
+
+    })
 
 
 </script>
