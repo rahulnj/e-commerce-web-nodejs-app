@@ -48,7 +48,7 @@
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg btn-outline-dark"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-
+                            <p id="submit-errmessage" class="text-danger"></p>
                         </div>
                     </div>
 
@@ -93,14 +93,19 @@
                 method: "post",
                 success: function (response) {
                     // alert("Form submitted successfully")
-                    location.replace('/')
+                    if (response.status == true) {
+                        location.replace('/')
+                    } else {
+                        $("#submit-errmessage").html("Incorrect username or password");
+                    }
+
                 },
                 error: function (err) {
                     alert("Something Error")
                 }
             })
         } else {
-            $("#submit-message").html("Fill the Fields");
+            $("#submit-errmessage").html("Fill the Fields");
         }
 
     })

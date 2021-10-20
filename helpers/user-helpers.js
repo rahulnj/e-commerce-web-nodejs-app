@@ -49,6 +49,7 @@ module.exports = {
             } else {
                 console.log("User login failed");
                 return null
+
             }
 
         } else {

@@ -30,11 +30,13 @@ router.get('/', adminReauth, function (req, res, next) {
 
 //admin signin
 router.post('/dashboard', async (req, res) => {
+  // console.log(req.body);
   const response = await userhelpers.adminLogin(req.body)
   if (response && response.status) {
     req.session.loggedin = true
     req.session.admin = response.admin
-    res.render('admin/admin-dashboard', { admin: true })
+    res.json(response)
+    // res.render('admin/admin-dashboard', { admin: true })
   } else {
     req.session.adminError = true
     res.redirect('/admin')

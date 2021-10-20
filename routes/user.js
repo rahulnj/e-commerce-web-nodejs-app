@@ -231,13 +231,14 @@ router.post('/signup', async (req, res) => {
 
 // user signin
 router.post('/signin', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const response = await userhelpers.userLogin(req.body)
   if (response && response.status) {
     req.session.loggedIn = true
     req.session.user = response.user
-    // res.json({ response: true })
-    res.redirect('/')
+    res.json(response)
+    console.log(response);
+    // res.redirect('/')
   } else {
     req.session.loginError = true
     res.redirect('/user-signin')
