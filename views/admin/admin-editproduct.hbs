@@ -10,17 +10,21 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <form action="/admin/editproduct/{{product._id}}" method="POST" enctype="multipart/form-data">
+            <form id="editprod" action="/admin/editproduct/{{this.product._id}}" method="post"
+                enctype="multipart/form-data" onsubmit="return editProduct()">
 
                 <div class="mb-4">
                     <label for="product_name" class="form-label">Product Name</label>
                     <input type="text" value="{{product.product}}" name="product" placeholder="Type here"
-                        class="form-control" id="product_name">
+                        class="form-control" id="prod_name">
+                    <p id="error-aename" class="text-danger"></p>
+
                 </div>
                 <div class="mb-4">
                     <label class="form-label">Full description</label>
-                    <textarea placeholder="Type here" name="description" class="form-control"
+                    <textarea placeholder="Type here" id="prod_des" name="description" class="form-control"
                         rows="4">{{product.description}}</textarea>
+                    <p id="error-dename" class="text-danger"></p>
                 </div>
                 {{!-- <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
@@ -50,50 +54,56 @@
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Price</label>
-                        <input placeholder="" value="{{product.price}}" type="number" name="price" class="form-control">
+                        <input placeholder="" value="{{product.price}}" id="prod_price" type="number" name="price"
+                            class="form-control">
+                        <p id="error-pasname" class="text-danger"></p>
+
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Qty</label>
-                        <input placeholder="" name="qty" value="{{product.qty}}" type="number" class="form-control">
+                        <input placeholder="" name="qty" value="{{product.qty}}" id="prod_qty" type="number"
+                            class="form-control">
+                        <p id="error-qtname" class="text-danger"></p>
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #1</label>
-                        <img src="/uploads/image-1/{{product._id}}.jpg" id="imgview1" alt=""
+                        <img src="/uploads/image-1/{{product._id}}.jpg" id="img1" alt=""
                             style="width: 100px;height: 100px;">
-                        <input name="img1" class="form-control" type="file" onchange="imgviewone(event)">
+                        <input name="img1" class="form-control" id="img1" type="file" onchange="imgviewone(event)">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #2</label>
-                        <img src="/uploads/image-2/{{product._id}}.jpg" id="imgview2" alt=""
+                        <img src="/uploads/image-2/{{product._id}}.jpg" id="img2" alt=""
                             style="width: 100px;height: 100px;">
-                        <input name="img2" class="form-control" type="file" onchange="imgviewtwo(event)">
+                        <input name="img2" class="form-control" id="img2" type="file" onchange="imgviewtwo(event)">
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #3</label>
-                        <img src="/uploads/image-3/{{product._id}}.jpg" id="imgview3" alt=""
+                        <img src="/uploads/image-3/{{product._id}}.jpg" id="img3" alt=""
                             style="width: 100px;height: 100px;">
-                        <input name="img3" class="form-control" type="file" onchange="imgviewthree(event)">
+                        <input name="img3" class="form-control" id="img3" type="file" onchange="imgviewthree(event)">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #4</label>
-                        <img src="/uploads/image-4/{{product._id}}.jpg" id="imgview4" alt=""
+                        <img src="/uploads/image-4/{{product._id}}.jpg" id="img4" alt=""
                             style="width: 100px;height: 100px;">
-                        <input name="img4" class="form-control" type="file" onchange="imgviewfour(event)">
+                        <input name="img4" class="form-control" id="img4" type="file" onchange="imgviewfour(event)">
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #4</label>
-                        <img src="/uploads/image-5/{{product._id}}.jpg" id="imgview5" alt=""
+                        <img src="/uploads/image-5/{{product._id}}.jpg" id="img5" alt=""
                             style="width: 100px;height: 100px;">
-                        <input name="img5" class="form-control" type="file" onchange="imgviewfive(event)">
+                        <input name="img5" class="form-control" id="img5" type="file" onchange="imgviewfive(event)">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <p id="error-message" class="text-danger"></p>
             </form>
         </div>
     </div> <!-- card end// -->
@@ -103,19 +113,97 @@
 
 <script>
     function imgviewone(event) {
-        document.getElementById('imgview1').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img1').src = URL.createObjectURL(event.target.files[0])
     }
     function imgviewtwo(event) {
-        document.getElementById('imgview2').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img2').src = URL.createObjectURL(event.target.files[0])
     }
     function imgviewthree(event) {
-        document.getElementById('imgview3').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img3').src = URL.createObjectURL(event.target.files[0])
     }
     function imgviewfour(event) {
-        document.getElementById('imgview4').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img4').src = URL.createObjectURL(event.target.files[0])
     }
     function imgviewfive(event) {
-        document.getElementById('imgview5').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img5').src = URL.createObjectURL(event.target.files[0])
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    var prod_name = true; var prod_des = true; var prod_price = true; prod_qty = true;
+    $("#prod_name").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#error-aename").text("Invalid Name");
+            prod_name = false;
+        } else {
+            prod_name = true;
+            $("#error-aename").text(" ");
+
+        }
+    })
+    $('#prod_des').blur(function () {
+        var password = $(this).val()
+        if (password.length < 10) {
+            $("#error-dename").text("Min 3 input needed");
+            prod_des = false;
+        } else {
+            prod_des = true;
+            $("#error-dename").text(" ");
+        }
+    })
+    $('#product_price').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var password = $(this).val()
+        if (password.length < 2) {
+            $("#error-pasname").text("Min 3 input needed");
+            prod_price = false;
+        } else {
+            prod_price = true;
+            $("#error-pasname").text(" ");
+        }
+    })
+    $('#product_qty').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var password = $(this).val()
+        if (password.length < 1) {
+            $("#error-qtname").text("Min 3 input needed");
+            prod_qty = false;
+        } else {
+            prod_qty = true;
+            $("#error-qtname").text(" ");
+        }
+    })
+
+    function editProduct() {
+        if (prod_name == true && prod_des == true && prod_price == true && prod_qty == true) {
+            return true
+        } else {
+            $("#error-message").text("fill the fields");
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>

@@ -146,6 +146,7 @@ router.get('/editproduct/:id', adminAuth, async (req, res) => {
 })
 
 router.post('/editproduct/:id', async (req, res) => {
+  // console.log("call");
   let proId = req.params.id
   await productHelpers.updateProduct(proId, req.body)
   // console.log(req.files);
@@ -200,9 +201,9 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 
 //add product
 router.post('/add-product', async (req, res) => {
-  // console.log(req.files.file1);
-  console.log(req.body);
-  console.log(req.body.product);
+  console.log(req.files);
+  // console.log(req.body);
+  // console.log(req.body.product);
 
   // console.log(data.product);
   let id = await productHelpers.addProduct(req.body)

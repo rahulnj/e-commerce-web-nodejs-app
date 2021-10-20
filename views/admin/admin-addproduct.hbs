@@ -15,17 +15,21 @@
                 <div class="mb-4">
                     <label for="product_name" class="form-label">Product Name</label>
                     <input type="text" name="product" placeholder="Type here" class="form-control" id="product_name">
+                    <p id="error-adprod" class="text-danger"></p>
+
                 </div>
                 <div class="mb-4">
                     <label class="form-label">Full description</label>
                     <textarea placeholder="Type here" name="description" id="product_des" class="form-control"
                         rows="4"></textarea>
+                    <p id="error-addes" class="text-danger"></p>
+
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label for="product_name" class="form-label">Category</label>
 
-                        <select class="form-select" name="category" id="maincat">
+                        <select class="form-select" name="category" id="maincat" required>
                             <option> select </option>
                             {{#each details}}
                             <option id="dog" value="{{this.category}}"> {{this.category}} </option>
@@ -52,12 +56,17 @@
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Price</label>
                         <input placeholder="" name="price" id="product_price" type="number" class="form-control">
+                        <p id="error-adprice" class="text-danger"></p>
+
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Qty</label>
                         <input placeholder="" name="quantity" id="product_qty" type="number" class="form-control">
+                        <p id="error-adqty" class="text-danger"></p>
+
                     </div>
                 </div>
+
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Thumbnail</label>
@@ -65,21 +74,21 @@
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #1</label>
-                        <input name="img2" id="img2" class="form-control" type="file">
+                        <input name="img2" id="img2" class="form-control" required type="file">
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #2</label>
-                        <input name="img3" id="img3" class="form-control" type="file">
+                        <input name="img3" id="img3" class="form-control" required type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #3</label>
-                        <input name="img4" id="img4" class="form-control" type="file">
+                        <input name="img4" id="img4" class="form-control" required type="file">
                     </div>
                     <div class="col-sm-6 mb-3">
                         <label class="form-label">Sub-Image #4</label>
-                        <input name="img5" id="img5" class="form-control" type="file">
+                        <input name="img5" id="img5" class="form-control" required type="file">
                     </div>
                 </div>
                 <button type="submit" id="subbtn" class="btn btn-primary">Submit</button>
@@ -127,44 +136,44 @@
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
-            $("#error-adname").text("Invalid Name");
+            $("#error-adprod").text("Product name should be more than 5 characters");
             product_name = false;
         } else {
             product_name = true;
-            $("#error-adname").text(" ");
+            $("#error-adprod").text(" ");
 
         }
     })
     $('#product_des').blur(function () {
         var password = $(this).val()
-        if (password.length < 2) {
-            $("#error-adpassword").text("Min 3 input needed");
+        if (password.length < 10) {
+            $("#error-addes").text("Min 10 characters needed");
             product_des = false;
         } else {
             product_des = true;
-            $("#error-adpassword").text(" ");
+            $("#error-addes").text(" ");
         }
     })
     $('#product_price').on('input', function () {
         this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
-        var password = $(this).val()
-        if (password.length < 2) {
-            $("#error-adpassword").text("Min 3 input needed");
+        var price = $(this).val()
+        if (price.length < 1) {
+            $("#error-adprice").text("Min 1 input needed");
             product_price = false;
         } else {
             product_price = true;
-            $("#error-adpassword").text(" ");
+            $("#error-adprice").text(" ");
         }
     })
     $('#product_qty').on('input', function () {
         this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
         var password = $(this).val()
         if (password.length < 1) {
-            $("#error-adpassword").text("Min 3 input needed");
+            $("#error-adqty").text("Min 1 input needed");
             product_qty = false;
         } else {
             product_qty = true;
-            $("#error-adpassword").text(" ");
+            $("#error-adqty").text(" ");
         }
     })
     $('#addproduct').on("submit", (e) => {
