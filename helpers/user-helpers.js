@@ -309,6 +309,39 @@ module.exports = {
 
         })
     },
+    addBuyAddress: (userId, addressDetails) => {
+        let address = {
+            fullname: addressDetails.fullname,
+            address: addressDetails.address,
+            city: addressDetails.city,
+            place: addressDetails.place,
+            pincode: addressDetails.pincode,
+            phone: addressDetails.phone
+        }
+
+        return new Promise(async (resolve, reject) => {
+            let addCollection = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) })
+            if (addCollection) {
+                // console.log("vanu");
+                db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ user: ObjectId(userId) },
+                    {
+                        $push: { address: address }
+                    }).then((response) => {
+                        resolve()
+                    })
+            } else {
+                let addObj = {
+                    user: objectId(userId),
+                    address: [address]
+                }
+                await db.get().collection(collection.ADDRESS_COLLECTION).insertOne(addObj).then((response) => {
+                    resolve()
+                })
+            }
+
+
+        })
+    },
     getAddress: async (userId) => {
 
         return new Promise(async (resolve, reject) => {

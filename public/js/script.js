@@ -155,25 +155,6 @@ function buynow(proId) {
     })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //To change quantity
 function changeQuantity(cartId, proId, userId, count) {
     let quantity = parseInt(document.getElementById(proId).innerHTML)
@@ -285,11 +266,11 @@ $("#nameadd").on('input', function () {
     this.value = this.value.replace(/[^ a-zA-Z]/, '');
     var name = $(this).val()
     if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
-        $("#").text("Invalid Name");
+        $("#namerr").text("Invalid Name");
         nameadd = false;
     } else {
         nameadd = true;
-        $("#").text(" ");
+        $("#namerr").text(" ");
 
     }
 })
@@ -297,23 +278,23 @@ $("#addressadd").on('input', function () {
     this.value = this.value.replace(/[^ a-zA-Z]/, '');
     var name = $(this).val()
     if (name.length < 10 || name.includes('  ') || name.charAt(0) == ' ') {
-        $("#").text("Invalid Name");
+        $("#adderr").text("Invalid input");
         addressadd = false;
     } else {
         addressadd = true;
-        $("#").text(" ");
+        $("#adderr").text(" ");
 
     }
 })
 $("#cityadd").on('input', function () {
     this.value = this.value.replace(/[^ a-zA-Z]/, '');
     var name = $(this).val()
-    if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
-        $("#").text("Invalid Name");
+    if (name.length < 4 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#cityerr").text("Invalid input");
         cityadd = false;
     } else {
         cityadd = true;
-        $("#").text(" ");
+        $("#cityerr").text(" ");
 
     }
 })
@@ -321,11 +302,11 @@ $("#placeadd").on('input', function () {
     this.value = this.value.replace(/[^ a-zA-Z]/, '');
     var name = $(this).val()
     if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
-        $("#").text("Invalid Name");
+        $("#placerr").text("Invalid input");
         placeadd = false;
     } else {
         placeadd = true;
-        $("#").text(" ");
+        $("#placerr").text(" ");
 
     }
 })
@@ -381,6 +362,110 @@ $('#addressform').on("submit", (e) => {
 
 })
 
+///buy now address
+var nameadd = false; var addressadd = false; var cityadd = false; var placeadd = false; var pinadd = false; var phoneadd = false;
+
+$("#nameadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#namerr").text("Invalid Name");
+        nameadd = false;
+    } else {
+        nameadd = true;
+        $("#namerr").text(" ");
+
+    }
+})
+$("#addressadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 10 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#adderr").text("Invalid input");
+        addressadd = false;
+    } else {
+        addressadd = true;
+        $("#adderr").text(" ");
+
+    }
+})
+$("#cityadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 4 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#cityerr").text("Invalid input");
+        cityadd = false;
+    } else {
+        cityadd = true;
+        $("#cityerr").text(" ");
+
+    }
+})
+$("#placeadd").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#placerr").text("Invalid input");
+        placeadd = false;
+    } else {
+        placeadd = true;
+        $("#placerr").text(" ");
+
+    }
+})
+$("#pinadd").on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var name = $(this).val()
+    if (name.length < 6) {
+        $("#pinerr").text("Invalid pincode");
+        pinadd = false;
+    } else {
+        pinadd = true;
+        $("#pinerr").text(" ");
+
+    }
+})
+$('#phoneadd').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var phone = $(this).val()
+    if (phone.length < 10) {
+        phoneadd = false;
+        $("#phnerr").html("Invalid Number");
+
+    } else {
+        phoneadd = true;
+        $("#phnerr").html(" ");
+
+    }
+})
+$('#buyaddressform').on("submit", (e) => {
+    e.preventDefault()
+    console.log(nameadd)
+    console.log(addressadd)
+    console.log(cityadd)
+    console.log(placeadd)
+    console.log(pinadd)
+    console.log(phoneadd)
+    let id = document.getElementById('proId').value
+    console.log(id);
+    if (nameadd == true && addressadd == true && cityadd == true && placeadd == true && pinadd == true && phoneadd == true) {
+        $.ajax({
+            url: "/buy-address/" + id,
+            data: $("#buyaddressform").serialize(),
+            method: "post",
+            success: function (response) {
+                // alert("Form submitted successfully")
+                location.replace('/buy-checkout/' + id)
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    } else {
+        $("#submit-message").html("Fill the Fields");
+    }
+
+})
 
 
 

@@ -323,6 +323,8 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
 //////buy now
 router.post('/buy-checkout/:id', (req, res) => {
   // console.log(req.params.id);
+
+
   res.json(response)
 })
 
@@ -339,13 +341,29 @@ router.get('/buy-checkout/:id', verifyUser, async (req, res) => {
   })
 })
 
+router.get('/buy-address/:id', verifyUser, async (req, res) => {
+  // console.log(req.params);
+  let id = req.params.id
+  res.render('user/buy-address', { id })
+})
+router.post('/buy-address/:id', verifyUser, async (req, res) => {
+  let user = req.session.user
+  // console.log(user);
+  await userhelpers.addBuyAddress(user._id, req.body)
+  res.json(response)
+})
+
+
+
+
 router.post('/buy-place-order', verifyUser, async (req, res) => {
   console.log(req.body);
   let user = req.session.user
-  console.log(user._id);
+
   let address = req.body.address
   let id = req.body.proId
   let payment = req.body.payment
+  // console.log(payment);
   await userhelpers.buyNowProducts(id).then(async (products) => {
     let totalPrice = products[0].price
     console.log(products);
