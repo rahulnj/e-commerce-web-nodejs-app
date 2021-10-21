@@ -44,6 +44,7 @@
                         <p></p>
                         {{/if}}
 
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg btn-outline-dark"
@@ -59,11 +60,43 @@
 </section>
 
 <script>
+
+    function onSignIn(googleUser) {
+        if (true) {
+
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url: "/signupwithgoogle",
+                data: { token: id_token },
+                method: "post",
+                success: function (response) {
+                    // alert("Form submitted successfully")
+                    location.replace('/')
+                },
+                error: function (err) {
+                    alert("Something Error")
+                }
+            })
+        }
+        //var profile = googleUser.getBasicProfile();
+        //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        //console.log('Name: ' + profile.getName());
+        //console.log('Image URL: ' + profile.getImageUrl());
+        //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        //console.log('id_token: ' + id_token); // This is null if the 'email' scope is not present.
+    }
+
+
+
+
+
+
+
     var signinuser = false; var signinpass = false;
     $("#signinuser").on('input', function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
-        if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
+        if (name.length < 3 || name.includes(' ') || name.charAt(0) == ' ') {
             $("#error-name").text("Invalid Name");
             signinuser = false;
         } else {
@@ -72,17 +105,16 @@
 
         }
     })
-    $('#signinpass').blur(function () {
+    $(' #signinpass').blur(function () {
         var password = $(this).val()
         if (password.length < 2) {
-            $("#error-password").text("Min 3 input needed");
-            signinpass = false;
+            $("#error-password").text("Min 3 input needed"); signinpass = false;
         } else {
             signinpass = true;
             $("#error-password").text(" ");
         }
     })
-    $('#signinform').on("submit", (e) => {
+    $('#signinform').on(" submit", (e) => {
         e.preventDefault()
         console.log(signinuser)
         console.log(signinpass)

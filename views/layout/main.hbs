@@ -7,7 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+        content="509658893033-ru751qg63f9jrakv2iqekoa0c1jksfle.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <!-- Title  -->
     {{#if admin}}
     <title>Admin</title>
@@ -38,7 +41,19 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 <script src="/js/script.js"></script>
+<script>
 
+    gapi.load('auth2', function () {
+        gapi.auth2.init();
+    });
+    function signOut() {
+
+        console.log("signout triggered")
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }</script>
 
 
 </html>

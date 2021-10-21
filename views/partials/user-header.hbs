@@ -1,6 +1,11 @@
 {{!-- --}}
 
+
 <body>
+
+    {{!--
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script> --}}
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{#if nonav}}
@@ -52,6 +57,7 @@
                             </li>
                             <li><a href="/myorders">My Orders</a></li>
                         </ul>
+
                     </div>
                     <!-- Nav End -->
                 </div>
@@ -73,11 +79,15 @@
                 <!-- User Login Info -->
                 {{#if user}}
                 <div class="user-login-info">
-                    <a class="ddbtn" href="#"><img src="" alt="">Hi,{{user.username}}</a>
+                    <a class="ddbtn" href="#"><img src="" alt="">Hi,{{user.username}} </a>
                     <div class="ddcontent">
                         {{!-- <div> <a href="#"><img src="img/core-img/user.svg" alt="">&nbsp{{user.username}}</a></div>
                         --}}
-                        <div><a href="/signout">Signout</a></div>
+                        <div>
+                            <a href="/signout">
+                                <p onclick="signOut();">Signout</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 {{else}}
@@ -99,6 +109,9 @@
         </div>
     </header>
     {{/if}}
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

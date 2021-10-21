@@ -14,6 +14,23 @@ module.exports = {
         userData.password = await bcrypt.hash(userData.password, 10)
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
+    googleSignup: async (data) => {
+        userData = {
+            status: true,
+            username: data.given_name,
+            mail: data.email
+        }
+
+
+        return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+    },
+    checkEmailExist: (email) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).findOne({ mail: email }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
     adminLogin: async (adminData) => {
         let loginstatus = false
         let response = {}

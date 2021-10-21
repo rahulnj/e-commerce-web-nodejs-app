@@ -5,6 +5,7 @@ const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
+const { OAuth2Client } = require('google-auth-library');
 
 // 
 const servicesSSID = "	VAcc710d22d3d0cb7e51e0a59715f643c3"
@@ -229,6 +230,58 @@ router.post('/signup', async (req, res) => {
   const response = await userhelpers.userSignup(req.body)
   res.redirect('/user-signin')
 })
+
+router.post('/signupwithgoogle', async (req, res) => {
+  // console.log(req.body.token);
+
+  try {
+    const client = new OAuth2Client("509658893033-ru751qg63f9jrakv2iqekoa0c1jksfle.apps.googleusercontent.com")
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.token,
+      audience: "509658893033-ru751qg63f9jrakv2iqekoa0c1jksfle.apps.googleusercontent.com",
+    })
+    const payload = ticket.getPayload()
+    const { email, name } = payload
+    const user = await userhelpers.checkEmailExist(email)
+    // console.log(user);
+    if (user && !user.status) {
+
+      req.session.loggedIn = false
+      res.status(401).json(user)
+    }
+    else if (user && user.status) {
+
+      req.session.loggedIn = true
+      req.session.user = user
+      res.json(user)
+
+    } else {
+      const response = await userhelpers.googleSignup(payload)
+      res.status(201).json(response)
+
+    }
+  } catch (error) {
+    // res.status(400)
+    // throw new Error('Google Authentication failed')
+    // console.log(error);
+    res.status(400).json(error)
+  }
+
+  //const response = await userhelpers.userSignup(req.body)
+  //res.redirect('/user-signin')
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 // user signin
 router.post('/signin', async (req, res) => {
