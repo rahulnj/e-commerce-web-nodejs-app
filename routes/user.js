@@ -271,18 +271,6 @@ router.post('/signupwithgoogle', async (req, res) => {
   //res.redirect('/user-signin')
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
 // user signin
 router.post('/signin', async (req, res) => {
   // console.log(req.body);
@@ -323,8 +311,6 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
 //////buy now
 router.post('/buy-checkout/:id', (req, res) => {
   // console.log(req.params.id);
-
-
   res.json(response)
 })
 
@@ -353,23 +339,20 @@ router.post('/buy-address/:id', verifyUser, async (req, res) => {
   res.json(response)
 })
 
-
-
-
 router.post('/buy-place-order', verifyUser, async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let user = req.session.user
 
   let address = req.body.address
-  let id = req.body.proId
+  let proId = req.body.proId
   let payment = req.body.payment
   // console.log(payment);
-  await userhelpers.buyNowProducts(id).then(async (products) => {
+  await userhelpers.buyNowProducts(proId).then(async (products) => {
     let totalPrice = products[0].price
-    console.log(products);
+    // console.log(products);
     await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
-        res.json({ status: true })
+      await userhelpers.buyPlaceOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
+        res.json(response)
       })
     })
   })

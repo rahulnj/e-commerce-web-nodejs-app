@@ -714,6 +714,7 @@ module.exports = {
     },
     buyNowProducts: (proId) => {
         console.log(proId);
+
         return new Promise(async (resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).find({ _id: ObjectId(proId) }).toArray().then((prod) => {
                 resolve(prod)
@@ -724,4 +725,40 @@ module.exports = {
 
 
     },
+    buyPlaceOrder: (address, products, total, payment, user) => {
+        // console.log(products[0]._id);
+        let proObj = {
+            item: products[0]._id,
+            quantity: 1
+        }
+
+        return new Promise(async (resolve, reject) => {
+            if (payment === 'COD') {
+                var status = 'placed'
+            } else {
+                status = 'pending'
+            }
+            address = address[0]
+            let order = {
+                user: ObjectId(user),
+                deliveryaddress: {
+                    fullname: address.fullname,
+                    address: address.address,
+                    city: address.city,
+                    place: address.place,
+                    pincode: address.pincode,
+                    phone: address.phone
+                },
+                products: [proObj],
+                paymentmethod: payment,
+                amount: total,
+                status: status,
+                date: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+            }
+            db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
+                resolve(response)
+            })
+
+        })
+    }
 }
