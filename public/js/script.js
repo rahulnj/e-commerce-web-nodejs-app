@@ -139,7 +139,20 @@ function addTobag(proId) {
 }
 //
 function buynow(proId) {
+    $.ajax({
+        url: '/buy-checkout/' + proId,
+        method: 'post',
+        success: (response) => {
+            // console.log(response.removeProduct);
+            if (response) {
+                // alert("Removed from bag")
+                location.href = `/buy-checkout/${proId}`
+            } else {
 
+            }
+
+        }
+    })
 }
 
 
@@ -243,6 +256,27 @@ $("#checkout-form").submit((e) => {
         }
     })
 })
+
+$("#buynow-form").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+        url: "/buy-place-order",
+        method: "POST",
+        data: $('#buynow-form').serialize(),
+        success: (response) => {
+            // alert(response)
+            location.href = '/success'
+        }
+    })
+})
+
+
+
+
+
+
+
+
 
 // address field validation
 var nameadd = false; var addressadd = false; var cityadd = false; var placeadd = false; var pinadd = false; var phoneadd = false;

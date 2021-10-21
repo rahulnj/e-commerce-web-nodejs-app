@@ -206,6 +206,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
   })
 })
 
+
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -266,7 +267,44 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
     })
   }
 })
-//////
+//////buy now
+router.post('/buy-checkout/:id', (req, res) => {
+  // console.log(req.params.id);
+  res.json(response)
+})
+
+
+router.get('/buy-checkout/:id', verifyUser, async (req, res) => {
+  const id = req.params.id
+  let user = req.session.user
+  // console.log(id);
+  // console.log(user);
+  await userhelpers.getAddress(req.session.user._id).then(async (addressDetails) => {
+    await userhelpers.buyNowProducts(id).then(async (prodDetails) => {
+      res.render('user/buynow', { user, addressDetails, prodDetails })
+    })
+  })
+})
+
+router.post('/buy-place-order', verifyUser, async (req, res) => {
+  console.log(req.body);
+  let user = req.session.user
+  console.log(user._id);
+  let address = req.body.address
+  let id = req.body.proId
+  let payment = req.body.payment
+  await userhelpers.buyNowProducts(id).then(async (products) => {
+    let totalPrice = products[0].price
+    console.log(products);
+    await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
+      await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
+        res.json({ status: true })
+      })
+    })
+  })
+  // console.log(addressDetails);
+})
+
 
 
 
