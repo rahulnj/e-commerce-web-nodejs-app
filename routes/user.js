@@ -198,8 +198,17 @@ router.post('/place-order', verifyUser, async (req, res) => {
     await userhelpers.getSingleprice(user._id).then(async (singlePrice) => {
       // console.log(products);
       await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-        await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
-          res.json({ status: true })
+        await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((orderId) => {
+          if (req.body['payment'] === 'COD') {
+            res.json({ codsuccess: true })
+          } else if (req.body['payment'] === 'ONLINEPAYMENT') {
+            userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+              console.log(response);
+              res.json(response)
+            })
+          } else {
+
+          }
         })
       })
     })
@@ -405,6 +414,18 @@ router.get('/signout', (req, res) => {
   res.redirect('/')
 })
 
+router.post('/verify-payment', (req, res) => {
+  console.log(req.body);
+  userhelpers.verifyPayment(req.body).then(() => {
+    userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log("paymentsuccess");
+      res.json({ status: true })
+    })
+  }).catch((err) => {
+    console.log(err);
+    res.json({ status: false })
+  })
+})
 
 
 module.exports = router;
