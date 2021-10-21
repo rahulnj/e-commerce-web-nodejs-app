@@ -1,6 +1,7 @@
 
 
 
+
 // form validation
 var submitname = false; var submitemail = false; var submitpassword = false; submitphone = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
@@ -282,7 +283,16 @@ function verifyPayment(payment, order) {
         method: 'post',
         success: (response) => {
             if (response.status) {
-                location.href = '/success'
+                $.ajax({
+                    url: '/deletefinalbag',
+                    data: {
+                        order
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        location.href = '/success'
+                    }
+                })
 
             } else {
                 alert("payment failed")

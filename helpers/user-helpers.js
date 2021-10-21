@@ -28,8 +28,6 @@ module.exports = {
             username: data.given_name,
             mail: data.email
         }
-
-
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
     checkEmailExist: (email) => {
@@ -427,9 +425,16 @@ module.exports = {
                 date: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
-                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) })
                 resolve(response.insertedId)
                 // console.log(response.insertedId);
+            })
+
+        })
+    },
+    deleteFinalBag: (user) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) }).then((response) => {
+                resolve()
             })
 
         })

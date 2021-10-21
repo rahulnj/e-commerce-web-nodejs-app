@@ -265,19 +265,18 @@ router.post('/signupwithgoogle', async (req, res) => {
       res.json(user)
 
     } else {
-      const response = await userhelpers.googleSignup(payload)
+      let response = await userhelpers.googleSignup(payload)
+      // console.log(response);
+      req.session.loggedIn = true
+      req.session.user = response
       res.status(201).json(response)
 
     }
   } catch (error) {
-    // res.status(400)
-    // throw new Error('Google Authentication failed')
-    // console.log(error);
+
     res.status(400).json(error)
   }
 
-  //const response = await userhelpers.userSignup(req.body)
-  //res.redirect('/user-signin')
 })
 
 // user signin
@@ -369,15 +368,6 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
 })
 
 
-
-
-
-
-
-
-
-
-
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
   // console.log(req.body.user);
@@ -400,22 +390,9 @@ router.post('/delete-item', verifyUser, async (req, res) => {
   // console.log(response);
   res.json(response)
 })
-//Buy Now
-
-
-
-
-
-
-// user signout
-router.get('/signout', (req, res) => {
-  req.session.user = null;
-  req.session.loggedIn = false
-  res.redirect('/')
-})
 
 router.post('/verify-payment', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   userhelpers.verifyPayment(req.body).then(() => {
     userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
       console.log("paymentsuccess");
@@ -427,5 +404,18 @@ router.post('/verify-payment', (req, res) => {
   })
 })
 
+router.post('/deletefinalbag', async (req, res) => {
+  let user = req.session.user
+  await userhelpers.deleteFinalBag(user._id).then((response) => {
+    res.json({ response: true })
+  })
+})
+
+// user signout
+router.get('/signout', (req, res) => {
+  req.session.user = null;
+  req.session.loggedIn = false
+  res.redirect('/')
+})
 
 module.exports = router;
