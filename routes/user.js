@@ -211,7 +211,8 @@ router.post('/place-order', verifyUser, async (req, res) => {
 
           } else if (req.body['payment'] === 'RAZORPAY') {
             userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
-              console.log(response);
+              req.session.user.OrderConfirmed = true
+              // console.log(response);
               res.json(response)
             })
           } else if (req.body['payment'] === 'PAYPAL') {
