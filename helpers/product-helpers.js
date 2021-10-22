@@ -39,8 +39,8 @@ module.exports = {
 
                 product: product.product,
                 description: product.description,
-                price: product.price,
-                quantity: product.quantity
+                price: parseInt(product.price),
+                quantity: parseInt(product.quantity)
             }
         })
         return prodDetails

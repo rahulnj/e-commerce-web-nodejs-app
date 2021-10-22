@@ -427,6 +427,10 @@ module.exports = {
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
                 resolve(response.insertedId)
                 // console.log(response.insertedId);
+                if (payment === 'COD') {
+                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) })
+
+                }
             })
 
         })
@@ -776,7 +780,7 @@ module.exports = {
         })
     },
     generateRazorpay: (orderId, total) => {
-        console.log(orderId);
+        // console.log(orderId);
         return new Promise((resolve, reject) => {
             var options = {
                 amount: total * 100,
@@ -819,5 +823,6 @@ module.exports = {
                 resolve()
             })
         })
-    }
+    },
+
 }

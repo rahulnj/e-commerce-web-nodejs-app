@@ -141,6 +141,7 @@ router.get('/users', adminAuth, async (req, res) => {
 // edit products
 router.get('/editproduct/:id', adminAuth, async (req, res) => {
   let proId = req.params.id
+  // console.log(req.params.id);
   let product = await productHelpers.editProduct(proId)
   res.render('admin/admin-editproduct', { admin: true, product })
 })
@@ -148,25 +149,42 @@ router.get('/editproduct/:id', adminAuth, async (req, res) => {
 router.post('/editproduct/:id', async (req, res) => {
   // console.log("call");
   let proId = req.params.id
+  console.log(req.body);
   await productHelpers.updateProduct(proId, req.body)
+
   // console.log(req.files);
   res.redirect('/admin/products')
-  if (req.files.img1 || req.files.img2 || req.files.img3 || req.files.img4) {
-    // console.log(req.files.img1);
-    let image1 = req.files.img1
-    let image2 = req.files.img2
-    let image3 = req.files.img3
-    let image4 = req.files.img4
-    let image5 = req.files.img5
-    // console.log(image1);
-    image1.mv('./public/uploads/image-1/' + proId + '.jpg')
-    image2.mv('./public/uploads/image-2/' + proId + '.jpg')
-    image3.mv('./public/uploads/image-3/' + proId + '.jpg')
-    image4.mv('./public/uploads/image-4/' + proId + '.jpg')
-    image5.mv('./public/uploads/image-5/' + proId + '.jpg')
-  }
+  if (req.files) {
+    if (req.files.img1 || req.files.img2 || req.files.img3 || req.files.img4) {
+      // console.log(req.files.img1);
+      if (req.files.img1) {
+        let image1 = req.files.img1
+        image1.mv('./public/uploads/image-1/' + proId + '.jpg')
 
+      }
+      if (req.files.img2) {
+        let image2 = req.files.img2
+        image2.mv('./public/uploads/image-2/' + proId + '.jpg')
+
+      }
+      if (req.files.img3) {
+        let image3 = req.files.img3
+        image3.mv('./public/uploads/image-3/' + proId + '.jpg')
+      }
+      if (req.files.img4) {
+        let image4 = req.files.img4
+        image4.mv('./public/uploads/image-4/' + proId + '.jpg')
+
+      }
+      if (req.files.img5) {
+        let image5 = req.files.img5
+        image5.mv('./public/uploads/image-5/' + proId + '.jpg')
+      }
+      // console.log(image1);
+    }
+  }
 })
+
 
 
 //delete product 

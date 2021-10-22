@@ -185,7 +185,13 @@ router.post('/deleteaddress', async (req, res) => {
 })
 
 router.get('/success', verifyUser, (req, res) => {
-  res.render('user/success')
+  if (req.session.user.OrderConfirmed) {
+
+    res.render('user/success')
+    req.session.user.OrderConfirmed = false
+  } else {
+    res.redirect('/')
+  }
 })
 
 router.post('/place-order', verifyUser, async (req, res) => {
@@ -200,13 +206,15 @@ router.post('/place-order', verifyUser, async (req, res) => {
       await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
         await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((orderId) => {
           if (req.body['payment'] === 'COD') {
+            req.session.user.OrderConfirmed = true
             res.json({ codsuccess: true })
+
           } else if (req.body['payment'] === 'RAZORPAY') {
             userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
               console.log(response);
               res.json(response)
             })
-          } else {
+          } else if (req.body['payment'] === 'PAYPAL') {
 
           }
         })
