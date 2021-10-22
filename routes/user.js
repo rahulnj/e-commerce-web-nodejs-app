@@ -99,9 +99,14 @@ router.post('/verifyotp', async (req, res) => {
 })
 // otp end
 
-router.get('/catretailvet', (req, res) => {
+router.get('/catretailvet', async (req, res) => {
   let user = req.session.user
-  res.render('user/catretail&vet', { user })
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  let products = await productHelper.getCatProducts()
+  res.render('user/catretail&vet', { user, bagCount, products })
 })
 
 router.get('/doggrooming', (req, res) => {

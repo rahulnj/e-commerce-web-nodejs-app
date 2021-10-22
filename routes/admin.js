@@ -219,7 +219,7 @@ router.get('/users/unblockuser/:id', async (req, res) => {
 
 //add product
 router.post('/add-product', async (req, res) => {
-  console.log(req.files);
+  // console.log(req.files);
   // console.log(req.body);
   // console.log(req.body.product);
 

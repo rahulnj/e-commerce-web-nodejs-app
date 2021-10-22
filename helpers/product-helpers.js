@@ -6,12 +6,13 @@ const { Db } = require('mongodb')
 const { response } = require('express')
 module.exports = {
     addProduct: async (productDetails) => {
+        // console.log(productDetails);
         proDetails = {
             product: productDetails.product,
             description: productDetails.description,
             category: productDetails.category,
             subcategory: productDetails.subcategory,
-            type: productDetails.subcategory,
+            type: productDetails.type,
             price: parseInt(productDetails.price),
             qty: parseInt(productDetails.quantity)
         }
@@ -119,6 +120,11 @@ module.exports = {
         let show = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category }, { subcategory: 0 })
         // console.log(show.subcategory);
         return show
+    },
+    getCatProducts: async (product) => {
+        let proDetails = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'cat', type: 'retailandvet' }).toArray()
+        // console.log(proDetails);
+        return proDetails
     }
 
 
