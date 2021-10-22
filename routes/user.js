@@ -57,7 +57,7 @@ router.get('/dogretailvet', async (req, res) => {
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
-  let products = await productHelper.getProducts()
+  let products = await productHelper.getDogProducts()
   res.render('user/dogretail&vet', { products, user, bagCount })
 })
 //otp
@@ -315,10 +315,14 @@ router.get('/single-product/:id', async (req, res) => {
   // console.log(proId);
   let bagCount = null
   if (user) {
-    bagCount = await userhelpers.getBagcount(user._id)
+    await userhelpers.getBagcount(user._id).then(async (bagCount) => {
+      let alreadyAdded = await productHelpers.checkProdinBag(proId, user._id)
+      // console.log(alreadyAdded);
+      let product = await productHelpers.getSingleproduct(proId)
+      res.render('user/product-detail', { product, user, bagCount, alreadyAdded })
+
+    })
   }
-  let product = await productHelpers.getSingleproduct(proId)
-  res.render('user/product-detail', { product, user, bagCount })
 })
 
 // Add-to-bag
@@ -373,8 +377,22 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
     let totalPrice = products[0].price
     // console.log(products);
     await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.buyPlaceOrder(addressDetails, products, totalPrice, payment, user._id).then((response) => {
-        res.json(response)
+      await userhelpers.buyPlaceOrder(addressDetails, products, totalPrice, payment, user._id).then((orderId) => {
+        console.log("order", orderId);
+        if (req.body['payment'] === 'COD') {
+          req.session.user.OrderConfirmed = true
+          res.json({ codsuccess: true })
+
+        } else if (req.body['payment'] === 'RAZORPAY') {
+          userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+            req.session.user.OrderConfirmed = true
+            // console.log(response);
+            res.json(response)
+          })
+        } else if (req.body['payment'] === 'PAYPAL') {
+
+        }
+
       })
     })
   })

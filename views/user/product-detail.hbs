@@ -40,11 +40,18 @@
         <!-- Cart & Favourite Box -->
         <div class="cart-fav-box d-flex align-items-center">
             <!-- Cart -->
-            <div> <button type="button" name="addtocart" value="5" onclick="addTobag('{{product._id}}')"
+            <div>
+                {{#if alreadyAdded}}
+                <a href="/mybag"> <button type="button" name="addtocart" value="5" class="btn essence-btn">Added to
+                        bag</button></a>
+                {{else}}
+                <button type="button" name="addtocart" value="5" onclick="addTobag('{{product._id}}')"
                     class="btn essence-btn">Add to
-                    bag</button></a>
-                <a href=""> <button type="button" name="" value="5" class="btn essence-btn">Buy
-                        Now</button></a>
+                    bag</button>
+                {{/if}}
+                <button type="button" name="" value="5" onclick="buynow('{{product._id}}')" class="btn essence-btn">Buy
+                    Now</button>
+
             </div>
 
             <!-- Favourite -->

@@ -774,7 +774,8 @@ module.exports = {
                 date: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then((response) => {
-                resolve(response)
+                resolve(response.insertedId)
+
             })
 
         })

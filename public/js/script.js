@@ -319,7 +319,12 @@ $("#buynow-form").submit((e) => {
         data: $('#buynow-form').serialize(),
         success: (response) => {
             // alert(response)
-            location.href = '/success'
+            if (response.codsuccess) {
+                location.href = '/success'
+            } else {
+                razorpayPayment(response)
+
+            }
         }
     })
 })

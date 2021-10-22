@@ -2,6 +2,7 @@ var db = require('../config/connection')
 var collection = require('../config/collections')
 // const { ObjectId } = require('bson')
 var objectId = require('mongodb').ObjectId
+const { ObjectId } = require('bson')
 const { Db } = require('mongodb')
 const { response } = require('express')
 module.exports = {
@@ -123,6 +124,24 @@ module.exports = {
     },
     getCatProducts: async (product) => {
         let proDetails = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'cat', type: 'retailandvet' }).toArray()
+        // console.log(proDetails);
+        return proDetails
+    },
+    checkProdinBag: (prodId, userId) => {
+
+        return new Promise(async (resolve, reject) => {
+            let userBag = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
+            let proExist = userBag.products.findIndex(product => product.item == prodId)
+            if (proExist != -1) {
+                resolve(true)
+            } else {
+                resolve(false)
+            }
+
+        })
+    },
+    getDogProducts: async (product) => {
+        let proDetails = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'dog', type: 'retailandvet' }).toArray()
         // console.log(proDetails);
         return proDetails
     }
