@@ -201,7 +201,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
         await userhelpers.placeOrder(addressDetails, products, totalPrice, payment, user._id).then((orderId) => {
           if (req.body['payment'] === 'COD') {
             res.json({ codsuccess: true })
-          } else if (req.body['payment'] === 'ONLINEPAYMENT') {
+          } else if (req.body['payment'] === 'RAZORPAY') {
             userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
               console.log(response);
               res.json(response)
