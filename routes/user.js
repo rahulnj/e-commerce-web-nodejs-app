@@ -38,8 +38,10 @@ router.get('/', async function (req, res, next) {
   let bagCount = null
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
+  } else {
+    let products = await productHelper.getDogProducts()
+    res.render('user/home', { products })
   }
-  res.render('user/home', { user, bagCount })
 });
 
 router.get('/user-signup', userAuth, (req, res) => {
@@ -318,10 +320,14 @@ router.get('/single-product/:id', async (req, res) => {
     await userhelpers.getBagcount(user._id).then(async (bagCount) => {
       let alreadyAdded = await productHelpers.checkProdinBag(proId, user._id)
       // console.log(alreadyAdded);
+
       let product = await productHelpers.getSingleproduct(proId)
       res.render('user/product-detail', { product, user, bagCount, alreadyAdded })
 
     })
+  } else {
+    let product = await productHelpers.getSingleproduct(proId)
+    res.render('user/product-detail', { product })
   }
 })
 
