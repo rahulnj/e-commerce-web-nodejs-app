@@ -8,10 +8,18 @@
             <div class="row">
                 <div class="col-md-4">
                     <form action="/admin/createCategory" method="POST">
-                        <div class="mb-4">
+                        {{!-- <div class="mb-4">
                             <label for="product_name" class="form-label">Category</label>
                             <input type="text" name="category" placeholder="Type here" class="form-control"
                                 id="product_cat" />
+                        </div> --}}
+                        <div class="mb-4">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select" id="product_cat">
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+
+                            </select>
                         </div>
                         <div class="mb-4">
                             <label for="product_slug" class="form-label">Sub Category</label>
@@ -26,7 +34,7 @@
                         <div class="mb-4">
                             <label class="form-label">Type</label>
                             <select name="type" class="form-select" id="product_type">
-                                <option value=""></option>
+                                <option value="">select</option>
 
                                 <option value="retailandvet">Retail and vet</option>
                                 <option value="accessories">Accessories</option>
