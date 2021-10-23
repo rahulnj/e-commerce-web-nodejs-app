@@ -38,10 +38,10 @@ router.get('/', async function (req, res, next) {
   let bagCount = null
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
-  } else {
-    let products = await productHelper.getDogProducts()
-    res.render('user/home', { products })
   }
+  let products = await productHelper.getDogProducts()
+  res.render('user/home', { products, user })
+
 });
 
 router.get('/user-signup', userAuth, (req, res) => {
@@ -88,7 +88,9 @@ router.post('/enterotp', async (req, res) => {
 
 router.post('/verifyotp', async (req, res) => {
   let otp = req.body.otp
+  console.log(otp);
   let number = req.session.number
+  console.log(number);
   await userhelpers.checkNumber(number).then((response) => {
     req.session.user = response;
     req.session.user._id = response._id;
