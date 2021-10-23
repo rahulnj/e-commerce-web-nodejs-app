@@ -132,7 +132,7 @@
     $("#prod_name").on('input', function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
-        if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+        if (name.length < 5 || name.charAt(0) == ' ') {
             $("#error-aename").text("Invalid Name");
             prod_name = false;
         } else {
