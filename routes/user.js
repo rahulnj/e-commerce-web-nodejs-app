@@ -40,7 +40,7 @@ router.get('/', async function (req, res, next) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   let products = await productHelper.getDogProducts()
-  res.render('user/home', { products, user })
+  res.render('user/home', { products, user, bagCount })
 
 });
 
@@ -307,7 +307,10 @@ router.post('/signin', async (req, res) => {
     res.json(response)
     // console.log(response);
     // res.redirect('/')
-  } else {
+  } else if (!response.status) {
+    res.json(response)
+  }
+  else {
     req.session.loginError = true
     res.redirect('/user-signin')
   }

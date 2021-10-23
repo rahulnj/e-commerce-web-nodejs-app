@@ -128,12 +128,13 @@
                     if (response.status == true) {
                         location.replace('/')
                     } else {
-                        $("#submit-errmessage").html("Incorrect username or password");
+                        $("#submit-errmessage").html(response.err);
                     }
 
                 },
                 error: function (err) {
                     alert("Something Error")
+
                 }
             })
         } else {

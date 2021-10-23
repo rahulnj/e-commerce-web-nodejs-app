@@ -63,21 +63,29 @@ module.exports = {
         let response = {}
         let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: userData.username })
 
-        if (user && user.status) {
+        if (user) {
 
             const status = await bcrypt.compare(userData.password, user.password)
-            if (status) {
+
+
+            if (!status) {
+                console.log("User login failed");
+                return { err: "Incorrect username or password" }
+
+            } else if (status && !user.status) {
+                console.log("User login failed blocked");
+                return { err: "Blocked by Admin" }
+
+            } else {
                 console.log("User login success");
                 return { user, status }
-            } else {
-                console.log("User login failed");
-                return null
-
             }
 
         } else {
-            console.log("User login failed blocked");
-            return null
+            console.log("User doesn't exist");
+            return {
+                err: "User doesn't exist"
+            }
         }
 
     },
