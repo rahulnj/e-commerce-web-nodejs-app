@@ -36,13 +36,11 @@
                             <td class="text-end">
                                 {{#if this.status}}
                                 <button id="block" class='btn btn-success btn-success me-md-2' type='button'><a
-                                        href="/admin/users/blockuser/{{this._id}}"
-                                        onclick="return confirm('Block {{this.username}}?')"
+                                        onclick="blockUser('{{this._id}}','{{this.username}}')"
                                         style="text-decoration: none; color:white; width:30px;height:min-content;font-size:small">Block</a></button>
                                 {{else}}
                                 <button id="block" class='btn btn-danger btn-danger me-md-2' type='button'><a
-                                        href="/admin/users/unblockuser/{{this._id}}"
-                                        onclick="return confirm('UnBlock {{this.username}}?')"
+                                        onclick="unblockUser('{{this._id}}','{{this.username}}')"
                                         style="text-decoration: none; color:white;width:30px;font-size:small">Unblock</a></button>
                                 {{/if}}
                             </td>

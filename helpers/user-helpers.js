@@ -99,15 +99,16 @@ module.exports = {
     },
     blockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, [{ $set: { status: false } }]).then((response) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: false } }]).then((response) => {
                 resolve(response);
+                // console.log(response);
             })
         })
     },
     unblockUser: (userId) => {
         return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, [{ $set: { status: true } }]).then((response) => {
-                resolve()
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, [{ $set: { status: true } }]).then((response) => {
+                resolve(response)
             })
         })
     },

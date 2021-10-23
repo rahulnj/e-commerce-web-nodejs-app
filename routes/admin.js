@@ -1,3 +1,4 @@
+const { response } = require('express');
 var express = require('express');
 const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
@@ -134,6 +135,7 @@ router.post('/getSubcategory', async (req, res) => {
 
 router.get('/users', adminAuth, async (req, res) => {
   await userhelpers.usersDetails().then((newusers) => {
+    // console.log(newusers);
     res.render('admin/admin-user', { admin: true, newusers })
   })
 })
@@ -202,18 +204,18 @@ router.get('/offers', adminAuth, (req, res) => {
 })
 
 // block users
-router.get('/users/blockuser/:id', async (req, res) => {
-  let userId = req.params.id
-  // console.log(userId);
-  let user = await userhelpers.blockUser(userId)
-  res.redirect("/admin/users")
+router.post('/users/block-user', async (req, res) => {
+  let userId = req.body.userId
+  await userhelpers.blockUser(userId).then((response) => {
+    res.json(response)
+  })
 })
 
-router.get('/users/unblockuser/:id', async (req, res) => {
-  let userId = req.params.id
-  // console.log(userId);
-  let user = await userhelpers.unblockUser(userId)
-  res.redirect("/admin/users")
+router.post('/users/unblock-user', async (req, res) => {
+  let userId = req.body.userId
+  await userhelpers.unblockUser(userId).then((response) => {
+    res.json(response)
+  })
 })
 //blockuser end
 

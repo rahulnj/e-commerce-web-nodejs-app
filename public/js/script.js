@@ -306,15 +306,6 @@ function verifyPayment(payment, order) {
 }
 
 
-
-
-
-
-
-
-
-
-
 $("#buynow-form").submit((e) => {
     e.preventDefault()
     $.ajax({
@@ -332,12 +323,6 @@ $("#buynow-form").submit((e) => {
         }
     })
 })
-
-
-
-
-
-
 
 
 
@@ -549,7 +534,69 @@ $('#buyaddressform').on("submit", (e) => {
 
 })
 
+//block user
+function blockUser(userId, username) {
+    Swal.fire({
+        title: `Block ${username}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Block'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/admin/users/block-user',
+                data: {
+                    userId,
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response) {
+                        location.reload()
+                    } else {
 
+                    }
+                },
+            })
+        } else {
+
+        }
+    });
+
+}
+
+//unblock user
+function unblockUser(userId, username) {
+    Swal.fire({
+        title: `Unblock ${username}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'UnBlock'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/admin/users/unblock-user',
+                data: {
+                    userId,
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response) {
+                        location.reload()
+                    } else {
+
+                    }
+                },
+            })
+        } else {
+
+        }
+    });
+
+}
 
 
 
