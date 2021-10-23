@@ -149,7 +149,7 @@ router.get('/editproduct/:id', adminAuth, async (req, res) => {
 router.post('/editproduct/:id', async (req, res) => {
   // console.log("call");
   let proId = req.params.id
-  console.log(req.body);
+  // console.log(req.body);
   await productHelpers.updateProduct(proId, req.body)
 
   // console.log(req.files);

@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <form action="/admin/createCategory" method="POST">
+                    <form action="/admin/createCategory" onsubmit="return valcategory()" method="POST">
                         {{!-- <div class="mb-4">
                             <label for="product_name" class="form-label">Category</label>
                             <input type="text" name="category" placeholder="Type here" class="form-control"
@@ -25,6 +25,7 @@
                             <label for="product_slug" class="form-label">Sub Category</label>
                             <input type="text" name="subcategory" placeholder="Type here" class="form-control"
                                 id="product_subcat" />
+                            <p id="error-cname" class="text-danger"></p>
                         </div>
                         {{!-- <div class="mb-4">
                             <label for="product_slug" class="form-label">Type</label>
@@ -42,6 +43,7 @@
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Create category</button>
+                            <p id="error-message" class="text-danger"></p>
                         </div>
                     </form>
                 </div>
@@ -86,3 +88,56 @@
         </div> <!-- card body .// -->
     </div> <!-- card .// -->
 </section> <!-- content-main end// -->
+<script>
+    var product_cat = false; var product_subcat = false; var product_type = false;
+    $("#product_cat").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#").text("Invalid Name");
+            product_cat = false;
+        } else {
+            product_cat = true;
+            $("#").text(" ");
+
+        }
+    })
+    $("#product_subcat").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#error-cname").text("fill the field");
+            product_subcat = true;
+        } else {
+            product_subcat = true;
+            $("#error-cname").text(" ");
+
+        }
+    })
+    $("#product_type").on('input', function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#").text("Invalid Name");
+            product_type = false;
+        } else {
+            product_type = true;
+            $("#").text(" ");
+
+        }
+    })
+    console.log(product_cat)
+    console.log(product_subcat)
+    console.log(product_type)
+
+
+
+    function valcategory() {
+        if (product_cat == true && product_subcat == true && product_type == true) {
+            return true
+        } else {
+            $("#error-message").text("fill the fields");
+            return false;
+        }
+    }
+</script>
