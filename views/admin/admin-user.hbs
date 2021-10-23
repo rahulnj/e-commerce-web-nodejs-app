@@ -20,7 +20,7 @@
                 <table id="userTable" class="table table-hover">
                     <thead>
                         <tr>
-
+                            <th>#No.</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
 
@@ -30,7 +30,7 @@
                     <tbody>
                         {{#each newusers}}
                         <tr>
-
+                            <td>{{calculation @index}}</td>
                             <td><b>{{this.username}}</b></td>
                             <td>{{this.mail}}</td>
                             <td class="text-end">

@@ -13,7 +13,18 @@ var fileUpload = require('express-fileUpload')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.engine('hbs', hbs({ extname: 'hbs', defaultlayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
+app.engine('hbs', hbs({
+  extname: 'hbs', defaultlayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/',
+  helpers: {
+    calculation: function (value) {
+      return value + 1
+
+    }
+  }
+}))
+
+
+
 //app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

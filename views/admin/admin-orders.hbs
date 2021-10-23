@@ -20,7 +20,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#ID</th>
+                            <th>#No.</th>
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
                             <th scope="col">Total</th>
@@ -32,7 +32,7 @@
                     <tbody>
                         {{#each orders}}
                         <tr>
-                            <td>0001</td>
+                            <td>{{calculation @index}}</td>
                             <td><b>{{this.deliveryaddress.fullname}}</b></td>
                             <td>{{this.deliveryaddress.phone}}</td>
                             <td>₹ {{this.amount}}</td>
