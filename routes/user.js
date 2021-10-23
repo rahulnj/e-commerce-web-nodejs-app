@@ -113,12 +113,24 @@ router.get('/catretailvet', async (req, res) => {
   res.render('user/catretail&vet', { user, bagCount, products })
 })
 
-router.get('/doggrooming', (req, res) => {
-  res.render('user/doggrooming')
+router.get('/doggrooming', async (req, res) => {
+  let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  let products = await productHelper.getDogProducts()
+  res.render('user/doggrooming', { products, bagCount })
 })
 
-router.get('/catgrooming', (req, res) => {
-  res.render('user/catgrooming')
+router.get('/catgrooming', async (req, res) => {
+  let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  let products = await productHelper.getCatProducts()
+  res.render('user/catgrooming', { products })
 })
 router.get('/myorders', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -323,10 +335,9 @@ router.get('/single-product/:id', async (req, res) => {
   let bagCount = null
   if (user) {
     await userhelpers.getBagcount(user._id).then(async (bagCount) => {
-      let alreadyAdded = await productHelpers.checkProdinBag(proId, user._id)
       // console.log(alreadyAdded);
-
       let product = await productHelpers.getSingleproduct(proId)
+      let alreadyAdded = await productHelpers.checkProdinBag(proId, user._id)
       res.render('user/product-detail', { product, user, bagCount, alreadyAdded })
 
     })
