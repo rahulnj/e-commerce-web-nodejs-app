@@ -172,25 +172,12 @@ function changeQuantity(cartId, proId, userId, count) {
         },
         method: 'post',
         success: (response) => {
+
             // console.log(response.removeProduct);
             if (response.removeProduct) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Removed from Bag'
-                }).then((res) => {
-                    location.reload()
-                })
+
+                location.reload()
+
                 // alert("Removed from bag")
 
             } else {

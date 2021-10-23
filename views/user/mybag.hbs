@@ -96,12 +96,6 @@
                                 </div>
                                 <ul class="order-details-form mb-4">
                                     <li><span>Product</span> <span>Total</span></li>
-                                    {{#each singlePrice}}
-                                    <li><span
-                                            style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">{{this.product.product}}</span>
-                                        <span id="">₹{{this.total}}</span>
-                                    </li>
-                                    {{/each }}
                                     <li><span>Subtotal</span> <span id="subtotal-price">₹{{totalPrice}}</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
                                     <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
