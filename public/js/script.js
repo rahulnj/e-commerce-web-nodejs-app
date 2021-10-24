@@ -185,7 +185,7 @@ function changeQuantity(cartId, proId, userId, count) {
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.totalPrice
                 document.getElementById('subtotal-price').innerHTML = response.totalPrice
-                window.location.reload()
+
             }
 
         }
@@ -595,9 +595,37 @@ function unblockUser(userId, username) {
 
         }
     });
-
 }
+//Delete product admin
+function deleteProduct(proId) {
+    Swal.fire({
+        title: "Delete this product ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Delete'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/admin/products/deleteproduct',
+                data: {
+                    proId,
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response) {
+                        location.reload()
+                    } else {
 
+                    }
+                },
+            })
+        } else {
+
+        }
+    });
+}
 
 
 

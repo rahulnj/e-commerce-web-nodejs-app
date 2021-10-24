@@ -29,7 +29,7 @@ module.exports = {
     },
     deleteProducts: async (product) => {
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectId(product) })
-        return prodDetails
+        return true
     },
     editProduct: async (product) => {
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(product) })

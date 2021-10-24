@@ -46,9 +46,7 @@
                             <a href="/admin/editproduct/{{this._id}}" class="btn btn-sm btn-light">
                                 <i class="material-icons md-edit"></i> Edit
                             </a>
-                            <a href="/admin/deleteproduct/{{this._id}}"
-                                onclick="return confirm('Delete {{this.product}}?')"
-                                class="btn btn-sm btn-outline-danger">
+                            <a onclick="deleteProduct('{{this._id}}')" class="btn btn-sm btn-outline-danger">
                                 <i class="material-icons md-delete_forever"></i> Delete
                             </a>
                         </div>

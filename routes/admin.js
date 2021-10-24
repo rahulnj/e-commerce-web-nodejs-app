@@ -190,11 +190,11 @@ router.post('/editproduct/:id', async (req, res) => {
 
 
 //delete product 
-router.get('/deleteproduct/:id', async (req, res) => {
-  let proId = req.params.id
-  // console.log(proId);
-  await productHelpers.deleteProducts(proId)
-  res.redirect('/admin/products')
+router.post('/products/deleteproduct', async (req, res) => {
+  let proId = req.body.proId
+  let response = await productHelpers.deleteProducts(proId)
+  res.json(response)
+  // res.redirect('/admin/products')
 })
 
 
