@@ -402,12 +402,6 @@ module.exports = {
 
 
     },
-    getBagProductList: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            resolve(cart.products)
-        })
-    },
     placeOrder: (address, products, total, payment, user) => {
 
         return new Promise(async (resolve, reject) => {
@@ -571,90 +565,8 @@ module.exports = {
             // console.log(orders);
             resolve(orders)
         })
-    }
-    ,
-    getMyOrderProd: (orderId) => {
-        return new Promise(async (resolve, reject) => {
-            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                {
-                    $match: { _id: ObjectId(orderId) }
-                },
-                {
-                    $unwind: '$products'
-                },
-                {
-                    $project: {
-                        item: '$products.item',
-                        quantity: '$products.quantity'
-                    }
-                },
-                {
-                    $lookup: {
-                        from: collection.PRODUCT_COLLECTION,
-                        localField: 'item',
-                        foreignField: '_id',
-                        as: 'product'
-                    }
-                },
-                {
-                    $project: {
-                        item: 1,
-                        quantity: 1,
-                        product: { $arrayElemAt: ['$product', 0] }
-                    }
-                },
-                // {
-                //     $project: {
-                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
-                //     }
-                // },
-
-            ]).toArray()
-            // console.log(orderItems);
-            resolve(orderItems)
-        })
     },
-    getadminOrderProd: (cartId) => {
-        return new Promise(async (resolve, reject) => {
-            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                {
-                    $match: { _id: ObjectId(cartId) }
-                },
-                {
-                    $unwind: '$products'
-                },
-                {
-                    $project: {
-                        item: '$products.item',
-                        quantity: '$products.quantity'
-                    }
-                },
-                {
-                    $lookup: {
-                        from: collection.PRODUCT_COLLECTION,
-                        localField: 'item',
-                        foreignField: '_id',
-                        as: 'product'
-                    }
-                },
-                {
-                    $project: {
-                        item: 1,
-                        quantity: 1,
-                        product: { $arrayElemAt: ['$product', 0] }
-                    }
-                },
-                // {
-                //     $project: {
-                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
-                //     }
-                // },
 
-            ]).toArray()
-            // console.log(orderItems);
-            resolve(orderItems)
-        })
-    },
     checkNumber: (phone) => {
         return new Promise(async (resolve, reject) => {
             let userNumber = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: phone }).then((response) => {
@@ -738,19 +650,6 @@ module.exports = {
             // console.log(totalPrice);
             resolve(totalPrice)
         })
-    },
-    buyNowProducts: (proId) => {
-        console.log(proId);
-
-        return new Promise(async (resolve, reject) => {
-            db.get().collection(collection.PRODUCT_COLLECTION).find({ _id: ObjectId(proId) }).toArray().then((prod) => {
-                resolve(prod)
-                // console.log(prod);
-            })
-
-        })
-
-
     },
     buyPlaceOrder: (address, products, total, payment, user) => {
         // console.log(products[0]._id);

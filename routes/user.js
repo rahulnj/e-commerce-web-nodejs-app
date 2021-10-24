@@ -151,7 +151,7 @@ router.get('/view-order/:id', verifyUser, async (req, res) => {
   // console.log(req.params);
   let user = req.session.user
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
-    let products = await userhelpers.getMyOrderProd(req.params.id)
+    let products = await productHelpers.getMyOrderProd(req.params.id)
     let IsCancelled = orders[0].status === 'cancelled'
     let IsDelivered = orders[0].status === 'delivered'
     res.render('user/vieworders', { user, products, IsCancelled, IsDelivered, orders })
@@ -220,7 +220,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
   let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
-  await userhelpers.getBagProductList(user._id).then(async (products) => {
+  await productHelpers.getBagProductList(user._id).then(async (products) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     await userhelpers.getSingleprice(user._id).then(async (singlePrice) => {
       // console.log(products);
@@ -369,7 +369,7 @@ router.get('/buy-checkout/:id', verifyUser, async (req, res) => {
   // console.log(id);
   // console.log(user);
   await userhelpers.getAddress(req.session.user._id).then(async (addressDetails) => {
-    await userhelpers.buyNowProducts(id).then(async (prodDetails) => {
+    await productHelpers.buyNowProducts(id).then(async (prodDetails) => {
       res.render('user/buynow', { user, addressDetails, prodDetails })
     })
   })
@@ -395,7 +395,7 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
   let proId = req.body.proId
   let payment = req.body.payment
   // console.log(payment);
-  await userhelpers.buyNowProducts(proId).then(async (products) => {
+  await productHelpers.buyNowProducts(proId).then(async (products) => {
     let totalPrice = products[0].price
     // console.log(products);
     await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {

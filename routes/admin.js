@@ -58,7 +58,7 @@ router.get('/orderdetails/:id', adminAuth, async (req, res) => {
   // console.log(req.params.id);
   await userhelpers.getAdminOrders(req.params.id).then(async (orderdetails) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
-      await userhelpers.getadminOrderProd(req.params.id).then(async (products) => {
+      await productHelpers.getadminOrderProd(req.params.id).then(async (products) => {
         // console.log(orderdetails);
         const isCancelled = orderdetails[0].status === 'cancelled'
         // console.log(isCancelled);
