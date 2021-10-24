@@ -3,20 +3,21 @@
         <div class="row align-items-center flex-row-reverse">
             <div class="col-lg-6">
                 <div class="about-text go-to">
-                    <h3 class="dark-color">User</h3>
+                    <h3 class="dark-color">{{userDetails.username}}</h3>
                     <div class="row about-list">
                         <div class="col-md-6">
                             <div class="media">
-                                <p>Email : <span>email@gmail.com</span></p>
-                                <button class="btn mr-2 pl-1 btn-light" onclick=""><i
-                                        class="fa fa-pencil-square-o pl-2 "></i></button>
+                                <p>Email : <span>{{userDetails.mail}}</span></p>
+                                <button class="btn mr-2 pl-1 btn-light"><i class="fa fa-pencil-square-o pl-2 "
+                                        onclick="editEmail()"></i></button>
                             </div>
+                            <p id="mail-message" class="text-danger"></p>
                         </div>
                         <div class="col-md-6">
                             <div class="media">
-                                <p>Phone : <span>123654789</span></p>
-                                <button class="btn mr-2 pl-1 btn-light" onclick=""><i
-                                        class="fa fa-pencil-square-o pl-2 "></i></button>
+                                <p>Phone : <br> <span>{{userDetails.phone}}</span></p>
+                                <button class="btn mr-2 pl-1 btn-light" 0><i class="fa fa-pencil-square-o pl-2 "
+                                        onclick="editPhone()"></i></button>
                             </div>
                         </div>
                     </div>

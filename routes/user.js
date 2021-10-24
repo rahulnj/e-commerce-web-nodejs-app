@@ -474,8 +474,46 @@ router.post('/deletefinalbag', async (req, res) => {
 })
 
 //user Profile
-router.get('/userprofile', (req, res) => {
-  res.render('user/user-profile')
+router.get('/userprofile', verifyUser, async (req, res) => {
+  let user = req.session.user
+  if (user) {
+    await userhelpers.userDetails(user._id).then(async (userDetails) => {
+      // console.log(userDetails);
+      await userhelpers.getBagcount(user._id).then(async (bagCount) => {
+        res.render('user/user-profile', { user, userDetails, bagCount })
+      })
+    })
+  }
+})
+
+router.post('/userprofile/editmail', verifyUser, async (req, res) => {
+  // console.log(req.body)
+  let user = req.session.user
+  await userhelpers.EmailExist(req.body.email).then(async (response) => {
+    // console.log(response);
+    if (response) {
+      res.json({ changed: false })
+    } else {
+      await userhelpers.updateUsermail(user._id, req.body.email).then(() => {
+        res.json({ changed: true })
+      })
+    }
+  })
+})
+
+router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
+  console.log(req.body)
+  let user = req.session.user
+  await userhelpers.checkPhone(req.body.number).then(async (response) => {
+    // console.log(response);
+    if (response) {
+      res.json({ changed: false })
+    } else {
+      await userhelpers.updateUserphone(user._id, req.body.number).then(() => {
+        res.json({ changed: true })
+      })
+    }
+  })
 })
 
 

@@ -44,6 +44,20 @@ module.exports = {
             })
         })
     },
+    EmailExist: (email) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).findOne({ mail: email }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
+    userDetails: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
     adminLogin: async (adminData) => {
         let loginstatus = false
         let response = {}
@@ -740,5 +754,28 @@ module.exports = {
             })
         })
     },
-
+    updateUsermail: (userId, email) => {
+        console.log(userId);
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+                $set: {
+                    mail: email,
+                }
+            }).then((response) => {
+                resolve()
+            })
+        })
+    },
+    updateUserphone: (userId, number) => {
+        console.log(userId);
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+                $set: {
+                    phone: number,
+                }
+            }).then((response) => {
+                resolve()
+            })
+        })
+    }
 }

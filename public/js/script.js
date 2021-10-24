@@ -631,6 +631,64 @@ function deleteProduct(proId) {
         }
     });
 }
+// edit email
+
+async function editEmail() {
+    const { value: email } = await Swal.fire({
+        title: 'Enter new email ',
+        input: 'email',
+
+        inputPlaceholder: 'Enter your email address'
+    })
+
+    if (email) {
+        Swal.fire(`Entered email: ${email}`)
+        $.ajax({
+            url: '/userprofile/editmail',
+            data: {
+                email,
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.changed) {
+                    Swal.fire(`Email Changed: ${email}`)
+                    location.reload()
+                } else {
+                    Swal.fire(`Email already taken: ${email}`)
+                }
+            },
+        })
+    }
 
 
+}
 
+async function editPhone() {
+    const { value: number } = await Swal.fire({
+        title: 'Enter new number',
+        input: 'number',
+        inputLabel: 'Your Phone Number',
+        inputPlaceholder: 'Enter your New Number'
+    })
+
+    if (number) {
+        Swal.fire(`Entered email: ${number}`)
+        $.ajax({
+            url: '/userprofile/editPhone',
+            data: {
+                number,
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.changed) {
+                    Swal.fire(`Number Changed to: ${number}`)
+                    location.reload()
+                } else {
+                    Swal.fire(`This Number has taken: ${number}`)
+                }
+            },
+        })
+    }
+
+
+}
