@@ -684,7 +684,7 @@ async function editPhone() {
                     Swal.fire(`Number Changed to: ${number}`)
                     location.reload()
                 } else {
-                    Swal.fire(`This Number has taken: ${number}`)
+                    Swal.fire(`${number} has already taken`)
                 }
             },
         })

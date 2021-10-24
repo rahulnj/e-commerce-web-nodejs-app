@@ -101,9 +101,10 @@
     line-height: 1.42857;
 }
 /*  */
-body{
-  color: #c0c2c4;
+#about_body{
   margin-top:20px;
+  color: #c0c2c4;
+  
 }
 .section {
   padding: 100px 0;

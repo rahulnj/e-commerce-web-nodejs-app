@@ -502,7 +502,7 @@ router.post('/userprofile/editmail', verifyUser, async (req, res) => {
 })
 
 router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   let user = req.session.user
   await userhelpers.checkPhone(req.body.number).then(async (response) => {
     // console.log(response);
