@@ -266,8 +266,16 @@ router.get('/mybag', verifyUser, async (req, res) => {
 
 //user signup
 router.post('/signup', async (req, res) => {
-  const response = await userhelpers.userSignup(req.body)
-  res.redirect('/user-signin')
+  await userhelpers.checkPhone(req.body.phone).then(async (response) => {
+    await userhelpers.checkEmailExist(req.body.mail).then(async (mail) => {
+      if (!response && !mail) {
+        let newUser = await userhelpers.userSignup(req.body)
+        res.json({ newUser: true })
+      } else {
+        res.json({ response: false })
+      }
+    })
+  })
 })
 
 router.post('/signupwithgoogle', async (req, res) => {

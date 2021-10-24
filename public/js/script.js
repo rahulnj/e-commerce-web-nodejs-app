@@ -65,11 +65,16 @@ $('#signupform').on("submit", (e) => {
             data: $("#signupform").serialize(),
             method: "post",
             success: function (response) {
-                // alert("Form submitted successfully")
-                location.replace('/user-signin')
+                if (response.newUser) {
+                    // alert("Form submitted successfully")
+                    location.replace('/user-signin')
+                } else {
+                    $("#submit-message").html("User Exists");
+                }
+
             },
             error: function (err) {
-                alert("Something Error")
+                // alert("Something Error")
             }
         })
     } else {

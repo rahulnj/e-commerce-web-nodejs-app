@@ -22,6 +22,13 @@ module.exports = {
         userData.password = await bcrypt.hash(userData.password, 10)
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
+    checkPhone: (phone) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).findOne({ phone: phone }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
     googleSignup: async (data) => {
         userData = {
             status: true,
