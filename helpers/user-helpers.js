@@ -68,7 +68,7 @@ module.exports = {
     userLogin: async (userData) => {
         let loginstatus = false
         let response = {}
-        let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: userData.username })
+        let user = await db.get().collection(collection.USER_COLLECTION).findOne({ mail: userData.mail })
 
         if (user) {
 

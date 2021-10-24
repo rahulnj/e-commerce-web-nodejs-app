@@ -280,7 +280,6 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signupwithgoogle', async (req, res) => {
   // console.log(req.body.token);
-
   try {
     const client = new OAuth2Client("509658893033-ru751qg63f9jrakv2iqekoa0c1jksfle.apps.googleusercontent.com")
     const ticket = await client.verifyIdToken({

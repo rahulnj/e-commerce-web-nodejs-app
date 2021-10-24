@@ -15,12 +15,12 @@
 
                         <!-- Username input -->
                         <div class="form-outline mb-4 shadow-sm">
-                            <label class="form-label fs-6">USERNAME</label>
-                            <input type="text" id="signinuser" name="username" class="form-control form-control-lg"
-                                placeholder="Username" />
+                            <label class="form-label fs-6">E mail</label>
+                            <input type="text" id="signinuser" name="mail" class="form-control form-control-lg"
+                                placeholder="Email" />
 
                         </div>
-                        <p id="error-name" class="text-danger"></p>
+                        <p id="error-email" class="text-danger"></p>
 
 
                         <!-- Password input -->
@@ -91,17 +91,16 @@
 
 
 
-
+    var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
     var signinuser = false; var signinpass = false;
-    $("#signinuser").on('input', function () {
-        this.value = this.value.replace(/[^ a-zA-Z]/, '');
-        var name = $(this).val()
-        if (name.length < 3 || name.includes(' ') || name.charAt(0) == ' ') {
-            $("#error-name").text("Invalid Name");
+    $('#signinuser').blur(function () {
+        var email = $(this).val()
+        if (!email.match(mailRegx)) {
+            $("#error-email").text("Invalid E-mail");
             signinuser = false;
         } else {
             signinuser = true;
-            $("#error-name").text(" ");
+            $("#error-email").text(" ");
 
         }
     })
@@ -133,7 +132,6 @@
 
                 },
                 error: function (err) {
-                    alert("Something Error")
 
                 }
             })
