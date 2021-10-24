@@ -466,6 +466,16 @@ router.post('/deletefinalbag', async (req, res) => {
   })
 })
 
+//user Profile
+router.get('/userprofile', (req, res) => {
+  res.render('user/user-profile')
+})
+
+
+
+
+
+
 // user signout
 router.get('/signout', (req, res) => {
   req.session.user = null;
