@@ -664,14 +664,19 @@ async function editEmail() {
 }
 
 async function editPhone() {
-    const { value: number } = await Swal.fire({
+
+
+    await Swal.fire({
         title: 'Enter new number',
-        input: 'number',
+
         inputLabel: 'Your Phone Number',
-        inputPlaceholder: 'Enter your New Number'
+        html: "<input id='swal-input2' type='number'  class='swal2-input' required maxlength='10'/>",
+        inputAttributes: { maxlength: '10' },
+
     })
 
-    if (number) {
+    var number = document.getElementById('swal-input2').value
+    if (number.length == 10) {
         Swal.fire(`Entered email: ${number}`)
         $.ajax({
             url: '/userprofile/editPhone',
@@ -689,6 +694,5 @@ async function editPhone() {
             },
         })
     }
-
 
 }
