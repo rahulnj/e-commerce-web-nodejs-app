@@ -245,9 +245,12 @@ $("#checkout-form").submit((e) => {
             // alert(response)
             if (response.codsuccess) {
                 location.href = '/success'
-            } else {
-                razorpayPayment(response)
+            } else if (response.razorpay) {
+                console.log("vanuu");
+                razorpayPayment(response.res)
 
+            } else if (response.paypalsuccess) {
+                location.href = response.link
             }
         }
     })
@@ -689,7 +692,7 @@ async function editPhone() {
                     Swal.fire(`Number Changed to: ${number}`)
                     location.reload()
                 } else {
-                    Swal.fire(`${number} has already taken`)
+                    Swal.fire(`Account exists in this number${number}`)
                 }
             },
         })
@@ -734,3 +737,6 @@ async function changePassword() {
     }
 
 }
+
+
+

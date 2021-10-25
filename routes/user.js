@@ -6,12 +6,19 @@ var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
 const { OAuth2Client } = require('google-auth-library');
-
+const paypal = require('paypal-rest-sdk');
 // 
 const servicesSSID = "	VAcc710d22d3d0cb7e51e0a59715f643c3"
 const accountSSID = "ACbe1c37edc9560c82fe7b569d383d98b3"
 const authToken = "a92ad84f0903387bf5ffcf9ccc862d6a"
 const clientTwillo = require("twilio")(accountSSID, authToken);
+
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AebeaDk4-599KvvXLTcbVns3IkqL1X5K8DQLfsSVWcm1pwWurlnIjgpDuh6-EhnDMMATk7mXJDXYU8S0',
+  'client_secret': 'EMmhRE1l7_oOaDUPXTYaPsX-0Qc5Wty8WAjlSzf_Q_uWmglAxEEmmMaw8uMrANq7X3scqIY1vtDi4h9X'
+});
 
 
 // Auth middleware for user
@@ -234,9 +241,48 @@ router.post('/place-order', verifyUser, async (req, res) => {
             userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
               req.session.user.OrderConfirmed = true
               // console.log(response);
-              res.json(response)
+              res.json({ res: response, razorpay: true })
             })
           } else if (req.body['payment'] === 'PAYPAL') {
+            const create_payment_json = {
+              "intent": "sale",
+              "payer": {
+                "payment_method": "paypal"
+              },
+              "redirect_urls": {
+                "return_url": "http://localhost:3000/successs",
+                "cancel_url": "http://localhost:3000/cancel"
+              },
+              "transactions": [{
+                "item_list": {
+                  "items": [{
+                    "name": "Red Sox Hat",
+                    "sku": "001",
+                    "price": totalPrice,
+                    "currency": "USD",
+                    "quantity": 1
+                  }]
+                },
+                "amount": {
+                  "currency": "USD",
+                  "total": totalPrice
+                },
+                "description": "Hat for the best team ever"
+              }]
+            };
+
+            paypal.payment.create(create_payment_json, function (error, payment) {
+              if (error) {
+                console.log(error);
+                throw error;
+              } else {
+                for (let i = 0; i < payment.links.length; i++) {
+                  if (payment.links[i].rel === 'approval_url') {
+                    res.json({ paypalsuccess: true, link: payment.links[i].href })
+                  }
+                }
+              }
+            });
 
           }
         })
@@ -245,7 +291,34 @@ router.post('/place-order', verifyUser, async (req, res) => {
     // console.log(addressDetails);
   })
 })
+router.get('/successs', async (req, res) => {
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+  let user = req.session.user
+  let totalPrice = await userhelpers.getTotalprice(user._id)
+  const execute_payment_json = {
+    "payer_id": payerId,
+    "transactions": [{
+      "amount": {
+        "currency": "USD",
+        "total": totalPrice
+      }
+    }]
+  };
 
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+      console.log(error.response);
+      throw error;
+    } else {
+      // console.log("keriii");
+      // console.log(JSON.stringify(payment));
+      req.session.user.OrderConfirmed = true
+      res.redirect("/success")
+    }
+  });
+});
+router.get('/cancel', (req, res) => res.send('Cancelled'));
 
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
@@ -517,7 +590,7 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
 })
 //change password
 router.post('/userprofile/change-password', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let user = req.session.user
   await userhelpers.changePassword(user._id, req.body.password).then(() => {
     res.json({ changed: true })

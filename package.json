@@ -25,6 +25,7 @@
     "nodemon": "^2.0.13",
     "objectid": "^3.2.1",
     "paypal-checkout": "^4.0.331",
+    "paypal-rest-sdk": "^1.8.1",
     "razorpay": "^2.0.7",
     "twilio": "^3.69.0"
   }
