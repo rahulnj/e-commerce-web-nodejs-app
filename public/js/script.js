@@ -696,3 +696,41 @@ async function editPhone() {
     }
 
 }
+
+// change password
+async function changePassword() {
+
+
+    await Swal.fire({
+        title: 'Enter new Password',
+        confirmButtonColor: '#d33',
+        inputLabel: 'Your Phone Number',
+        html: "<input id='swal-input3' type='text'  class='swal2-input' required maxlength='10'/>",
+        inputAttributes: { maxlength: '10' },
+
+    })
+
+    var password = document.getElementById('swal-input3').value
+    if (password.length > 2 && !password.includes(' ')) {
+        Swal.fire(`Changed password: ${password}`)
+        $.ajax({
+            url: '/userprofile/change-password',
+            data: {
+                password,
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.changed) {
+                    Swal.fire(`Password Changed to: ${password}`)
+
+                    // location.reload()
+                } else {
+                    Swal.fire(`Enter again`)
+                }
+            },
+        })
+    } else {
+        Swal.fire(`Invalid Password`)
+    }
+
+}

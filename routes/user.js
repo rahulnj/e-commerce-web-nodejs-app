@@ -515,7 +515,14 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
     }
   })
 })
-
+//change password
+router.post('/userprofile/change-password', async (req, res) => {
+  console.log(req.body);
+  let user = req.session.user
+  await userhelpers.changePassword(user._id, req.body.password).then(() => {
+    res.json({ changed: true })
+  })
+})
 
 
 

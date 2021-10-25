@@ -741,8 +741,8 @@ module.exports = {
         })
     },
     changePaymentStatus: (orderId) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) },
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) },
 
                 {
                     $set: {
@@ -756,8 +756,8 @@ module.exports = {
     },
     updateUsermail: (userId, email) => {
         console.log(userId);
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
                 $set: {
                     mail: email,
                 }
@@ -768,14 +768,27 @@ module.exports = {
     },
     updateUserphone: (userId, number) => {
         console.log(userId);
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
                 $set: {
-                    phone: number,
+                    phone: number
                 }
             }).then((response) => {
                 resolve()
             })
+        })
+    },
+    changePassword: (userId, password) => {
+        return new Promise(async (resolve, reject) => {
+            let newpassword = await bcrypt.hash(password, 10)
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) },
+                {
+                    $set: {
+                        password: newpassword
+                    }
+                }).then((response) => {
+                    resolve()
+                })
         })
     }
 }
