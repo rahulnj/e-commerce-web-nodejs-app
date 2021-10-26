@@ -655,7 +655,7 @@ async function editEmail() {
             success: (response) => {
                 if (response.changed) {
                     Swal.fire(`Email Changed: ${email}`)
-                    location.reload()
+                    setTimeout(() => { location.reload() }, 2000)
                 } else {
                     Swal.fire(`Email already taken: ${email}`)
                 }
@@ -690,7 +690,8 @@ async function editPhone() {
             success: (response) => {
                 if (response.changed) {
                     Swal.fire(`Number Changed to: ${number}`)
-                    location.reload()
+                    setTimeout(() => { location.reload() }, 2000)
+
                 } else {
                     Swal.fire(`Account exists in this number${number}`)
                 }
@@ -763,7 +764,7 @@ async function second() {
                 if (response.changed == true) {
                     Swal.fire(`Password Changed to: ${password}`)
 
-                    location.reload()
+                    // location.reload()
                 }
             },
         })

@@ -200,7 +200,7 @@ router.post('/products/deleteproduct', async (req, res) => {
 
 
 router.get('/offers', adminAuth, (req, res) => {
-  res.send('coming soon')
+  res.render('admin/admin-coupon', { admin: true })
 })
 
 // block users

@@ -228,3 +228,7 @@ mark {
 
 
 /*  */
+.img-avatar {
+  border-radius: 100%;
+  border: 3px solid #fff;
+}
