@@ -400,7 +400,7 @@ $("#pinadd").on('input', function () {
 $('#phoneadd').on('input', function () {
     this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
     var phone = $(this).val()
-    if (phone.length < 10) {
+    if (phone.length < 10 || phone.length > 10) {
         phoneadd = false;
         $("#phnerr").html("Invalid Number");
 
