@@ -4,7 +4,7 @@ const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
-
+const fs = require('fs')
 
 // Auth middleware for admin
 const adminAuth = (req, res, next) => {
@@ -221,24 +221,44 @@ router.post('/users/unblock-user', async (req, res) => {
 
 //add product
 router.post('/add-product', async (req, res) => {
-  // console.log(req.files);
-  // console.log(req.body);
-  // console.log(req.body.product);
+  proDetails = {
+    product: req.body.product,
+    description: req.body.description,
+    category: req.body.category,
+    subcategory: req.body.subcategory,
+    type: req.body.type,
+    price: parseInt(req.body.price),
+    qty: parseInt(req.body.quantity)
+  }
 
-  // console.log(data.product);
-  let id = await productHelpers.addProduct(req.body)
-  // console.log(req.body);
+  let id = await productHelpers.addProduct(proDetails)
   id = id.toString()
-  let image1 = req.files.file1
-  let image2 = req.files.file2
-  let image3 = req.files.file3
-  let image4 = req.files.file4
-  let image5 = req.files.file5
-  image1.mv('./public/uploads/image-1/' + id + '.jpg')
-  image2.mv('./public/uploads/image-2/' + id + '.jpg')
-  image3.mv('./public/uploads/image-3/' + id + '.jpg')
-  image4.mv('./public/uploads/image-4/' + id + '.jpg')
-  image5.mv('./public/uploads/image-5/' + id + '.jpg')
+  let image1 = req.body.img1
+  let image2 = req.body.img2
+  let image3 = req.body.img3
+  let image4 = req.body.img4
+  let image5 = req.body.img5
+  // console.log(image2);
+
+  let path1 = './public/uploads/image-1/' + id + '.jpg'
+  let path2 = './public/uploads/image-2/' + id + '.jpg'
+  let path3 = './public/uploads/image-3/' + id + '.jpg'
+  let path4 = './public/uploads/image-4/' + id + '.jpg'
+  let path5 = './public/uploads/image-5/' + id + '.jpg'
+
+  let img1 = image1.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  let img2 = image2.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  let img3 = image3.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  let img4 = image4.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  let img5 = image5.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+
+
+  fs.writeFileSync(path1, img1, { encoding: 'base64' })
+  fs.writeFileSync(path2, img2, { encoding: 'base64' })
+  fs.writeFileSync(path3, img3, { encoding: 'base64' })
+  fs.writeFileSync(path4, img4, { encoding: 'base64' })
+  fs.writeFileSync(path5, img5, { encoding: 'base64' })
+
   res.json({ status: true })
 })
 

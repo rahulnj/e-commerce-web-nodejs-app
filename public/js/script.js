@@ -726,7 +726,6 @@ async function changePassword() {
                 console.log(response)
                 if (response.changed == true) {
                     second();
-                    // 
                 } else if (response.changed == false) {
                     Swal.fire({
                         title: 'Wrong password enter again',
@@ -738,8 +737,8 @@ async function changePassword() {
     } else {
         Swal.fire(`Invalid Password`)
     }
-
 }
+
 
 async function second() {
     await Swal.fire({
@@ -774,24 +773,29 @@ async function second() {
     }
 }
 
+document.getElementById('maincat').onchange = e => {
+    console.log(e.target.value)
+    let detail = e.target.value
+    $.ajax({
+        url: "/admin/getSubcategory",
+        method: "POST",
+        data: { detail },
+        success: function (response) {
+            console.log(response.category.subcategory[0])
+            document.getElementById('subcategory').innerHTML = '';
+            document.getElementById('subtype').innerHTML = '';
+            // console.log(response.category.type[0])
+            for (let i = 0; i < response.category.subcategory.length; i++) {
+                let element = `<option value= "${response.category.subcategory[i].name}" > ${response.category.subcategory[i].name} </option>`
+                let typeelement = `<option value= "${response.category.type[i].name}" > ${response.category.type[i].name} </option>`
+                document.getElementById('subcategory').innerHTML += element
+                document.getElementById('subtype').innerHTML += typeelement
+            }
 
+        }
+    })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -835,4 +839,115 @@ async function createPassword() {
 
 }
 
+var product_name = false; var product_des = false; var product_price = false; product_qty = false;
+$("#product_name").on('input', function () {
+    this.value = this.value.replace(/[^ a-zA-Z]/, '');
+    var name = $(this).val()
+    if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+        $("#error-adprod").text("Product name should be more than 5 characters");
+        product_name = false;
+    } else {
+        product_name = true;
+        $("#error-adprod").text(" ");
 
+    }
+})
+$('#product_des').blur(function () {
+    var password = $(this).val()
+    if (password.length < 10) {
+        $("#error-addes").text("Min 10 characters needed");
+        product_des = false;
+    } else {
+        product_des = true;
+        $("#error-addes").text(" ");
+    }
+})
+$('#product_price').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var price = $(this).val()
+    if (price.length < 1) {
+        $("#error-adprice").text("Min 1 input needed");
+        product_price = false;
+    } else {
+        product_price = true;
+        $("#error-adprice").text(" ");
+    }
+})
+$('#product_qty').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+    var password = $(this).val()
+    if (password.length < 1) {
+        $("#error-adqty").text("Min 1 input needed");
+        product_qty = false;
+    } else {
+        product_qty = true;
+        $("#error-adqty").text(" ");
+    }
+})
+$('#addproduct').on("submit", (e) => {
+    e.preventDefault()
+    console.log(product_name)
+    console.log(product_des)
+    console.log(product_price)
+    console.log(product_qty)
+
+    if (product_name == true && product_des == true && product_price == true && product_qty == true) {
+        let data = $("#addproduct")[0];
+        let formData = new FormData(data);
+        formData.append('data', data);
+        formData.append('img1', img1)
+        formData.append('img2', img2)
+        formData.append('img3', img3)
+        formData.append('img4', img4)
+        formData.append('img5', img5)
+        // console.log(img2);
+        // console.log(formData)
+        $.ajax({
+            url: "/admin/add-product",
+            data: formData,
+            method: "post",
+            enctype: 'multipart/formdata',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // alert("Form submitted successfully")
+                if (response.status == true) {
+                    location.reload()
+                } else {
+                    $("#submit-pmessage").html("fill the fields");
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    } else {
+        $("#submit-pmessage").html("Fill the Fields");
+    }
+
+})
+
+document.getElementById('maincat').onchange = e => {
+    console.log(e.target.value)
+    let detail = e.target.value
+    $.ajax({
+        url: "/admin/getSubcategory",
+        method: "POST",
+        data: { detail },
+        success: function (response) {
+            console.log(response.category.subcategory[0])
+            document.getElementById('subcategory').innerHTML = '';
+            document.getElementById('subtype').innerHTML = '';
+            // console.log(response.category.type[0])
+            for (let i = 0; i < response.category.subcategory.length; i++) {
+                let element = `<option value= "${response.category.subcategory[i].name}" > ${response.category.subcategory[i].name} </option>`
+                let typeelement = `<option value= "${response.category.type[i].name}" > ${response.category.type[i].name} </option>`
+                document.getElementById('subcategory').innerHTML += element
+                document.getElementById('subtype').innerHTML += typeelement
+            }
+
+        }
+    })
+
+}

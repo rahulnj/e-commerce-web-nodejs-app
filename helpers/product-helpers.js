@@ -8,17 +8,17 @@ const { response } = require('express')
 module.exports = {
     addProduct: async (productDetails) => {
         // console.log(productDetails);
-        proDetails = {
-            product: productDetails.product,
-            description: productDetails.description,
-            category: productDetails.category,
-            subcategory: productDetails.subcategory,
-            type: productDetails.type,
-            price: parseInt(productDetails.price),
-            qty: parseInt(productDetails.quantity)
-        }
+        // proDetails = {
+        //     product: productDetails.product,
+        //     description: productDetails.description,
+        //     category: productDetails.category,
+        //     subcategory: productDetails.subcategory,
+        //     type: productDetails.type,
+        //     price: parseInt(productDetails.price),
+        //     qty: parseInt(productDetails.quantity)
+        // }
         // console.log(product);
-        let data = await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proDetails)
+        let data = await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(productDetails)
         return data.insertedId
     },
 

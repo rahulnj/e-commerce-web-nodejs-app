@@ -534,7 +534,6 @@ router.post('/verify-payment', (req, res) => {
       res.json({ status: true })
     })
   }).catch((err) => {
-    console.log(err);
     res.json({ status: false })
   })
 })
@@ -593,8 +592,6 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
 })
 //create password for google users 
 router.post('/userprofile/create-password', async (req, res) => {
-  // console.log(req.body);
-  // console.log("mariii");
   let user = req.session.user
   await userhelpers.createPassword(user._id, req.body.password).then(() => {
     res.json({ changed: true })
@@ -602,16 +599,13 @@ router.post('/userprofile/create-password', async (req, res) => {
 })
 //change password
 router.post('/userprofile/change-password', async (req, res) => {
-  console.log(req.body);
   let user = req.session.user
   await userhelpers.changePassword(user._id, req.body.password).then(async (response) => {
-    // console.log(response);
     if (response == true) {
       res.json({ changed: true })
     } else if (response == false) {
       res.json({ changed: false })
     }
-
   })
 })
 
