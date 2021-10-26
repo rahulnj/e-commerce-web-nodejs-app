@@ -591,7 +591,7 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
     }
   })
 })
-//change password
+//create password for google users 
 router.post('/userprofile/create-password', async (req, res) => {
   // console.log(req.body);
   // console.log("mariii");
@@ -600,33 +600,20 @@ router.post('/userprofile/create-password', async (req, res) => {
     res.json({ changed: true })
   })
 })
-router.post('/userprofile/created-password', async (req, res) => {
-  // console.log(req.body);
-  console.log("mariii");
-  let user = req.session.user
-  await userhelpers.createPassword(user._id, req.body.password).then(() => {
-    res.json({ changed: true })
-  })
-})
+//change password
 router.post('/userprofile/change-password', async (req, res) => {
   console.log(req.body);
   let user = req.session.user
   await userhelpers.changePassword(user._id, req.body.password).then(async (response) => {
     // console.log(response);
     if (response == true) {
-      // await userhelpers.createPassword(user._id, req.body.password).then(() => {
       res.json({ changed: true })
-      // })
     } else if (response == false) {
-      // console.log("vaaa");
       res.json({ changed: false })
     }
 
   })
 })
-
-
-
 
 // user signout
 router.get('/signout', (req, res) => {

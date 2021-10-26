@@ -755,7 +755,7 @@ async function second() {
     if (password.length > 2 && !password.includes(' ')) {
         Swal.fire(`Changed password: ${password}`)
         $.ajax({
-            url: '/userprofile/created-password',
+            url: '/userprofile/create-password',
             data: {
                 password,
             },
