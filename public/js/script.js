@@ -705,6 +705,103 @@ async function changePassword() {
 
 
     await Swal.fire({
+        title: 'Enter old Password',
+        confirmButtonColor: '#d33',
+        inputLabel: 'Your Phone Number',
+        html: "<input id='swal-input3' type='text'  class='swal2-input' required maxlength='10'/>",
+        inputAttributes: { maxlength: '10' },
+
+    })
+
+    var password = document.getElementById('swal-input3').value
+    if (password.length > 2 && !password.includes(' ')) {
+
+        $.ajax({
+            url: '/userprofile/change-password',
+            data: {
+                password,
+            },
+            method: 'post',
+            success: (response) => {
+                console.log(response)
+                if (response.changed == true) {
+                    second();
+                    // 
+                } else if (response.changed == false) {
+                    Swal.fire({
+                        title: 'Wrong password enter again',
+                        confirmButtonColor: '#d33',
+                    })
+                }
+            },
+        })
+    } else {
+        Swal.fire(`Invalid Password`)
+    }
+
+}
+
+async function second() {
+    await Swal.fire({
+        title: 'Enter new Password',
+        confirmButtonColor: '#d33',
+        inputLabel: 'Your Phone Number',
+        html: "<input id='swal-input4' type='text'  class='swal4-input' maxlength='10'/>",
+        inputAttributes: { maxlength: '10' },
+
+    })
+    var password = document.getElementById('swal-input4').value
+
+    if (password.length > 2 && !password.includes(' ')) {
+        Swal.fire(`Changed password: ${password}`)
+        $.ajax({
+            url: '/userprofile/created-password',
+            data: {
+                password,
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.changed == true) {
+                    Swal.fire(`Password Changed to: ${password}`)
+
+                    location.reload()
+                }
+            },
+        })
+
+    } else {
+        Swal.fire(`Invalid Password`)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPassword() {
+
+
+    await Swal.fire({
         title: 'Enter new Password',
         confirmButtonColor: '#d33',
         inputLabel: 'Your Phone Number',
@@ -717,7 +814,7 @@ async function changePassword() {
     if (password.length > 2 && !password.includes(' ')) {
         Swal.fire(`Changed password: ${password}`)
         $.ajax({
-            url: '/userprofile/change-password',
+            url: '/userprofile/create-password',
             data: {
                 password,
             },
@@ -726,7 +823,7 @@ async function changePassword() {
                 if (response.changed) {
                     Swal.fire(`Password Changed to: ${password}`)
 
-                    // location.reload()
+                    location.reload()
                 } else {
                     Swal.fire(`Enter again`)
                 }
@@ -737,6 +834,5 @@ async function changePassword() {
     }
 
 }
-
 
 

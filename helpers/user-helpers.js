@@ -780,7 +780,7 @@ module.exports = {
             })
         })
     },
-    changePassword: (userId, password) => {
+    createPassword: (userId, password) => {
         return new Promise(async (resolve, reject) => {
             let newpassword = await bcrypt.hash(password, 10)
             await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) },
@@ -791,6 +791,36 @@ module.exports = {
                 }).then((response) => {
                     resolve()
                 })
+        })
+    },
+    passwordExist: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).findOne({
+                _id: ObjectId(userId),
+                password: { $exists: false }
+            }).then((response) => {
+                if (response != null) {
+                    resolve(true)
+                    // console.log(response);
+                } else {
+                    resolve(false)
+                }
+
+            })
+        })
+    },
+    changePassword: (userId, pass) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) })
+            if (user) {
+                const status = await bcrypt.compare(pass, user.password)
+                // console.log(status);
+                if (status) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            }
         })
     }
 }

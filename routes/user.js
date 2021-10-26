@@ -552,8 +552,11 @@ router.get('/userprofile', verifyUser, async (req, res) => {
   if (user) {
     await userhelpers.userDetails(user._id).then(async (userDetails) => {
       // console.log(userDetails);
-      await userhelpers.getBagcount(user._id).then(async (bagCount) => {
-        res.render('user/user-profile', { user, userDetails, bagCount })
+      await userhelpers.passwordExist(user._id).then(async (Exist) => {
+        // console.log(Exist);
+        await userhelpers.getBagcount(user._id).then(async (bagCount) => {
+          res.render('user/user-profile', { Exist, user, userDetails, bagCount })
+        })
       })
     })
   }
@@ -589,14 +592,38 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
   })
 })
 //change password
-router.post('/userprofile/change-password', async (req, res) => {
+router.post('/userprofile/create-password', async (req, res) => {
   // console.log(req.body);
+  // console.log("mariii");
   let user = req.session.user
-  await userhelpers.changePassword(user._id, req.body.password).then(() => {
+  await userhelpers.createPassword(user._id, req.body.password).then(() => {
     res.json({ changed: true })
   })
 })
+router.post('/userprofile/created-password', async (req, res) => {
+  // console.log(req.body);
+  console.log("mariii");
+  let user = req.session.user
+  await userhelpers.createPassword(user._id, req.body.password).then(() => {
+    res.json({ changed: true })
+  })
+})
+router.post('/userprofile/change-password', async (req, res) => {
+  console.log(req.body);
+  let user = req.session.user
+  await userhelpers.changePassword(user._id, req.body.password).then(async (response) => {
+    // console.log(response);
+    if (response == true) {
+      // await userhelpers.createPassword(user._id, req.body.password).then(() => {
+      res.json({ changed: true })
+      // })
+    } else if (response == false) {
+      // console.log("vaaa");
+      res.json({ changed: false })
+    }
 
+  })
+})
 
 
 
