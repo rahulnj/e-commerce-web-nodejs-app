@@ -198,17 +198,6 @@ router.post('/products/deleteproduct', async (req, res) => {
 })
 
 
-
-router.get('/offers', adminAuth, (req, res) => {
-  res.render('admin/admin-coupon', { admin: true })
-})
-
-
-router.post('/offers/add-coupon', (req, res) => {
-  console.log("api call");
-  console.log(req.body);
-})
-
 // block users
 router.post('/users/block-user', async (req, res) => {
   let userId = req.body.userId
@@ -268,7 +257,17 @@ router.post('/add-product', async (req, res) => {
   res.json({ status: true })
 })
 
+///coupon///
 
+router.get('/offers', adminAuth, (req, res) => {
+  res.render('admin/admin-coupon', { admin: true })
+})
+
+
+router.post('/offers/add-coupon', async (req, res) => {
+  console.log(req.body);
+  await productHelpers.addCoupon(req.body)
+})
 
 
 

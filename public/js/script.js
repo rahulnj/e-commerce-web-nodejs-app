@@ -233,14 +233,24 @@ function deleteItem(cartId, proId) {
 }
 
 
-
+var newcoupon;
 
 $("#checkout-form").submit((e) => {
-    e.preventDefault()
+    e.preventDefault();
+    let data;
+    if (newcoupon) {
+        data = $('#checkout-form').serialize() + "&couponCode=" + newcoupon;
+
+    } else {
+        data = $('#checkout-form').serialize() + "&couponCode=" + false;
+
+    }
+
+    console.log(data);
     $.ajax({
         url: "/place-order",
         method: "POST",
-        data: $('#checkout-form').serialize(),
+        data: data,
         success: (response) => {
             // alert(response)
             if (response.codsuccess) {
@@ -798,11 +808,6 @@ document.getElementById('maincat').onchange = e => {
 
 }
 
-
-
-
-
-
 async function createPassword() {
 
 
@@ -951,4 +956,28 @@ document.getElementById('maincat').onchange = e => {
         }
     })
 
+}
+
+function applycoupon() {
+
+    let code = document.getElementById('couponid').value
+    // console.log(code)
+    $.ajax({
+        url: '/checkout/applycoupon',
+        data: { code },
+        method: 'post',
+        success: (response) => {
+            if (response.couponPrice) {
+                newcoupon = code
+                // location.reload()
+                document.getElementById('coupon-price').innerHTML = '₹' + response.couponPrice
+                // alert(response.disPrice)
+
+            } else {
+
+
+            }
+
+        }
+    })
 }

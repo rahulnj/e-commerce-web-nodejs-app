@@ -248,6 +248,26 @@ img {
     color: #ffffff;
     background-color: rgb(235, 25, 25); }
 
+    .essence-btn-sm {
+      display: inline-block;
+      min-width: 120px;
+      height: 40px;
+      color: #ffffff;
+      border: none;
+      border-radius: 3%;
+      padding-bottom: 15px;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      line-height: 40px;
+      background-color: rgb(143, 0, 0);
+      letter-spacing: 1.5px;
+      font-weight: 500; }
+      .essence-btn-sm:hover, .essence-btn:focus {
+        color: #ffffff;
+        background-color: rgb(235, 25, 25); }
+
+
 /* :: 4.0 Header Area CSS */
 .header_area {
   position: fixed;

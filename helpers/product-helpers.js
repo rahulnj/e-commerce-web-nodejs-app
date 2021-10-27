@@ -5,6 +5,7 @@ var objectId = require('mongodb').ObjectId
 const { ObjectId } = require('bson')
 const { Db } = require('mongodb')
 const { response } = require('express')
+const moment = require("moment")
 module.exports = {
     addProduct: async (productDetails) => {
         // console.log(productDetails);
@@ -246,5 +247,47 @@ module.exports = {
 
 
     },
+    addCoupon: (couponDetails) => {
+        let coupon = {
+            couponcode: couponDetails.couponcode,
+            value: parseInt(couponDetails.value),
+            description: couponDetails.description,
+            createdat: moment().format("YYYY-MM-DD") + ";" + moment().format("hh:mm:ss"),
+            expireat: couponDetails.expiry + ";" + moment().format("hh:mm:ss"),
+            minamount: parseInt(couponDetails.minamount)
+        }
+        console.log(coupon);
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.COUPON_COLLECTION).insertOne(coupon).then((response) => {
+                resolve()
+            })
+        })
+    },
+    checkCoupon: (code) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.COUPON_COLLECTION).findOne({ couponcode: code }).then((response) => {
+                resolve(response)
+                // console.log(response);
+            })
+        })
+    },
+    applyCoupon: (userId, couponPrice) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId) }, {
+                $set: {
+                    couponprice: couponPrice,
+                    couponapplied: true
+                }
+            }).then((response) => {
+                resolve(response)
+
+            })
+        })
+    },
+    isCouponApplied: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) }, { couponapplied: true })
+        })
+    }
 }
 
