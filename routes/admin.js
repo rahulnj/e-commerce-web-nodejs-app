@@ -203,6 +203,12 @@ router.get('/offers', adminAuth, (req, res) => {
   res.render('admin/admin-coupon', { admin: true })
 })
 
+
+router.post('/offers/add-coupon', (req, res) => {
+  console.log("api call");
+  console.log(req.body);
+})
+
 // block users
 router.post('/users/block-user', async (req, res) => {
   let userId = req.body.userId

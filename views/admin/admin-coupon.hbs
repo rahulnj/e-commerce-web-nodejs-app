@@ -1,21 +1,21 @@
 <div class="col-lg-9">
 
     <section class="content-body p-xl-4">
-        <form>
+        <form id="coupon-form">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row gx-3">
                         <div class="col-lg-12  mb-3">
                             <label class="form-label">Coupon Code</label>
-                            <input class="form-control" type="text" placeholder="Type here">
+                            <input class="form-control" name="couponcode" type="text" placeholder="Type here">
                         </div> <!-- col .// -->
                         <div class="col-6  mb-3">
                             <label class="form-label">Percentage</label>
-                            <input class="form-control" type="text" placeholder="Type here">
+                            <input class="form-control" name="percentage" type="text" placeholder="Type here">
                         </div> <!-- col .// -->
                         <div class="col-lg-6  mb-3">
                             <label class="form-label">Expiry</label>
-                            <input class="form-control" type="date">
+                            <input class="form-control" name="expiry" type="date">
                         </div> <!-- col .// -->
                     </div> <!-- row.// -->
                 </div> <!-- col.// -->
@@ -32,3 +32,26 @@
     </section> <!-- content-body .// -->
 
 </div>
+
+<script>
+    $("#coupon-form").submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: "/admin/offers/add-coupon",
+            method: "POST",
+            data: $('#coupon-form').serialize(),
+            success: (response) => {
+                // alert(response)
+                if (response.codsuccess) {
+                    location.href = '/success'
+                } else if (response.razorpay) {
+                    console.log("vanuu");
+                    razorpayPayment(response.res)
+
+                } else if (response.paypalsuccess) {
+                    location.href = response.link
+                }
+            }
+        })
+    })
+</script>
