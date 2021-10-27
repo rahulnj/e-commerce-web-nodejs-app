@@ -214,7 +214,6 @@ router.post('/deleteaddress', async (req, res) => {
 
 router.get('/success', verifyUser, (req, res) => {
   if (req.session.user.OrderConfirmed) {
-
     res.render('user/success')
     req.session.user.OrderConfirmed = false
   } else {
@@ -223,14 +222,12 @@ router.get('/success', verifyUser, (req, res) => {
 })
 
 router.post('/place-order', verifyUser, async (req, res) => {
-
   console.log(req.body);
   let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
   await productHelpers.getBagProductList(user._id).then(async (products) => {
     let response = await productHelpers.checkCoupon(req.body.couponCode)
-
     let totalPrice = await userhelpers.getTotalprice(user._id)
     console.log(response);
     //
@@ -243,7 +240,6 @@ router.post('/place-order', verifyUser, async (req, res) => {
         var disPrice = (percent / 100) * totalPrice;
         var couponPrice = totalPrice - disPrice
         console.log(couponPrice);
-        // await productHelpers.applyCoupon(user._id, couponPrice).then((response) => {
         price = couponPrice;
 
       } else {
@@ -498,7 +494,6 @@ router.post('/buy-address/:id', verifyUser, async (req, res) => {
 router.post('/buy-place-order', verifyUser, async (req, res) => {
   // console.log(req.body);
   let user = req.session.user
-
   let address = req.body.address
   let proId = req.body.proId
   let payment = req.body.payment
@@ -526,7 +521,6 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
       })
     })
   })
-  // console.log(addressDetails);
 })
 
 
@@ -643,18 +637,11 @@ router.post('/checkout/applycoupon', async (req, res) => {
 
     if (response) {
       if (totalPrice >= minamount) {
-        console.log('thazheakeriii');
         var disPrice = (percent / 100) * totalPrice;
         var couponPrice = totalPrice - disPrice
-        console.log(couponPrice);
-        // await productHelpers.applyCoupon(user._id, couponPrice).then((response) => {
-
+        // console.log(couponPrice);
         res.json({ couponPrice })
-
-
-
       }
-
     } else {
       console.log("kerila")
     }
