@@ -7,23 +7,33 @@
                     <div class="row gx-3">
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Coupon Code</label>
-                            <input class="form-control" name="couponcode" type="text" placeholder="Type here">
+                            <input class="form-control" id="ccode" name="couponcode" type="text"
+                                placeholder="Type here">
+                            <p id="ccodeerr" class="text-danger"></p>
                         </div> <!-- col .// -->
                         <div class="col-6  mb-6">
                             <label class="form-label">Coupon Value</label>
-                            <input class="form-control" name="value" type="number" placeholder="Type here">
+                            <input class="form-control" id="cvalue" name="value" type="number" placeholder="Type here">
+                            <p id="cvalueerr" class="text-danger"></p>
+
                         </div> <!-- col .// -->
                         <div class="col-lg-12  mb-6">
                             <label class="form-label">Coupon description</label>
-                            <input class="form-control" name="description" type="text" placeholder="Type here">
+                            <input class="form-control" id="cdes" name="description" type="text"
+                                placeholder="Type here">
+                            <p id="cdeserr" class="text-danger"></p>
+
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Expiry</label>
-                            <input class="form-control" name="expiry" type="datetime-local">
+                            <input class="form-control" name="expiry" type="datetime-local" required>
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Minimum Purchase Amount</label>
-                            <input class="form-control" name="minamount" type="number" placeholder="Type here">
+                            <input class="form-control" id="camount" name="minamount" type="number"
+                                placeholder="Type here">
+                            <p id="camounterr" class="text-danger"></p>
+
                         </div><!-- col .// -->
 
                     </div> <!-- row.// -->
@@ -75,30 +85,88 @@
             </div> <!-- row.// -->
             <br>
             <button class="btn btn-primary" type="submit">Create</button>
+            <p id="submit-message" class="text-danger"></p>
+
         </form>
         <hr class="my-5">
     </section> <!-- content-body .// -->
 </div>
 
 <script>
+    var ccode = false; cvalue = false; cdes = false; camount = false;
+    $("#ccode").on('input', function () {
+        var name = $(this).val()
+        if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#ccodeerr").text("Invalid input");
+            ccode = false;
+        } else {
+            ccode = true;
+            $("#ccodeerr").text(" ");
+
+        }
+    })
+    $('#cvalue').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone > 99) {
+            cvalue = false;
+            $("#cvalueerr").html("offer should be less than 99%");
+
+        } else {
+            cvalue = true;
+            $("#cvalueerr").html(" ");
+
+        }
+    })
+    $("#cdes").on('input', function () {
+        var name = $(this).val()
+        if (name.length < 3) {
+            $("#cdeserr").text("Invalid input");
+            cdes = false;
+        } else {
+            cdes = true;
+            $("#cdeserr").text(" ");
+
+        }
+    })
+    $('#camount').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length > 5) {
+            camount = false;
+            $("#camounterr").html("fill the amount");
+
+        } else {
+            camount = true;
+            $("#camounterr").html(" ");
+
+        }
+    })
+
+
+
+
     $("#coupon-form").submit((e) => {
         e.preventDefault()
-        $.ajax({
-            url: "/admin/offers/add-coupon",
-            method: "POST",
-            data: $('#coupon-form').serialize(),
-            success: (response) => {
-                // alert(response)
-                if (response) {
-                    location.reload()
-                } else if (response.razorpay) {
-                    console.log("vanuu");
-
-
-
+        console.log(ccode)
+        console.log(cvalue)
+        console.log(cdes)
+        console.log(camount)
+        if (ccode == true && cvalue == true && cdes == true && camount == true) {
+            $.ajax({
+                url: "/admin/offers/add-coupon",
+                method: "POST",
+                data: $('#coupon-form').serialize(),
+                success: (response) => {
+                    // alert(response)
+                    if (response) {
+                        location.reload()
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            $("#submit-message").html("Fill the Fields");
+        }
     })
 
 

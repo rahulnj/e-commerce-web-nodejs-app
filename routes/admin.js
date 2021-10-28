@@ -281,7 +281,7 @@ router.get('/offers', adminAuth, (req, res) => {
 
 
 router.post('/offers/add-coupon', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   await productHelpers.addCoupon(req.body)
   res.json(response)
 })
