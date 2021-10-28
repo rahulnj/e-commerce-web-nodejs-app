@@ -151,36 +151,52 @@ router.get('/editproduct/:id', adminAuth, async (req, res) => {
 router.post('/editproduct/:id', async (req, res) => {
   // console.log("call");
   let proId = req.params.id
+  console.log("------------");
   // console.log(req.body);
   await productHelpers.updateProduct(proId, req.body)
 
   // console.log(req.files);
   res.redirect('/admin/products')
-  if (req.files) {
-    if (req.files.img1 || req.files.img2 || req.files.img3 || req.files.img4) {
-      // console.log(req.files.img1);
-      if (req.files.img1) {
-        let image1 = req.files.img1
-        image1.mv('./public/uploads/image-1/' + proId + '.jpg')
+  if (req.body) {
+    if (req.body.image1_b64 || req.body.image2_b64 || req.body.image3_b64 || req.body.image4_b64 || req.body.image5_b64) {
+      // console.log(req.body.img1);
+      if (req.body.image1_b64) {
+        let image1 = req.body.image1_b64
+        let path1 = './public/uploads/image-1/' + proId + '.jpg'
+        let img1 = image1.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+        fs.writeFileSync(path1, img1, { encoding: 'base64' })
+
 
       }
-      if (req.files.img2) {
-        let image2 = req.files.img2
-        image2.mv('./public/uploads/image-2/' + proId + '.jpg')
+      if (req.body.image2_b64) {
+        let image2 = req.body.image2_b64
+        let path2 = './public/uploads/image-2/' + proId + '.jpg'
+        let img2 = image2.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+        fs.writeFileSync(path2, img2, { encoding: 'base64' })
+
 
       }
-      if (req.files.img3) {
-        let image3 = req.files.img3
-        image3.mv('./public/uploads/image-3/' + proId + '.jpg')
-      }
-      if (req.files.img4) {
-        let image4 = req.files.img4
-        image4.mv('./public/uploads/image-4/' + proId + '.jpg')
+      if (req.body.image3_b64) {
+        let image3 = req.body.image3_b64
+        let path3 = './public/uploads/image-3/' + proId + '.jpg'
+        let img3 = image3.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+        fs.writeFileSync(path3, img3, { encoding: 'base64' })
 
       }
-      if (req.files.img5) {
-        let image5 = req.files.img5
-        image5.mv('./public/uploads/image-5/' + proId + '.jpg')
+      if (req.body.image4_b64) {
+        let image4 = req.body.image4_b64
+        let path4 = './public/uploads/image-4/' + proId + '.jpg'
+        let img4 = image4.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+        fs.writeFileSync(path4, img4, { encoding: 'base64' })
+
+
+      }
+      if (req.body.image5_b64) {
+        let image5 = req.body.image5_b64
+        let path5 = './public/uploads/image-5/' + proId + '.jpg'
+        let img5 = image5.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+        fs.writeFileSync(path5, img5, { encoding: 'base64' })
+
       }
       // console.log(image1);
     }
