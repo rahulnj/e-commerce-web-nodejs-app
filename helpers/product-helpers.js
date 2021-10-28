@@ -252,11 +252,11 @@ module.exports = {
             couponcode: couponDetails.couponcode,
             value: parseInt(couponDetails.value),
             description: couponDetails.description,
-            createdat: moment().format("YYYY-MM-DD") + ";" + moment().format("hh:mm:ss"),
-            expireat: couponDetails.expiry + ";" + moment().format("hh:mm:ss"),
+            createdAt: new Date(),
+            expireAt: new Date(couponDetails.expiry),
             minamount: parseInt(couponDetails.minamount)
         }
-        console.log(coupon);
+        // console.log(coupon);
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.COUPON_COLLECTION).insertOne(coupon).then((response) => {
                 resolve()

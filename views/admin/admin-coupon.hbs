@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Expiry</label>
-                            <input class="form-control" name="expiry" type="date">
+                            <input class="form-control" name="expiry" type="datetime-local">
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Minimum Purchase Amount</label>
@@ -89,16 +89,17 @@
             data: $('#coupon-form').serialize(),
             success: (response) => {
                 // alert(response)
-                if (response.codsuccess) {
-                    location.href = '/success'
+                if (response) {
+                    location.reload()
                 } else if (response.razorpay) {
                     console.log("vanuu");
 
 
-                } else if (response.paypalsuccess) {
 
                 }
             }
         })
     })
+
+
 </script>
