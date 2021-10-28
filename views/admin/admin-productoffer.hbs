@@ -1,0 +1,81 @@
+<section class="content-main container">
+    <div class="content-header">
+        <h2 class="content-title">Product offer</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form id="getproducts">
+                        <div class="mb-4">
+                            <label class="form-label">Product</label>
+                            <select name="product" class="form-select" id="">
+                                <option value="">select</option>
+                                {{#each products}}
+                                <option value="{{this._id}}">{{this.product}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-6  mb-6">
+                            <label class="form-label">Offer %</label>
+                            <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here">
+                            <p id="cvalueerr" class="text-danger"></p>
+
+                        </div>
+                        <div class="col-lg-6  mb-6">
+                            <label class="form-label">Expiry</label>
+                            <input class="form-control" name="expiry" type="datetime-local" required>
+                        </div>
+
+                        <div class="d-grid p-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <p id="error-message" class="text-danger"></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <table class="table">
+                        <thead>
+
+                        </thead>
+                        <tbody class="offer">
+
+                        </tbody>
+                    </table>
+
+
+                </div> <!-- .col// -->
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section>
+
+<script>
+    $('#getproducts').on("submit", (e) => {
+        console.log("api")
+        $.ajax({
+            url: "/admin/productoffer/placeprodoffer",
+            method: "post",
+            data: $("#getproducts").serialize(),
+            success: function (response) {
+                if (response) {
+                    // alert("Form submitted successfully")
+                    location.replace('/user-signin')
+                } else {
+
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    })
+
+
+
+
+
+
+</script>

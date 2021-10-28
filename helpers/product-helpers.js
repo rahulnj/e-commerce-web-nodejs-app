@@ -288,6 +288,22 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) }, { couponapplied: true })
         })
+    },
+    getProductoffer: (prodId, offer, offerprice, expiry) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {
+                $set: {
+                    expiry: new Date(expiry),
+                    offer: offer,
+                    offerprice: offerprice,
+                    isoffer: true
+                }
+            })
+        })
     }
+
+
+
+
 }
 

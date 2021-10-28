@@ -112,7 +112,6 @@ router.post('/createCategory', (req, res) => {
   let sub = req.body.subcategory
   let type = req.body.type
   productHelper.createCategory(cat, sub, type).then(() => {
-
     res.redirect('/admin/category')
   })
 })
@@ -286,8 +285,20 @@ router.post('/coupons/add-coupon', async (req, res) => {
   res.json(response)
 })
 
-router.get('/productoffer', adminAuth, (req, res) => {
-  res.render('admin/productoffer', { admin: true })
+router.get('/productoffer', adminAuth, async (req, res) => {
+  let products = await productHelpers.getProducts()
+  res.render('admin/admin-productoffer', { admin: true, products })
+})
+
+router.post('/productoffer/placeprodoffer', async (req, res) => {
+  console.log(req.body);
+  let singleprod = await productHelpers.getSingleproduct(req.body.product)
+  console.log(singleprod.price);
+  let percent = req.body.offer
+  var disPrice = (percent / 100) * singleprod.price;
+  var offerprice = singleprod.price - disPrice
+  // console.log(couponPrice);
+  await productHelpers.getProductoffer(req.body.product, req.body.offer, offerprice, req.body.expiry)
 })
 
 
