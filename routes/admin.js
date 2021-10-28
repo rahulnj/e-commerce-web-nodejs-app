@@ -275,17 +275,20 @@ router.post('/add-product', async (req, res) => {
 
 ///coupon///
 
-router.get('/offers', adminAuth, (req, res) => {
+router.get('/coupons', adminAuth, (req, res) => {
   res.render('admin/admin-coupon', { admin: true })
 })
 
 
-router.post('/offers/add-coupon', async (req, res) => {
+router.post('/coupons/add-coupon', async (req, res) => {
   // console.log(req.body);
   await productHelpers.addCoupon(req.body)
   res.json(response)
 })
 
+router.get('/productoffer', adminAuth, (req, res) => {
+  res.render('admin/productoffer', { admin: true })
+})
 
 
 

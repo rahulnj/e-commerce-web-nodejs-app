@@ -135,11 +135,9 @@
         if (phone.length > 5) {
             camount = false;
             $("#camounterr").html("fill the amount");
-
         } else {
             camount = true;
             $("#camounterr").html(" ");
-
         }
     })
 
@@ -154,7 +152,7 @@
         console.log(camount)
         if (ccode == true && cvalue == true && cdes == true && camount == true) {
             $.ajax({
-                url: "/admin/offers/add-coupon",
+                url: "/admin/coupons/add-coupon",
                 method: "POST",
                 data: $('#coupon-form').serialize(),
                 success: (response) => {
