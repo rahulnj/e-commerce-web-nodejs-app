@@ -631,19 +631,22 @@ router.post('/checkout/applycoupon', async (req, res) => {
   // console.log(req.body);
   let user = req.session.user
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
-    let minamount = response.minamount
-    let percent = response.value
+
     let totalPrice = await userhelpers.getTotalprice(user._id)
 
     if (response) {
+      let minamount = response.minamount
+      let percent = response.value
       if (totalPrice >= minamount) {
         var disPrice = (percent / 100) * totalPrice;
         var couponPrice = totalPrice - disPrice
         // console.log(couponPrice);
-        res.json({ couponPrice })
+        res.json({ couponPrice, message: "Coupon applied" })
+      } else {
+        res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
       }
     } else {
-      console.log("kerila")
+      res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
   })
 })

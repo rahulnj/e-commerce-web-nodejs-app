@@ -970,11 +970,19 @@ function applycoupon() {
             if (response.couponPrice) {
                 newcoupon = code
                 // location.reload()
-                document.getElementById('coupon-price').innerHTML = '₹' + response.couponPrice
+                document.getElementById('couponul').innerHTML += ` <li><span>Discount Price</span><span id=""> ₹ ${response.couponPrice}</span>`
+                document.getElementById('applybtn').disabled = true
                 // alert(response.disPrice)
+                document.getElementById('couponsuccess').innerHTML = response.message
+                document.getElementById('couponinvalid').innerHTML = " "
 
-            } else {
+            } else if (response.vmessage == true) {
+                document.getElementById('couponinvalid').innerHTML = " "
+                document.getElementById('couponinval').innerHTML = response.message
 
+            } else if (response.imessage == true) {
+                document.getElementById('couponinval').innerHTML = " "
+                document.getElementById('couponinvalid').innerHTML = response.invalidmessage
 
             }
 
