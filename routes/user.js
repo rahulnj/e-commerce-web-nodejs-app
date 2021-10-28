@@ -630,30 +630,27 @@ router.post('/userprofile/change-password', async (req, res) => {
 
 // apply coupon
 router.post('/checkout/applycoupon', async (req, res) => {
-  // console.log(req.body);
   let user = req.session.user
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    // console.log(response);
-    let couponUsed = await productHelpers.checkCouponUsed(user._id, response._id)
-    if (!couponUsed) {
-      if (response) {
+    if (response) {
+      let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
+      if (!couponUsed) {
         let minamount = response.minamount
         let percent = response.value
         if (totalPrice >= minamount) {
           var disPrice = (percent / 100) * totalPrice;
           var couponPrice = totalPrice - disPrice
-          // console.log(couponPrice);
           res.json({ couponPrice, message: "Coupon applied" })
         } else {
           res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
         }
       } else {
-        res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
+        res.json({ umessage: true, uerrmessage: "Coupon already applied" })
       }
     } else {
       console.log("kerii");
-      res.json({ umessage: true, uerrmessage: "Coupon already applied" })
+      res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
   })
 })

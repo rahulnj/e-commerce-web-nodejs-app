@@ -274,8 +274,12 @@ module.exports = {
     checkCouponUsed: (userId, couponId) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) });
-            let couponExist = user.coupons.find(coupon => coupon.cid.equals(couponId))
-            resolve(couponExist ? true : false);
+            if (user.coupons) {
+                let couponExist = user.coupons.find(coupon => coupon.cid.equals(couponId))
+                resolve(couponExist ? true : false);
+            }
+            else resolve(false)
+
         })
     },
     applyCoupon: (userId, couponPrice) => {
