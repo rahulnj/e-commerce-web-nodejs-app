@@ -271,6 +271,13 @@ module.exports = {
             })
         })
     },
+    checkCouponUsed: (userId, couponId) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) });
+            let couponExist = user.coupons.find(coupon => coupon.cid.equals(couponId))
+            resolve(couponExist ? true : false);
+        })
+    },
     applyCoupon: (userId, couponPrice) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId) }, {
@@ -289,6 +296,27 @@ module.exports = {
             await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) }, { couponapplied: true })
         })
     },
+    saveCouponuser: (userId, couponId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
+                $set: {
+                    coupons: [{ cid: couponId }]
+                }
+            }).then((response) => {
+                resolve()
+            })
+        })
+    },
+
+
+
+
+
+
+
+
+
+
     getProductoffer: (prodId, offer, offerprice, expiry) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {

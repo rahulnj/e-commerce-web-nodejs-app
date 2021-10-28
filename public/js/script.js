@@ -967,6 +967,7 @@ function applycoupon() {
         data: { code },
         method: 'post',
         success: (response) => {
+            console.log(response);
             if (response.couponPrice) {
                 newcoupon = code
                 // location.reload()
@@ -984,6 +985,9 @@ function applycoupon() {
                 document.getElementById('couponinval').innerHTML = " "
                 document.getElementById('couponinvalid').innerHTML = response.invalidmessage
 
+            } else if (response.umessage == true) {
+                console.log("kerii");
+                document.getElementById('couponinvalid').innerHTML = response.uerrmessage
             }
 
         }

@@ -142,6 +142,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let userBag = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
             if (userBag) {
+                // console.log("proid", prodId);
                 let proExist = userBag.products.findIndex(product => product.item == prodId)
                 // console.log(proExist);
                 if (proExist != -1) {
