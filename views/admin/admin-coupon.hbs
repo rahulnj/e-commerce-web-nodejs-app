@@ -52,10 +52,11 @@
                                 <th>Coupon</th>
                                 <th>value</th>
                                 <th>Expiry</th>
-
+                                <th>minamount</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
+                        {{#each coupons}}
                         <tbody>
                             <tr>
                                 <td>
@@ -63,22 +64,26 @@
 
                                     </div>
                                 </td>
-                                <td><b>coupon code</b></td>
-                                <td>70%</td>
-                                <td>date</td>
 
+                                <td><b>{{this.couponcode}}</b></td>
+                                <td>{{this.value}}</td>
+                                <td>{{this.expireAt}}</td>
+                                <td>{{this.minamount}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
                                                 class="material-icons md-more_horiz"></i> </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                            <a onclick="deleteCoupon('{{this._id}}')" class="dropdown-item text-danger"
+                                                href="">Delete</a>
                                         </div>
                                     </div>
                                     <!-- dropdown //end -->
                                 </td>
+
                             </tr>
                         </tbody>
+                        {{/each}}
                     </table>
 
                 </div>

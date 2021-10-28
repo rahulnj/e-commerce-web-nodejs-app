@@ -994,5 +994,34 @@ function applycoupon() {
     })
 }
 
-//edit image
+//delete coupon
+function deleteCoupon(copId) {
+    //     Swal.fire({
+    //         title: "Delete this product ?",
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Delete'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    $.ajax({
+        url: '/admin/coupons/delete-coupon',
+        data: {
+            copId,
+        },
+        method: 'post',
+        success: (response) => {
+            if (response) {
+                location.reload()
+            } else {
+
+            }
+        },
+    })
+    //     } else {
+
+    //     }
+    // });
+}
 

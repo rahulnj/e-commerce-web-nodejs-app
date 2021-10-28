@@ -274,8 +274,9 @@ router.post('/add-product', async (req, res) => {
 
 ///coupon///
 
-router.get('/coupons', adminAuth, (req, res) => {
-  res.render('admin/admin-coupon', { admin: true })
+router.get('/coupons', adminAuth, async (req, res) => {
+  let coupons = await productHelpers.displayCoupon()
+  res.render('admin/admin-coupon', { admin: true, coupons })
 })
 
 
@@ -284,6 +285,15 @@ router.post('/coupons/add-coupon', async (req, res) => {
   await productHelpers.addCoupon(req.body)
   res.json(response)
 })
+
+router.post('/coupons/delete-coupon', async (req, res) => {
+  console.log("Api call");
+  console.log(req.body);
+  let response = await productHelpers.deleteCoupon(req.body.copId)
+  console.log(response);
+  res.json(response)
+})
+
 
 router.get('/productoffer', adminAuth, async (req, res) => {
   let products = await productHelpers.getProducts()

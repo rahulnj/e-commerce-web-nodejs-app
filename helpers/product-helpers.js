@@ -263,6 +263,14 @@ module.exports = {
             })
         })
     },
+    displayCoupon: async () => {
+        let coupons = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+        return coupons
+    },
+    deleteCoupon: async (couponId) => {
+        let copDetails = await db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(couponId) })
+        return true
+    },
     checkCoupon: (code) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.COUPON_COLLECTION).findOne({ couponcode: code }).then((response) => {
@@ -301,26 +309,28 @@ module.exports = {
         })
     },
     saveCouponuser: (userId, couponId) => {
+        console.log(userId);
+        console.log(couponId);
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
-                $set: {
-                    coupons: [{ cid: couponId }]
-                }
-            }).then((response) => {
-                resolve()
-            })
+
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) });
+            if (user.coupons) {
+                await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
+                    $push: { coupons: { cid: couponId } }
+                }).then((response) => {
+                    resolve()
+                })
+            } else {
+                await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
+                    $set: {
+                        coupons: [{ cid: couponId }]
+                    }
+                }).then(() => {
+                    resolve()
+                })
+            }
         })
     },
-
-
-
-
-
-
-
-
-
-
     getProductoffer: (prodId, offer, offerprice, expiry) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {
@@ -332,7 +342,7 @@ module.exports = {
                 }
             })
         })
-    }
+    },
 
 
 

@@ -261,7 +261,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
           res.json({ codsuccess: true })
 
         } else if (req.body['payment'] === 'RAZORPAY') {
-          userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+          userhelpers.generateRazorpay(orderId, price).then((response) => {
             req.session.user.OrderConfirmed = true
             // console.log(response);
             res.json({ res: response, razorpay: true })
@@ -281,14 +281,14 @@ router.post('/place-order', verifyUser, async (req, res) => {
                 "items": [{
                   "name": "Red Sox Hat",
                   "sku": "001",
-                  "price": totalPrice,
+                  "price": price,
                   "currency": "USD",
                   "quantity": 1
                 }]
               },
               "amount": {
                 "currency": "USD",
-                "total": totalPrice
+                "total": price
               },
               "description": "Hat for the best team ever"
             }]
@@ -649,7 +649,7 @@ router.post('/checkout/applycoupon', async (req, res) => {
         res.json({ umessage: true, uerrmessage: "Coupon already applied" })
       }
     } else {
-      console.log("kerii");
+      // console.log("kerii");
       res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
   })
