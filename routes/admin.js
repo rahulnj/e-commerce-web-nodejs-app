@@ -317,7 +317,7 @@ router.get('/categoryoffer', (req, res) => {
   res.render('admin/admin-categoryoffer', { admin: true })
 })
 router.post('/categoryoffer/placecatoffer', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 

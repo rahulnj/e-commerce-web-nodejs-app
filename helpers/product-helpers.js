@@ -384,8 +384,8 @@ module.exports = {
                     }
                 } else {
                     i.isoffer = true
-                    i.offer = offer
-                    i.offerprice = i.price - i.price * offer / 100
+                    i.offer = per
+                    i.offerprice = i.price - i.price * per / 100
                     i.expiry = expiry
                 }
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(i._id) },
