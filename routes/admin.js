@@ -287,7 +287,7 @@ router.post('/coupons/add-coupon', async (req, res) => {
 })
 
 router.post('/coupons/delete-coupon', async (req, res) => {
-  console.log("Api call");
+  // console.log("Api call");
   console.log(req.body);
   let response = await productHelpers.deleteCoupon(req.body.copId)
   console.log(response);

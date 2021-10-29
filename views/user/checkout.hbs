@@ -64,6 +64,16 @@
                                     <h5>Your Order</h5>
                                     <p>The Details</p>
                                 </div>
+                                {{#if offerTotal.offertotal}}
+                                <ul class="order-details-form mb-4" id="couponul">
+
+                                    <li><span>Subtotal</span> <span>₹{{offerTotal.offertotal}}</span></li>
+                                    <li><span>Shipping</span> <span>Free</span></li>
+                                    <li><span>Total</span><span id="total-price">₹{{offerTotal.offertotal}}</span>
+
+                                    </li>
+                                </ul>
+                                {{else}}
                                 <ul class="order-details-form mb-4" id="couponul">
 
                                     <li><span>Subtotal</span> <span>₹{{totalPrice}}</span></li>
@@ -72,6 +82,7 @@
 
                                     </li>
                                 </ul>
+                                {{/if}}
                                 <ul class="order-details-form mb-4">
                                     {{!-- <form class="form-inline" id="couponapply-form"> --}}
                                         {{!-- <div class="form-group mx-sm-3 mb-2"> --}}

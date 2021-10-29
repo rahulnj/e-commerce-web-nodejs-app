@@ -181,9 +181,11 @@ router.get('/checkout', verifyUser, async (req, res) => {
   let products = await userhelpers.getMybag(user._id);
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
+    let offerTotal = await userhelpers.getTotalofferprice(user._id)
+
     await userhelpers.getAddress(user._id).then((addressDetails) => {
       // console.log(addressDetails);
-      res.render('user/checkout', { totalPrice, addressDetails, user })
+      res.render('user/checkout', { totalPrice, offerTotal, addressDetails, user })
     })
   } else {
     res.redirect('/mybag')
@@ -229,7 +231,7 @@ router.post('/place-order', verifyUser, async (req, res) => {
   await productHelpers.getBagProductList(user._id).then(async (products) => {
     let response = await productHelpers.checkCoupon(req.body.couponCode)
     let totalPrice = await userhelpers.getTotalprice(user._id)
-
+    let offerTotal = await userhelpers.getTotalofferprice(user._id)
     //
     let price;
     if (response) {
@@ -351,11 +353,13 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user._id);
   let products = await userhelpers.getMybag(user._id);
+  console.log(products);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
+    let offerTotal = await userhelpers.getTotalofferprice(user._id)
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
       // console.log(singlePrice);
-      res.render('user/mybag', { user, products, totalPrice, singlePrice })
+      res.render('user/mybag', { user, products, totalPrice, offerTotal, singlePrice })
     })
   } else {
     res.render('user/mybag', { cartempty: true, user })

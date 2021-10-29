@@ -301,13 +301,67 @@ module.exports = {
                 {
                     $group: {
                         _id: null,
-                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        // offertotal: { $sum: { $multiply: ['$quantity', '$product.offerprice'] } }
                     }
                 }
             ]).toArray()
             if (totalPrice[0]) {
                 // console.log(totalPrice[0]);
                 resolve(totalPrice[0].total)
+            } else {
+                resolve(false)
+            }
+        })
+    },
+    getTotalofferprice: (userId) => {
+
+        // console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let totalPrice = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                // {
+                //     $project: {
+                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                //     }
+                // },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        offertotal: { $sum: { $multiply: ['$quantity', '$product.offerprice'] } }
+                    }
+                }
+            ]).toArray()
+            if (totalPrice[0]) {
+                console.log(totalPrice[0].offertotal);
+                resolve(totalPrice[0])
             } else {
                 resolve(false)
             }

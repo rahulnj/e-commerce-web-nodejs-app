@@ -186,6 +186,7 @@ function changeQuantity(cartId, proId, userId, count) {
                 // alert("Removed from bag")
 
             } else {
+                location.reload()
                 console.log("changed")
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.totalPrice
