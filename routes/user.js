@@ -231,27 +231,43 @@ router.post('/place-order', verifyUser, async (req, res) => {
   await productHelpers.getBagProductList(user._id).then(async (products) => {
     let response = await productHelpers.checkCoupon(req.body.couponCode)
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    let offerTotal = await userhelpers.getTotalofferprice(user._id)
+    let Total = await userhelpers.getTotalofferprice(user._id)
+
     //
     let price;
     if (response) {
       let minamount = response.minamount
       let percent = response.value
-      if (totalPrice >= minamount) {
-        // console.log('keriii');
-        var disPrice = (percent / 100) * totalPrice;
-        var couponPrice = totalPrice - disPrice
-        console.log(couponPrice);
-        price = couponPrice;
-        console.log(response);
-        await productHelpers.saveCouponuser(user._id, response._id)
+      if (Total.total >= minamount) {
+        console.log("1st keri", Total);
+        if (Total.offertotal) {
+          var disPrice = (percent / 100) * Total.offertotal;
+          var couponPrice = Total.offertotal - disPrice
+          // console.log(couponPrice);
+          price = couponPrice;
+          // console.log(response);
+          await productHelpers.saveCouponuser(user._id, response._id)
+        } else {
+          console.log('keriii');
+          var disPrice = (percent / 100) * Total.total;
+          var couponPrice = Total.total - disPrice
+          console.log(couponPrice);
+          price = couponPrice;
+          console.log(response);
+          await productHelpers.saveCouponuser(user._id, response._id)
+        }
       } else {
-        price = totalPrice
+        price = Total.total
 
       }
 
     } else {
-      price = totalPrice
+      if (Total.offertotal) {
+        price = Total.offertotal
+      } else {
+        price = Total.total
+      }
+
     }
 
     // console.log(products);
@@ -353,7 +369,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
   // console.log(user._id);
   let products = await userhelpers.getMybag(user._id);
-  console.log(products);
+  // console.log(products);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
@@ -637,17 +653,32 @@ router.post('/checkout/applycoupon', async (req, res) => {
   let user = req.session.user
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
+    let Total = await userhelpers.getTotalofferprice(user._id)
+
     if (response) {
+
       let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
       if (!couponUsed) {
-        let minamount = response.minamount
-        let percent = response.value
-        if (totalPrice >= minamount) {
-          var disPrice = (percent / 100) * totalPrice;
-          var couponPrice = totalPrice - disPrice
-          res.json({ couponPrice, message: "Coupon applied" })
+        if (Total.offertotal) {
+          let minamount = response.minamount
+          let percent = response.value
+          if (Total.offertotal >= minamount) {
+            var disPrice = (percent / 100) * Total.offertotal;
+            var couponPrice = Total.offertotal - disPrice
+            res.json({ couponPrice, message: "Coupon applied" })
+          } else {
+            res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
+          }
         } else {
-          res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
+          let minamount = response.minamount
+          let percent = response.value
+          if (Total.total >= minamount) {
+            var disPrice = (percent / 100) * Total.total;
+            var couponPrice = Total.total - disPrice
+            res.json({ couponPrice, message: "Coupon applied" })
+          } else {
+            res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
+          }
         }
       } else {
         res.json({ umessage: true, uerrmessage: "Coupon already applied" })
@@ -656,6 +687,7 @@ router.post('/checkout/applycoupon', async (req, res) => {
       // console.log("kerii");
       res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
+
   })
 })
 

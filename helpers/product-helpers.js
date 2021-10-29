@@ -309,8 +309,8 @@ module.exports = {
         })
     },
     saveCouponuser: (userId, couponId) => {
-        console.log(userId);
-        console.log(couponId);
+        // console.log(userId);
+        // console.log(couponId);
         return new Promise(async (resolve, reject) => {
 
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) });

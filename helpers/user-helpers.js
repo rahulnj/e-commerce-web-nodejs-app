@@ -360,7 +360,7 @@ module.exports = {
                 }
             ]).toArray()
             if (totalPrice[0]) {
-                console.log(totalPrice[0].offertotal);
+                // console.log(totalPrice[0].offertotal);
                 resolve(totalPrice[0])
             } else {
                 resolve(false)
