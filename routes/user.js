@@ -236,41 +236,32 @@ router.post('/place-order', verifyUser, async (req, res) => {
     let response = await productHelpers.checkCoupon(req.body.couponCode)
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let Total = await userhelpers.getTotalofferprice(user._id)
-
+    console.log(Total);
     //
     let price;
     if (response) {
       let minamount = response.minamount
       let percent = response.value
-      if (Total.total >= minamount) {
+      if (Total >= minamount) {
         console.log("1st keri", Total);
-        if (Total.offertotal) {
-          var disPrice = (percent / 100) * Total.offertotal;
-          var couponPrice = Total.offertotal - disPrice
-          // console.log(couponPrice);
-          price = couponPrice;
-          // console.log(response);
-          await productHelpers.saveCouponuser(user._id, response._id)
-        } else {
-          console.log('keriii');
-          var disPrice = (percent / 100) * Total.total;
-          var couponPrice = Total.total - disPrice
-          console.log(couponPrice);
-          price = couponPrice;
-          console.log(response);
-          await productHelpers.saveCouponuser(user._id, response._id)
-        }
+
+        console.log('keriii');
+        var disPrice = (percent / 100) * Total;
+        var couponPrice = Total - disPrice
+        // console.log(couponPrice);
+        price = couponPrice;
+        // console.log(response);
+        await productHelpers.saveCouponuser(user._id, response._id)
+
       } else {
-        price = Total.total
+        price = Total
 
       }
 
     } else {
-      if (Total.offertotal) {
-        price = Total.offertotal
-      } else {
-        price = Total.total
-      }
+
+      price = Total
+
 
     }
 
@@ -344,12 +335,13 @@ router.get('/successs', async (req, res) => {
   const paymentId = req.query.paymentId;
   let user = req.session.user
   let totalPrice = await userhelpers.getTotalprice(user._id)
+  let Total = await userhelpers.getTotalofferprice(user._id)
   const execute_payment_json = {
     "payer_id": payerId,
     "transactions": [{
       "amount": {
         "currency": "USD",
-        "total": totalPrice
+        "total": Total
       }
     }]
   };
@@ -377,6 +369,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
+    console.log("----", offerTotal);
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
       // console.log(singlePrice);
       res.render('user/mybag', { user, products, totalPrice, offerTotal, singlePrice })
@@ -657,33 +650,24 @@ router.post('/checkout/applycoupon', async (req, res) => {
   let user = req.session.user
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
+    // console.log(totalPrice);
     let Total = await userhelpers.getTotalofferprice(user._id)
-
+    console.log("kerii");
     if (response) {
 
       let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
+      console.log(couponUsed);
       if (!couponUsed) {
-        if (Total.offertotal) {
-          let minamount = response.minamount
-          let percent = response.value
-          if (Total.offertotal >= minamount) {
-            var disPrice = (percent / 100) * Total.offertotal;
-            var couponPrice = Total.offertotal - disPrice
-            res.json({ couponPrice, message: "Coupon applied" })
-          } else {
-            res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
-          }
+        let minamount = response.minamount
+        let percent = response.value
+        if (Total >= minamount) {
+          var disPrice = (percent / 100) * Total;
+          var couponPrice = Total - disPrice
+          res.json({ couponPrice, message: "Coupon applied" })
         } else {
-          let minamount = response.minamount
-          let percent = response.value
-          if (Total.total >= minamount) {
-            var disPrice = (percent / 100) * Total.total;
-            var couponPrice = Total.total - disPrice
-            res.json({ couponPrice, message: "Coupon applied" })
-          } else {
-            res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
-          }
+          res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
         }
+
       } else {
         res.json({ umessage: true, uerrmessage: "Coupon already applied" })
       }

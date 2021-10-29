@@ -105,24 +105,15 @@
                                     <p>The Details</p>
                                 </div>
 
-                                {{#if offerTotal.offertotal}}
+
                                 <ul class="order-details-form mb-4">
                                     {{!-- <li><span>Product</span> <span>Total</span></li> --}}
-                                    <li><span>Subtotal</span> <span
-                                            id="subtotal-price">₹{{offerTotal.offertotal}}</span></li>
+                                    <li><span>Subtotal</span> <span id="subtotal-price">₹{{offerTotal}}</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
-                                    <li><span>Total</span><span id="total-price">₹{{offerTotal.offertotal}}</span>
+                                    <li><span>Total</span><span id="total-price">₹{{offerTotal}}</span>
                                     </li>
                                 </ul>
-                                {{else}}
-                                <ul class="order-details-form mb-4">
-                                    {{!-- <li><span>Product</span> <span>Total</span></li> --}}
-                                    <li><span>Subtotal</span> <span id="subtotal-price">₹{{totalPrice}}</span></li>
-                                    <li><span>Shipping</span> <span>Free</span></li>
-                                    <li><span>Total</span><span id="total-price">₹{{totalPrice}}</span>
-                                    </li>
-                                </ul>
-                                {{/if}}
+
 
                                 <a href="/checkout" class="btn essence-btn">Checkout</a>
                             </div>

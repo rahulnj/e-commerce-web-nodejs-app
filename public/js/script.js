@@ -261,6 +261,7 @@ $("#checkout-form").submit((e) => {
                 razorpayPayment(response.res)
 
             } else if (response.paypalsuccess) {
+
                 location.href = response.link
             }
         }

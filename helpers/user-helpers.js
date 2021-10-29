@@ -351,17 +351,27 @@ module.exports = {
                 //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
                 //     }
                 // },
-                {
-                    $group: {
-                        _id: null,
-                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
-                        offertotal: { $sum: { $multiply: ['$quantity', '$product.offerprice'] } }
-                    }
-                }
+                // {
+                //     $group: {
+                //         _id: null,
+                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                //         offertotal: { $sum: { $multiply: ['$quantity', '$product.offerprice'] } }
+                //     }
+                // }
             ]).toArray()
+            let offertotal = 0
+            for (let i = 0; i < totalPrice.length; i++) {
+                if (totalPrice[i].product.offerprice) {
+                    offertotal += (totalPrice[i].product.offerprice * totalPrice[i].quantity)
+                } else {
+                    offertotal += (totalPrice[i].product.price * totalPrice[i].quantity)
+                }
+            }
+            console.log("kitty", offertotal);
+
             if (totalPrice[0]) {
-                // console.log(totalPrice[0].offertotal);
-                resolve(totalPrice[0])
+                // console.log(offertotal);
+                resolve(offertotal)
             } else {
                 resolve(false)
             }

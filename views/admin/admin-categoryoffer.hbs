@@ -1,0 +1,89 @@
+<section class="content-main container">
+    <div class="content-header">
+        <h2 class="content-title">Category offer</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form id="getproducts">
+                        <div class="mb-4">
+                            <label class="form-label">Product</label>
+                            <select name="product" class="form-select" id="">
+                                <option value="">select</option>
+
+                                <option value="{{this._id}}">this.product</option>
+
+                            </select>
+                        </div>
+                        <div class="col-6  mb-6">
+                            <label class="form-label">Offer %</label>
+                            <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here"
+                                required>
+                            <p id="cvalueerr" class="text-danger"></p>
+
+                        </div>
+                        <div class="col-lg-6  mb-6">
+                            <label class="form-label">Expiry</label>
+                            <input class="form-control" name="expiry" type="date" required>
+                        </div>
+
+                        <div class="d-grid p-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <p id="error-message" class="text-danger"></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+
+                                    </div>
+                                </th>
+                                <th>Product</th>
+                                <th>value</th>
+                                <th>Expiry</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+
+                                    </div>
+                                </td>
+
+                                <td><b
+                                        style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 8ch;">{{this.product}}</b>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
+                                                class="material-icons md-more_horiz"></i> </a>
+                                        <div class="dropdown-menu">
+                                            <a onclick="" class="dropdown-item text-danger" href="">Delete</a>
+                                        </div>
+                                    </div>
+                                    <!-- dropdown //end -->
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+                </div> <!-- .col// -->
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section>
+
+<script>

@@ -35,66 +35,66 @@
                             <p id="camounterr" class="text-danger"></p>
 
                         </div><!-- col .// -->
-
-                    </div> <!-- row.// -->
-                </div>
-                <!-- col.// -->
-                <div class="col-lg-5 mb-6">
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <div class="form-check">
-
-                                    </div>
-                                </th>
-                                <th>Coupon</th>
-                                <th>value</th>
-                                <th>Expiry</th>
-                                <th>minamount</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        {{#each coupons}}
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-
-                                    </div>
-                                </td>
-
-                                <td><b>{{this.couponcode}}</b></td>
-                                <td>{{this.value}}</td>
-                                <td>{{this.expireAt}}</td>
-                                <td>{{this.minamount}}</td>
-                                <td class="text-end">
-                                    <div class="dropdown">
-                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
-                                                class="material-icons md-more_horiz"></i> </a>
-                                        <div class="dropdown-menu">
-                                            <a onclick="deleteCoupon('{{this._id}}')" class="dropdown-item text-danger"
-                                                href="">Delete</a>
-                                        </div>
-                                    </div>
-                                    <!-- dropdown //end -->
-                                </td>
-
-                            </tr>
-                        </tbody>
-                        {{/each}}
-                    </table>
-
-                </div>
-            </div> <!-- row.// -->
-            <br>
-            <button class="btn btn-primary" type="submit">Create</button>
-            <p id="submit-message" class="text-danger"></p>
+                        <br>
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <p id="submit-message" class="text-danger"></p>
 
         </form>
-        <hr class="my-5">
-    </section> <!-- content-body .// -->
+</div> <!-- row.// -->
+</div>
+<!-- col.// -->
+<div class="col-lg-5 mb-6">
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <div class="form-check">
+
+                    </div>
+                </th>
+                <th>Coupon</th>
+                <th>value</th>
+                <th>Expiry</th>
+                <th>minamount</th>
+                <th class="text-end">Action</th>
+            </tr>
+        </thead>
+        {{#each coupons}}
+        <tbody>
+            <tr>
+                <td>
+                    <div class="form-check">
+
+                    </div>
+                </td>
+
+                <td><b>{{this.couponcode}}</b></td>
+                <td>{{this.value}}</td>
+                <td>{{this.expireAt}}</td>
+                <td>{{this.minamount}}</td>
+                <td class="text-end">
+                    <div class="dropdown">
+                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
+                                class="material-icons md-more_horiz"></i> </a>
+                        <div class="dropdown-menu">
+                            <a onclick="deleteCoupon('{{this._id}}')" class="dropdown-item text-danger"
+                                href="">Delete</a>
+                        </div>
+                    </div>
+                    <!-- dropdown //end -->
+                </td>
+
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+
+</div>
+</div> <!-- row.// -->
+
+<hr class="my-5">
+</section> <!-- content-body .// -->
 </div>
 
 <script>
