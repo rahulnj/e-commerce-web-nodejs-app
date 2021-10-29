@@ -4,7 +4,8 @@ const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
-const fs = require('fs')
+const fs = require('fs');
+const { Db } = require('mongodb');
 
 // Auth middleware for admin
 const adminAuth = (req, res, next) => {
@@ -314,6 +315,10 @@ router.post('/productoffer/placeprodoffer', async (req, res) => {
 
 router.get('/categoryoffer', (req, res) => {
   res.render('admin/admin-categoryoffer', { admin: true })
+})
+router.post('/categoryoffer/placecatoffer', async (req, res) => {
+  console.log(req.body);
+  await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 
 

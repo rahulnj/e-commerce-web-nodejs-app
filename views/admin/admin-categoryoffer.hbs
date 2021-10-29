@@ -7,23 +7,30 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <form id="getproducts">
+                    <form id="getcategoryoffer">
                         <div class="mb-4">
-                            <label class="form-label">Product</label>
-                            <select name="product" class="form-select" id="">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select" id="maincat" required>
                                 <option value="">select</option>
-
-                                <option value="{{this._id}}">this.product</option>
-
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
                             </select>
                         </div>
-                        <div class="col-6  mb-6">
+                        <div class="mb-4">
+                            <label class="form-label">Type</label>
+                            <select name="type" class="form-select" id="subtype" required>
+                                <option value="">select</option>
+                                <option value="retailandvet">Retail and Vet</option>
+                                <option value="accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6  mb-6">
                             <label class="form-label">Offer %</label>
                             <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here"
                                 required>
                             <p id="cvalueerr" class="text-danger"></p>
-
                         </div>
+
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Expiry</label>
                             <input class="form-control" name="expiry" type="date" required>
@@ -87,3 +94,24 @@
 </section>
 
 <script>
+    $('#getcategoryoffer').on("submit", (e) => {
+        console.log("api")
+        $.ajax({
+            url: "/admin/categoryoffer/placecatoffer",
+            method: "post",
+            data: $("#getcategoryoffer").serialize(),
+            success: function (response) {
+                if (response) {
+                    // alert("Form submitted successfully")
+                    location.replace('/user-signin')
+                } else {
+
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    })
+</script>

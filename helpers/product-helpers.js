@@ -371,7 +371,32 @@ module.exports = {
             })
         })
     },
-
+    getCategoryoffer: (cat, type, per, expiry) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: cat, type: type }).toArray()
+            products.forEach((i) => {
+                if (i.isoffer) {
+                    if (i.offer < per) {
+                        i.offer = per
+                        let offer = i.price * per / 100
+                        i.expiry = expiry
+                        i.offerprice += offer
+                    }
+                } else {
+                    i.isoffer = true
+                    i.offer = offer
+                    i.offerprice = i.price - i.price * offer / 100
+                    i.expiry = expiry
+                }
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(i._id) },
+                    {
+                        $set: { expiry: new Date(i.expiry), offer: i.offer, isoffer: true, offerprice: i.offerprice }
+                    }).then(() => {
+                        resolve()
+                    })
+            })
+        })
+    },
 
 
 }
