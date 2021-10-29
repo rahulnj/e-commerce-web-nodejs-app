@@ -85,9 +85,12 @@
                                         style="height: 190px; width: 130px;"> --}}
 
                                     <!-- Product Badge -->
-                                    {{!-- <div class="product-badge offer-badge">
-                                        <span>-30%</span>
-                                    </div> --}}
+                                    {{#if isoffer}}
+                                    <div class="product-badge offer-badge">
+                                        <span>-{{this.offer}}%</span>
+                                    </div>
+                                    {{else}}
+                                    {{/if}}
                                     <!-- Favourite -->
                                     <div class="product-favourite">
                                         <a href="#" class="favme fa fa-heart"></a>
@@ -100,7 +103,13 @@
                                     <a href="/single-product/{{this._id}}">
                                         <h6>{{this.product}}</h6>
                                     </a>
+                                    {{#if isoffer}}
+                                    <p class="product-price"><span class="">₹ {{this.price}}</span>₹ {{this.offerprice}}
+                                    </p>
+
+                                    {{else}}
                                     <p class="product-price"><span class="old-price"></span>₹ {{this.price}}</p>
+                                    {{/if}}
                                     <div class="p-1"><button type="button" onclick="addTobag('{{this._id}}')"
                                             class="btn btn-outline-danger btn-sm">Add to
                                             bag</button></a>

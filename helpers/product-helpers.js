@@ -343,7 +343,26 @@ module.exports = {
             })
         })
     },
-
+    checkExpiryoffer: () => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            products.forEach((i) => {
+                if (i.isoffer) {
+                    let date = new Date()
+                    if (i.expiry < date) {
+                        db.get().collection(collection.PRODUCT_COLLECTION).updateMany({ _id: ObjectId(i._id) },
+                            {
+                                $unset: { expiry: 1, isoffer: 1, offer: 1, offerprice: 1 }
+                            }).then((response) => {
+                                resolve()
+                            })
+                    } else {
+                        resolve()
+                    }
+                }
+            })
+        })
+    },
 
 
 

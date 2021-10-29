@@ -46,6 +46,8 @@ router.get('/', async function (req, res, next) {
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
+  await productHelpers.checkExpiryoffer()
+
   let products = await productHelper.getDogProducts()
   res.render('user/home', { products, user, bagCount })
 
@@ -216,8 +218,9 @@ router.post('/deleteaddress', async (req, res) => {
 })
 
 router.get('/success', verifyUser, (req, res) => {
+  let user = req.session.user
   if (req.session.user.OrderConfirmed) {
-    res.render('user/success')
+    res.render('user/success', { user })
     req.session.user.OrderConfirmed = false
   } else {
     res.redirect('/')
