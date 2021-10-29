@@ -33,19 +33,18 @@
 
                             </div>
                             {{#each products}}
+                            {{#if this.product.isoffer}}
                             <div
                                 class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
 
                                 <div class="d-flex flex-row">
-
                                     <img class="rounded" src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
                                         height="50"><a href=""></a>
                                     <a href="" style="text-decoration: none; color:black">
                                         <div class="ml-2"><span
                                                 class="font-weight-bold d-block">{{this.product.product}}</span>Rs.
-                                            {{this.product.price}}<span class="spec"></span></div>
+                                            {{this.product.offerprice}}<span class="spec"></span></div>
                                     </a>
-
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center"><span
@@ -55,6 +54,31 @@
                                 </div>
 
                             </div>
+
+
+
+                            {{else}}
+                            <div
+                                class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
+
+                                <div class="d-flex flex-row">
+                                    <img class="rounded" src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
+                                        height="50"><a href=""></a>
+                                    <a href="" style="text-decoration: none; color:black">
+                                        <div class="ml-2"><span
+                                                class="font-weight-bold d-block">{{this.product.product}}</span>Rs.
+                                            {{this.product.price}}<span class="spec"></span></div>
+                                    </a>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center"><span
+                                        id="{{this.product._id}}">{{this.quantity}}</span><span
+                                        class="d-block ml-5 font-weight-bold"></span>
+
+                                </div>
+
+                            </div>
+                            {{/if}}
                             {{/each}}
 
                         </div>

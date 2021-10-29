@@ -16,7 +16,11 @@
         <a href="#">
             <h2>{{product.product}}</h2>
         </a>
+        {{#if product.isoffer}}
+        <p class="product-price"><span class="old-price">₹ {{product.price}}</span>₹ {{product.offerprice}}</p>
+        {{else}}
         <p class="product-price"><span class="old-price"></span>₹ {{product.price}}</p>
+        {{/if}}
         <p class="product-desc">{{product.description}}</p>
 
         <!-- Form -->
