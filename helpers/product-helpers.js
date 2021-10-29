@@ -343,6 +343,14 @@ module.exports = {
             })
         })
     },
+    displayProductoffer: async () => {
+        let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ isoffer: true }).toArray()
+        console.log(products);
+        return products
+    },
+
+
+
     checkExpiryoffer: () => {
         return new Promise(async (resolve, reject) => {
             let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()

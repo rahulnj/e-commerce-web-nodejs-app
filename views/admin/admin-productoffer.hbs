@@ -19,7 +19,8 @@
                         </div>
                         <div class="col-6  mb-6">
                             <label class="form-label">Offer %</label>
-                            <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here">
+                            <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here"
+                                required>
                             <p id="cvalueerr" class="text-danger"></p>
 
                         </div>
@@ -37,11 +38,46 @@
                 <div class="col-md-8">
                     <table class="table">
                         <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
 
+                                    </div>
+                                </th>
+                                <th>Product</th>
+                                <th>value</th>
+                                <th>Expiry</th>
+                                <th class="text-end">Action</th>
+                            </tr>
                         </thead>
-                        <tbody class="offer">
+                        {{#each offerProducts}}
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
 
+                                    </div>
+                                </td>
+
+                                <td><b
+                                        style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 8ch;">{{this.product}}</b>
+                                </td>
+                                <td>{{this.offer}}</td>
+                                <td>{{this.expiry}}</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
+                                                class="material-icons md-more_horiz"></i> </a>
+                                        <div class="dropdown-menu">
+                                            <a onclick="" class="dropdown-item text-danger" href="">Delete</a>
+                                        </div>
+                                    </div>
+                                    <!-- dropdown //end -->
+                                </td>
+
+                            </tr>
                         </tbody>
+                        {{/each}}
                     </table>
 
 

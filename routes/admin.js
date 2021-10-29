@@ -297,7 +297,8 @@ router.post('/coupons/delete-coupon', async (req, res) => {
 
 router.get('/productoffer', adminAuth, async (req, res) => {
   let products = await productHelpers.getProducts()
-  res.render('admin/admin-productoffer', { admin: true, products })
+  let offerProducts = await productHelpers.displayProductoffer()
+  res.render('admin/admin-productoffer', { admin: true, products, offerProducts })
 })
 
 router.post('/productoffer/placeprodoffer', async (req, res) => {
