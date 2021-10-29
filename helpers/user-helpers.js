@@ -19,6 +19,7 @@ var instance = new Razorpay({
 module.exports = {
     userSignup: async (userData) => {
         userData.status = true
+        userData.coupons = []
         userData.password = await bcrypt.hash(userData.password, 10)
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
@@ -367,7 +368,7 @@ module.exports = {
                     offertotal += (totalPrice[i].product.price * totalPrice[i].quantity)
                 }
             }
-            console.log("kitty", offertotal);
+            // console.log("kitty", offertotal);
 
             if (totalPrice[0]) {
                 // console.log(offertotal);

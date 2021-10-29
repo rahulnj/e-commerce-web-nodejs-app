@@ -369,7 +369,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
-    console.log("----", offerTotal);
+    // console.log("----", offerTotal);
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
       // console.log(singlePrice);
       res.render('user/mybag', { user, products, totalPrice, offerTotal, singlePrice })
@@ -548,7 +548,9 @@ router.post('/change-quantity', async (req, res) => {
   let products = await userhelpers.getMybag(req.body.user);
   if (products.length != 0) {
     userhelpers.changeQuantity(req.body).then(async (response) => {
-      response.totalPrice = await userhelpers.getTotalprice(req.body.user)
+      // response.totalPrice = await userhelpers.getTotalprice(req.body.user)
+      response.Total = await userhelpers.getTotalofferprice(req.body.user)
+
       singlePrice = await userhelpers.getSingleprice(req.body.user)
       res.json(response)
 

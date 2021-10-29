@@ -186,11 +186,10 @@ function changeQuantity(cartId, proId, userId, count) {
                 // alert("Removed from bag")
 
             } else {
-                location.reload()
-                console.log("changed")
+                // location.reload()
                 document.getElementById(proId).innerHTML = quantity + count
-                document.getElementById('total-price').innerHTML = response.totalPrice
-                document.getElementById('subtotal-price').innerHTML = response.totalPrice
+                document.getElementById('total-price').innerHTML = response.Total
+                document.getElementById('subtotal-price').innerHTML = response.Total
 
             }
 
