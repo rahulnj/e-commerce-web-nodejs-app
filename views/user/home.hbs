@@ -110,8 +110,12 @@
                                     style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">
                                     {{this.product}}</h6>
                             </a>
-                            <p class="product-price">₹ {{this.price}}</p>
-
+                            {{#if isoffer}}
+                            <p class="product-price"><span class="">₹ {{this.price}}</span>₹ {{this.offerprice}}
+                            </p>
+                            {{else}}
+                            <p class="product-price"><span class="old-price"></span>₹ {{this.price}}</p>
+                            {{/if}}
                             <!-- Hover Content -->
                             <div class="hover-content">
                                 <!-- Add to Cart -->
