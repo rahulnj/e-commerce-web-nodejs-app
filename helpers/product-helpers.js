@@ -37,13 +37,14 @@ module.exports = {
         return prodDetails
     },
     updateProduct: async (proId, product) => {
+        // console.log(product);
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, {
             $set: {
 
                 product: product.product,
                 description: product.description,
                 price: parseInt(product.price),
-                quantity: parseInt(product.quantity)
+                qty: parseInt(product.qty)
             }
         })
         return prodDetails
