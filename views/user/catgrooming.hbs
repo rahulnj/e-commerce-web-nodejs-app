@@ -101,7 +101,9 @@
                                 <div class="product-description">
                                     <span>paw paw</span>
                                     <a href="/single-product/{{this._id}}">
-                                        <h6>{{this.product}}</h6>
+                                        <h6
+                                            style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 28ch;">
+                                            {{this.product}}</h6>
                                     </a>
                                     {{#if isoffer}}
                                     <p class="product-price"><span class="">₹ {{this.price}}</span>₹ {{this.offerprice}}

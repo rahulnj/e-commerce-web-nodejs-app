@@ -236,7 +236,7 @@ module.exports = {
         })
     },
     buyNowProducts: (proId) => {
-        console.log(proId);
+        // console.log(proId);
 
         return new Promise(async (resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).find({ _id: ObjectId(proId) }).toArray().then((prod) => {
@@ -346,7 +346,7 @@ module.exports = {
     },
     displayProductoffer: async () => {
         let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ isoffer: true }).toArray()
-        console.log(products);
+        // console.log(products);
         return products
     },
 

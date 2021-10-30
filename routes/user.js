@@ -250,18 +250,19 @@ router.post('/place-order', verifyUser, async (req, res) => {
         var couponPrice = Total - disPrice
         // console.log(couponPrice);
         price = couponPrice;
+        req.session.user.Orderamount = price
         // console.log(response);
         await productHelpers.saveCouponuser(user._id, response._id)
 
       } else {
         price = Total
-
+        req.session.user.Orderamount = price
       }
 
     } else {
 
       price = Total
-
+      req.session.user.Orderamount = price
 
     }
 
@@ -341,7 +342,7 @@ router.get('/successs', async (req, res) => {
     "transactions": [{
       "amount": {
         "currency": "USD",
-        "total": Total
+        "total": req.session.user.Orderamount
       }
     }]
   };
