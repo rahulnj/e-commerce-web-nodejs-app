@@ -313,7 +313,7 @@ router.post('/productoffer/placeprodoffer', async (req, res) => {
   await productHelpers.getProductoffer(req.body.product, req.body.offer, offerprice, req.body.expiry)
 })
 
-router.get('/categoryoffer', (req, res) => {
+router.get('/categoryoffer', adminAuth, (req, res) => {
   res.render('admin/admin-categoryoffer', { admin: true })
 })
 router.post('/categoryoffer/placecatoffer', async (req, res) => {

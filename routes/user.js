@@ -196,7 +196,8 @@ router.get('/checkout', verifyUser, async (req, res) => {
 })
 // address page 
 router.get('/address', verifyUser, (req, res) => {
-  res.render('user/address')
+  let user = req.session.user
+  res.render('user/address', { user })
 })
 
 // add address
@@ -655,11 +656,11 @@ router.post('/checkout/applycoupon', async (req, res) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     // console.log(totalPrice);
     let Total = await userhelpers.getTotalofferprice(user._id)
-    console.log("kerii");
+    // console.log("kerii");
     if (response) {
 
       let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
-      console.log(couponUsed);
+      // console.log(couponUsed);
       if (!couponUsed) {
         let minamount = response.minamount
         let percent = response.value
