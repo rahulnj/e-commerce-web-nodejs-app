@@ -518,11 +518,19 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
   let proId = req.body.proId
   let payment = req.body.payment
   // console.log(payment);
+  let singleprice;
   await productHelpers.buyNowProducts(proId).then(async (products) => {
-    let totalPrice = products[0].price
-    // console.log(products);
+    if (products[0].isoffer == true) {
+      singleprice = products[0].offerprice
+      req.session.user.Orderamount = singleprice
+    } else {
+      singleprice = products[0].price
+      req.session.user.Orderamount = singleprice
+    }
+
+    console.log(products);
     await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.buyPlaceOrder(addressDetails, products, totalPrice, payment, user._id).then((orderId) => {
+      await userhelpers.buyPlaceOrder(addressDetails, products, singleprice, payment, user._id).then((orderId) => {
         console.log("order", orderId);
         if (req.body['payment'] === 'COD') {
           req.session.user.OrderConfirmed = true
@@ -532,10 +540,48 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
           userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
             req.session.user.OrderConfirmed = true
             // console.log(response);
-            res.json(response)
+            res.json({ res: response, razorpay: true })
           })
         } else if (req.body['payment'] === 'PAYPAL') {
+          const create_payment_json = {
+            "intent": "sale",
+            "payer": {
+              "payment_method": "paypal"
+            },
+            "redirect_urls": {
+              "return_url": "http://localhost:3000/successs",
+              "cancel_url": "http://localhost:3000/cancel"
+            },
+            "transactions": [{
+              "item_list": {
+                "items": [{
+                  "name": "Red Sox Hat",
+                  "sku": "001",
+                  "price": singleprice,
+                  "currency": "USD",
+                  "quantity": 1
+                }]
+              },
+              "amount": {
+                "currency": "USD",
+                "total": singleprice
+              },
+              "description": "Hat for the best team ever"
+            }]
+          };
 
+          paypal.payment.create(create_payment_json, function (error, payment) {
+            if (error) {
+              console.log(error);
+              throw error;
+            } else {
+              for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                  res.json({ paypalsuccess: true, link: payment.links[i].href })
+                }
+              }
+            }
+          });
         }
 
       })
@@ -543,6 +589,35 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
   })
 })
 
+router.get('/successs', async (req, res) => {
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+  let user = req.session.user
+  let totalPrice = await userhelpers.getTotalprice(user._id)
+  let Total = await userhelpers.getTotalofferprice(user._id)
+  const execute_payment_json = {
+    "payer_id": payerId,
+    "transactions": [{
+      "amount": {
+        "currency": "USD",
+        "total": req.session.user.Orderamount
+      }
+    }]
+  };
+
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+      console.log(error.response);
+      throw error;
+    } else {
+      // console.log("keriii");
+      // console.log(JSON.stringify(payment));
+      req.session.user.OrderConfirmed = true
+      res.redirect("/success")
+    }
+  });
+});
+router.get('/cancel', (req, res) => res.send('Cancelled'));
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {

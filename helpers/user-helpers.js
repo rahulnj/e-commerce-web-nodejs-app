@@ -750,6 +750,8 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             if (payment === 'COD') {
                 var status = 'placed'
+            } else if (payment === 'PAYPAL') {
+                status = 'placed'
             } else {
                 status = 'pending'
             }

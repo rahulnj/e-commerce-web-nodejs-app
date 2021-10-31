@@ -359,8 +359,11 @@ $("#buynow-form").submit((e) => {
             // alert(response)
             if (response.codsuccess) {
                 location.href = '/success'
-            } else {
-                razorpayPayment(response)
+            } else if (response.razorpay) {
+                razorpayPayment(response.res)
+
+            } else if (response.paypalsuccess) {
+                location.href = response.link
 
             }
         }

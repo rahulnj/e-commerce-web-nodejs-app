@@ -72,14 +72,24 @@
 
                                         <img class="rounded" src="/uploads/image-1/{{this._id}}.jpg" width="40"
                                             height="50"><a href=""></a>
-                                        <a href="" style="text-decoration: none; color:black">
 
+                                        {{#if isoffer}}
+                                        <a href="" style="text-decoration: none; color:black">
+                                            <div class="ml-2"><span class="font-weight-bold d-block"
+                                                    style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">{{this.product}}
+                                                </span> <span class="text-muted"
+                                                    style="text-decoration: line-through;">₹
+                                                    {{this.price}}</span> ₹{{this.offerprice}}<span class="spec"></span>
+                                            </div>
+                                        </a>
+                                        {{else}}
+                                        <a href="" style="text-decoration: none; color:black">
                                             <div class="ml-2"><span class="font-weight-bold d-block"
                                                     style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 25ch;">{{this.product}}
                                                 </span>Rs.
                                                 {{this.price}}<span class="spec"></span></div>
                                         </a>
-
+                                        {{/if}}
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center"><span id="">1</span>
@@ -89,13 +99,22 @@
                                     </div>
 
                                 </div>
+                                {{#if isoffer}}
                                 <ul class="order-details-form mb-4">
+                                    <li><span>Subtotal</span> <span>₹{{offerprice}}</span></li>
+                                    <li><span>Shipping</span> <span>Free</span></li>
+                                    <li><span>Total</span><span id="total-price">₹{{offerprice}}</span>
+                                    </li>
+                                </ul>
+                                {{else}}
 
+                                <ul class="order-details-form mb-4">
                                     <li><span>Subtotal</span> <span>₹{{price}}</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
                                     <li><span>Total</span><span id="total-price">₹{{price}}</span>
                                     </li>
                                 </ul>
+                                {{/if}}
                                 {{/each}}
                                 <h5 class="pb-3">payment</h5>
                                 <div class="product-details mr-2 shadow-sm p-2 ">
