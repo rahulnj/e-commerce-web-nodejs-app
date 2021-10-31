@@ -368,6 +368,8 @@ module.exports = {
                     } else {
                         resolve()
                     }
+                } else {
+                    resolve()
                 }
             })
         })

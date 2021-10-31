@@ -47,7 +47,6 @@ router.get('/', async function (req, res, next) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   await productHelpers.checkExpiryoffer()
-
   let products = await productHelper.getDogProducts()
   res.render('user/home', { products, user, bagCount })
 
