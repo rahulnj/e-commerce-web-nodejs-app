@@ -20,7 +20,8 @@ module.exports = {
     userSignup: async (userData) => {
         userData.status = true
         userData.coupons = []
-        userData.password = await bcrypt.hash(userData.password, 10)
+        userData.createdAt = new Date(),
+            userData.password = await bcrypt.hash(userData.password, 10)
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },
     checkPhone: (phone) => {
@@ -34,7 +35,12 @@ module.exports = {
         userData = {
             status: true,
             username: data.given_name,
-            mail: data.email
+            mail: data.email,
+            coupons: [],
+            createdAt: new Date()
+
+
+
         }
         return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
     },

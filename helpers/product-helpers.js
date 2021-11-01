@@ -465,6 +465,36 @@ module.exports = {
             resolve(count)
 
         })
+    },
+    getOrdersCount: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.ORDER_COLLECTION).find({}).count()
+            resolve(count)
+
+        })
+    },
+    getTotalRevenue: () => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: { $and: [{ status: { $ne: 'cancelled' } }, { status: { $ne: 'pending' } }] }
+                },
+                {
+                    $project: {
+                        amount: '$amount',
+                    }
+                },
+
+
+            ]).toArray()
+            let total = 0
+            orderItems.forEach((i) => {
+                total += (i.amount)
+            })
+            // console.log("----------------------");
+            // console.log(total);
+            resolve(total)
+        })
     }
 
 }
