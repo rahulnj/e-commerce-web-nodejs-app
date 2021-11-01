@@ -475,8 +475,11 @@ router.get('/single-product/:id', async (req, res) => {
 router.get('/add-to-bag/:id', verifyUser, (req, res) => {
   // console.log('api call');
   if (req.session.user) {
-    userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
-      res.json({ status: true })
+    userhelpers.addtoBag(req.params.id, req.session.user._id).then(async () => {
+      await userhelpers.getBagcount(req.session.user._id).then(async (bagCount) => {
+        res.json({ status: true, count: bagCount })
+
+      })
     })
   }
 })

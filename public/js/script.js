@@ -126,6 +126,7 @@ function addTobag(proId) {
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        document.getElementById('bag-count').innerHTML = response.count
                     }
                 })
 
@@ -133,7 +134,7 @@ function addTobag(proId) {
                     icon: 'success',
                     title: 'Added to Bag'
                 }).then((res) => {
-                    location.reload()
+                    // location.reload()
                 })
 
             } else {
@@ -1168,7 +1169,7 @@ function moveTobag(wishId, proId) {
                     success: (response) => {
                         if (response) {
                             // alert("Deleted")
-                            location.reload()
+                            window.location.reload()
                         } else {
 
                         }
