@@ -1141,13 +1141,31 @@ function removewishlist(wishId, proId) {
     });
 }
 
-function moveTobag(proId) {
+function moveTobag(wishId, proId) {
     $.ajax({
         url: '/move-to-wishlist/' + proId,
         method: 'get',
         success: (response) => {
             // console.log(response)
             if (response.status) {
+
+                $.ajax({
+                    url: '/delete-wish-item',
+                    method: 'post',
+                    data: {
+                        wishlist: wishId,
+                        product: proId,
+                    },
+
+                    success: (response) => {
+                        if (response) {
+                            // alert("Deleted")
+                            location.reload()
+                        } else {
+
+                        }
+                    },
+                })
 
                 // location.reload()
 

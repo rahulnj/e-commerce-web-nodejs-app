@@ -95,7 +95,8 @@
                                     {{else}}
                                     <p class="product-price"><span class="old-price"></span>₹ {{this.product.price}}</p>
                                     {{/if}}
-                                    <div class="p-1"><button type="button" onclick="moveTobag('{{this.product._id}}')"
+                                    <div class="p-1"><button type="button"
+                                            onclick="moveTobag('{{this._id}}','{{this.product._id}}')"
                                             class="btn btn-outline-danger btn-sm">Move to
                                             bag</button></a>
                                         <button type="button"
