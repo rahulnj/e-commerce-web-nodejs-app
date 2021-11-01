@@ -321,6 +321,9 @@ router.post('/categoryoffer/placecatoffer', async (req, res) => {
   await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 
+router.get('/salesreport', (req, res) => {
+  res.render('admin/salesreport', { admin: true })
+})
 
 
 router.get('/logout', (req, res) => {
