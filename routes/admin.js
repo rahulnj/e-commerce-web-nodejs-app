@@ -46,7 +46,20 @@ router.post('/dashboard', async (req, res) => {
 
 })
 
-router.get('/dashboard', adminAuth, (req, res) => {
+router.post('/dashboard/weeklyReport', async (req, res) => {
+
+  let weeklyReport = await productHelpers.getweeklyreport()
+
+  res.json({ data: weeklyReport })
+})
+
+
+
+
+
+router.get('/dashboard', adminAuth, async (req, res) => {
+  let weeklyReport = await productHelpers.getweeklyreport()
+
   res.render('admin/admin-dashboard', { admin: true })
 })
 
@@ -321,8 +334,9 @@ router.post('/categoryoffer/placecatoffer', async (req, res) => {
   await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 
-router.get('/salesreport', (req, res) => {
-  res.render('admin/salesreport', { admin: true })
+router.get('/salesreport', async (req, res) => {
+  let salesreport = await productHelpers.getsalesReport()
+  res.render('admin/salesreport', { admin: true, salesreport })
 })
 
 

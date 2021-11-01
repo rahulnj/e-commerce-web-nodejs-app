@@ -3,7 +3,7 @@ var collection = require('../config/collections')
 // const { ObjectId } = require('bson')
 var objectId = require('mongodb').ObjectId
 const { ObjectId } = require('bson')
-const { Db } = require('mongodb')
+const { Db, ReturnDocument } = require('mongodb')
 const { response } = require('express')
 const moment = require("moment")
 module.exports = {
@@ -349,9 +349,6 @@ module.exports = {
         // console.log(products);
         return products
     },
-
-
-
     checkExpiryoffer: () => {
         return new Promise(async (resolve, reject) => {
             let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
@@ -400,7 +397,68 @@ module.exports = {
             })
         })
     },
+    getsalesReport: () => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: { $and: [{ status: { $ne: 'cancelled' } }, { status: { $ne: 'pending' } }] }
+                },
+                {
+                    $project: {
+                        orderid: '$_id',
+                        userid: '$user',
+                        payment: '$paymentmethod',
+                        amount: '$amount',
+                        date: '$date',
+                        products: '$products'
+                    }
+                },
+                // {
+                //     $lookup: {
+                //         from: collection.PRODUCT_COLLECTION,
+                //         localField: 'item',
+                //         foreignField: '_id',
+                //         as: 'products'
+                //     }
+                // },
 
+            ]).toArray()
+            // console.log("----------------------");
+            // console.log(orderItems);
+            resolve(orderItems)
+        })
+    },
+    getweeklyreport: async () => {
+        const dayOfYear = (date) =>
+            Math.floor(
+                (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+            )
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [{ status: { $ne: 'cancelled' } }, { status: { $ne: 'pending' } }],
+                        createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+                    },
+                },
+
+                { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
+            ]).toArray()
+            const thisday = dayOfYear(new Date())
+            let salesOfLastWeekData = []
+            for (let i = 0; i < 8; i++) {
+                let count = data.find((d) => d._id === thisday + i - 7)
+
+                if (count) {
+                    salesOfLastWeekData.push(count.count)
+                } else {
+                    salesOfLastWeekData.push(0)
+                }
+            }
+            resolve(salesOfLastWeekData)
+
+        })
+    }
 
 }
 

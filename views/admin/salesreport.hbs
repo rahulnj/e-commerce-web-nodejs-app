@@ -42,14 +42,26 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#No.</th>
+                            <th scope="col">order ID</th>
+                            <th scope="col">User ID</th>
+                            <th scope="col">Payment</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+
+                        </tr>
+                    </thead>
+                    {{#each salesreport}}
                     <tr>
-                        <td>2323</td>
-                        <td><b>Devon Lane</b></td>
-                        <td>devon@example.com</td>
-                        <td>$778.35</td>
-                        <td><span class="badge rounded-pill alert-success">Delivered</span></td>
-                        <td>07.05.2020</td>
-                        <td class="text-end">
+                        <td>{{calculation @index}}</td>
+                        <td>{{orderid}}</td>
+                        <td>{{userid}}</td>
+                        <td><span class="badge rounded-pill alert-success">{{payment}}</span></td>
+                        <td>₹ {{amount}}</td>
+                        <td>{{date}}</td>
+                        {{!-- <td class="text-end">
                             <a href="#" class="btn btn-light">Detail</a>
                             <div class="dropdown">
                                 <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
@@ -60,9 +72,9 @@
                                     <a class="dropdown-item text-danger" href="#">Delete</a>
                                 </div>
                             </div> <!-- dropdown //end -->
-                        </td>
+                        </td> --}}
                     </tr>
-
+                    {{/each}}
 
                 </table>
             </div> <!-- table-responsive end// -->
