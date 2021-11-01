@@ -1,16 +1,15 @@
-<div class="breadcumb_area bg-img">
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="page-title text-center">
-                    <h2>Our Dog Nutrition Range</h2>
-                    <p>Our full range of wet and dry foods offer precise nutrition for dogs of all ages, sizes and
-                        breeds.</p>
+                    <h2>Wishlist</h2>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- ##### Breadcumb Area End ##### -->
 
 <!-- ##### Shop Grid Area Start ##### -->
@@ -30,7 +29,7 @@
                     </div> --}}
 
                     <!-- ##### Single Widget ##### -->
-                    <div class="widget brands mb-50">
+                    {{!-- <div class="widget brands mb-50">
                         <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-20">Catagories</p>
                         <ul>
@@ -43,7 +42,7 @@
 
 
 
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -52,23 +51,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="product-topbar d-flex align-items-center justify-content-between">
-                                <!-- Total Products -->
-                                {{!-- <div class="total-products">
-                                    <p><span>186</span> products found</p>
-                                </div> --}}
-                                <!-- Sorting -->
-                                {{!-- <div class="product-sorting d-flex">
-                                    <p>Sort by:</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortByselect">
-                                            <option value="value">Highest Rated</option>
-                                            <option value="value">Newest</option>
-                                            <option value="value">Price: $$ - $</option>
-                                            <option value="value">Price: $ - $$</option>
-                                        </select>
-                                        <input type="submit" class="d-none" value="">
-                                    </form>
-                                </div> --}}
+
                             </div>
                         </div>
                     </div>
@@ -81,18 +64,9 @@
                             <div class="single-product-wrapper">
                                 <!-- Product Image -->
                                 <div class="product-img">
-                                    <div class="product-favourite">
-                                        <button class="favme fa fa-heart btn btn-light p-2 float-right" type="button"
-                                            style="border: none; background:rgb(255,255,255)"
-                                            onclick="addtowishlist('{{this._id}}')"></button>
-                                        {{!-- <a href="" onclick="addtowishlist('{{this._id}}')"
-                                            class="favme fa fa-heart"></a> --}}
-                                    </div>
-                                    <img src="/uploads/image-1/{{this._id}}.jpg" alt=""
+
+                                    <img src="/uploads/image-1/{{this.product._id}}.jpg" alt=""
                                         style="height: 200px; width: 130px;">
-                                    <!-- Hover Thumb -->
-                                    {{!-- <img class="hover-img" src="/uploads/image-1/{{this._id}}.jpg" alt=""
-                                        style="height: 190px; width: 130px;"> --}}
 
                                     <!-- Product Badge -->
                                     {{#if isoffer}}
@@ -108,34 +82,26 @@
                                 <!-- Product Description -->
                                 <div class="product-description">
                                     <span>paw paw</span>
-                                    <a href="/single-product/{{this._id}}">
+                                    <a href="/single-product/{{this.product._id}}">
                                         <h6
                                             style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 28ch;">
-                                            {{this.product}}</h6>
+                                            {{this.product.product}}</h6>
                                     </a>
                                     {{#if isoffer}}
-                                    <p class="product-price"><span class="">₹ {{this.price}}</span>₹ {{this.offerprice}}
+                                    <p class="product-price"><span class="">₹ {{this.product.price}}</span>₹
+                                        {{this.offerprice}}
                                     </p>
 
                                     {{else}}
-                                    <p class="product-price"><span class="old-price"></span>₹ {{this.price}}</p>
+                                    <p class="product-price"><span class="old-price"></span>₹ {{this.product.price}}</p>
                                     {{/if}}
-                                    <div class="p-1"><button type="button" onclick="addTobag('{{this._id}}')"
-                                            class="btn btn-outline-danger btn-sm">Add to
+                                    <div class="p-1"><button type="button" onclick="moveTobag('{{this.product._id}}')"
+                                            class="btn btn-outline-danger btn-sm">Move to
                                             bag</button></a>
-                                        <button type="button" onclick="buynow('{{this._id}}')"
-                                            class="btn btn-outline-danger btn-sm">Buy Now</button>
+                                        <button type="button"
+                                            onclick="removewishlist('{{this._id}}','{{this.product._id}}')"
+                                            class="btn btn-outline-danger btn-sm">Remove</button>
                                     </div>
-                                    <!-- Hover Content -->
-                                    {{!-- <div class="hover-content row gx-2 container">
-                                        <!-- Add to Cart -->
-                                        <div class="add-to-cart-btn col">
-                                            <a href="#" class="btn essence-btn">Add to Cart</a>
-                                        </div>
-                                        <div class="add-to-cart-btn col">
-                                            <a href="#" class="btn essence-btn">Buy Now</a>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>

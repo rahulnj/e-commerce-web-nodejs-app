@@ -890,5 +890,89 @@ module.exports = {
                 }
             }
         })
-    }
+    },
+    addtoWishlist: (prodId, userId) => {
+        let proObj = {
+            item: ObjectId(prodId)
+
+        }
+        return new Promise(async (resolve, reject) => {
+            let wishlist = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) })
+            if (wishlist) {
+                // console.log("proid", prodId);
+                let proExist = wishlist.products.findIndex(product => product.item == prodId)
+                // console.log(proExist);
+                if (proExist != -1) {
+                    // console.log("keriiii");
+                    resolve({ alreadyexist: true })
+
+                } else {
+                    db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) },
+                        {
+
+                            $push: { products: proObj }
+
+                        }
+                    ).then((response) => {
+                        resolve({ added: true })
+                    })
+                }
+
+
+            } else {
+                let wishObj = {
+                    user: objectId(userId),
+                    products: [proObj]
+                }
+                db.get().collection(collection.WISHLIST_COLLECTION).insertOne(wishObj).then((response) => {
+                    resolve({ added: true })
+                })
+            }
+        })
+    },
+    getMyWishlist: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let cartItems = await db.get().collection(collection.WISHLIST_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                }
+            ]).toArray()
+            // console.log(cartItems[0]);
+            resolve(cartItems)
+        })
+    },
+    deletewishItem: async (wishDetails) => {
+        // console.log(cartDetails.cart, cartDetails.product);
+        let itemDetails = await db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ _id: ObjectId(wishDetails.wishlist) },
+            {
+                $pull: { products: { item: ObjectId(wishDetails.product) } }
+            }
+        )
+        // console.log(itemDetails);
+        return { deleteItem: true }
+    },
+
+
 }

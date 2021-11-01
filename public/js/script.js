@@ -1052,4 +1052,128 @@ function deleteCoupon(copId) {
     //     }
     // });
 }
+function addtowishlist(proId) {
+    $.ajax({
+        url: '/add-to-wishlist/' + proId,
+        method: 'get',
+        success: (response) => {
+            // console.log(response)
+            if (response.status == true) {
+                // location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
 
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Added to Wishlist'
+                }).then((res) => {
+                    // location.reload()
+                })
+
+            } else if (response.alreadyexist == true) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: '',
+                    title: 'Already in your wishlist'
+                }).then((res) => {
+                    // location.reload()
+                })
+            }
+            else {
+                location.href = "/user-signin"
+            }
+
+        }
+    })
+}
+
+function removewishlist(wishId, proId) {
+    // console.log(cartId, proId)
+    Swal.fire({
+        title: 'Remove from wishlist?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Remove'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/delete-wish-item',
+                data: {
+                    wishlist: wishId,
+                    product: proId,
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response) {
+                        // alert("Deleted")
+                        location.reload()
+                    } else {
+
+                    }
+                },
+            })
+        } else {
+
+        }
+    });
+}
+
+function moveTobag(proId) {
+    $.ajax({
+        url: '/move-to-wishlist/' + proId,
+        method: 'get',
+        success: (response) => {
+            // console.log(response)
+            if (response.status) {
+
+                // location.reload()
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Added to Bag'
+                }).then((res) => {
+                    location.reload()
+                })
+
+            } else {
+                location.href = "/user-signin"
+            }
+
+        }
+    })
+}

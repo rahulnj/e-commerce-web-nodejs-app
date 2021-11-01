@@ -537,7 +537,7 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
           res.json({ codsuccess: true })
 
         } else if (req.body['payment'] === 'RAZORPAY') {
-          userhelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+          userhelpers.generateRazorpay(orderId, singleprice).then((response) => {
             req.session.user.OrderConfirmed = true
             // console.log(response);
             res.json({ res: response, razorpay: true })
@@ -757,11 +757,48 @@ router.post('/checkout/applycoupon', async (req, res) => {
   })
 })
 
+router.get('/wishlist', verifyUser, async (req, res) => {
+  let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  await userhelpers.getMyWishlist(user._id).then((products) => {
+    // console.log(products);
+    res.render('user/wishlist', { products, user, bagCount })
+  })
 
+})
 
-
-
-
+router.get('/add-to-wishlist/:id', verifyUser, (req, res) => {
+  console.log('api call');
+  console.log(req.params.id);
+  if (req.session.user) {
+    userhelpers.addtoWishlist(req.params.id, req.session.user._id).then((response) => {
+      if (response.added) {
+        res.json({ status: true })
+        console.log("add");
+      } else if (response.alreadyexist) {
+        console.log("already exist");
+        res.json({ alreadyexist: true })
+      }
+    })
+  }
+})
+router.post('/delete-wish-item', verifyUser, async (req, res) => {
+  console.log(req.body);
+  const response = await userhelpers.deletewishItem(req.body)
+  res.json(response)
+})
+router.get('/move-to-wishlist/:id', verifyUser, (req, res) => {
+  // console.log('api call');
+  console.log(req.params.id);
+  if (req.session.user) {
+    userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
+      res.json({ status: true })
+    })
+  }
+})
 
 
 
