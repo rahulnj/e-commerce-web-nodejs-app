@@ -458,6 +458,13 @@ module.exports = {
             resolve(salesOfLastWeekData)
 
         })
+    },
+    getUsersCount: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.USER_COLLECTION).find({}).count()
+            resolve(count)
+
+        })
     }
 
 }

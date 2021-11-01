@@ -6,6 +6,7 @@ var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
 const fs = require('fs');
 const { Db } = require('mongodb');
+const { count } = require('console');
 
 // Auth middleware for admin
 const adminAuth = (req, res, next) => {
@@ -53,14 +54,9 @@ router.post('/dashboard/weeklyReport', async (req, res) => {
   res.json({ data: weeklyReport })
 })
 
-
-
-
-
 router.get('/dashboard', adminAuth, async (req, res) => {
-  let weeklyReport = await productHelpers.getweeklyreport()
-
-  res.render('admin/admin-dashboard', { admin: true })
+  let usersCount = await productHelpers.getUsersCount()
+  res.render('admin/admin-dashboard', { admin: true, usersCount })
 })
 
 router.get('/orders', adminAuth, async (req, res) => {
