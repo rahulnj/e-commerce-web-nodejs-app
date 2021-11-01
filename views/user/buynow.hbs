@@ -100,7 +100,7 @@
 
                                 </div>
                                 {{#if isoffer}}
-                                <ul class="order-details-form mb-4">
+                                <ul class="order-details-form mb-4" id="couponull">
                                     <li><span>Subtotal</span> <span>₹{{offerprice}}</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
                                     <li><span>Total</span><span id="total-price">₹{{offerprice}}</span>
@@ -108,13 +108,31 @@
                                 </ul>
                                 {{else}}
 
-                                <ul class="order-details-form mb-4">
+                                <ul class="order-details-form mb-4" id="couponull">
                                     <li><span>Subtotal</span> <span>₹{{price}}</span></li>
                                     <li><span>Shipping</span> <span>Free</span></li>
                                     <li><span>Total</span><span id="total-price">₹{{price}}</span>
                                     </li>
                                 </ul>
                                 {{/if}}
+
+                                <ul class="order-details-form mb-4">
+                                    {{!-- <form class="form-inline" id="couponapply-form"> --}}
+                                        {{!-- <div class="form-group mx-sm-3 mb-2"> --}}
+                                            <label for="inputPassword2" class="sr-only"></label>
+                                            <input type="text" class="form-control" id="couponid"
+                                                placeholder="Coupon code">
+                                            <br>
+                                            <button type="button" onclick="buynowapplycoupon('{{this._id}}')"
+                                                id="applybtnn" class=" essence-btn-sm ml-1 "> Apply</button>
+                                            <p class="text-success" id="couponsuccesss"></p>
+                                            <p class="text-danger" id="couponinvalidd"></p>
+                                            <p class="text-danger" id="couponinvall"></p>
+
+                                            {{!--
+                                        </div> --}}
+                                        {{!-- </form> --}}
+                                </ul>
                                 {{/each}}
                                 <h5 class="pb-3">payment</h5>
                                 <div class="product-details mr-2 shadow-sm p-2 ">

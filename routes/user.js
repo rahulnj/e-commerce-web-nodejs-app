@@ -512,14 +512,13 @@ router.post('/buy-address/:id', verifyUser, async (req, res) => {
 })
 
 router.post('/buy-place-order', verifyUser, async (req, res) => {
-  // console.log(req.body);
   let user = req.session.user
   let address = req.body.address
   let proId = req.body.proId
   let payment = req.body.payment
-  // console.log(payment);
   let singleprice;
   await productHelpers.buyNowProducts(proId).then(async (products) => {
+    let response = await productHelpers.checkCoupon(req.body.couponCode)
     if (products[0].isoffer == true) {
       singleprice = products[0].offerprice
       req.session.user.Orderamount = singleprice
@@ -527,11 +526,31 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
       singleprice = products[0].price
       req.session.user.Orderamount = singleprice
     }
+    let price;
+    if (response) {
+      let minamount = response.minamount
+      let percent = response.value
+      if (singleprice >= minamount) {
 
-    console.log(products);
+        var disPrice = (percent / 100) * singleprice;
+        var couponPrice = singleprice - disPrice
+        price = couponPrice;
+        req.session.user.Orderamount = price
+        await productHelpers.saveCouponuser(user._id, response._id)
+
+      } else {
+        price = singleprice
+        req.session.user.Orderamount = price
+      }
+
+    } else {
+
+      price = singleprice
+      req.session.user.Orderamount = price
+
+    }
     await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.buyPlaceOrder(addressDetails, products, singleprice, payment, user._id).then((orderId) => {
-        console.log("order", orderId);
+      await userhelpers.buyPlaceOrder(addressDetails, products, price, payment, user._id).then((orderId) => {
         if (req.body['payment'] === 'COD') {
           req.session.user.OrderConfirmed = true
           res.json({ codsuccess: true })
@@ -557,14 +576,14 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
                 "items": [{
                   "name": "Red Sox Hat",
                   "sku": "001",
-                  "price": singleprice,
+                  "price": price,
                   "currency": "USD",
                   "quantity": 1
                 }]
               },
               "amount": {
                 "currency": "USD",
-                "total": singleprice
+                "total": price
               },
               "description": "Hat for the best team ever"
             }]
@@ -610,8 +629,7 @@ router.get('/successs', async (req, res) => {
       console.log(error.response);
       throw error;
     } else {
-      // console.log("keriii");
-      // console.log(JSON.stringify(payment));
+
       req.session.user.OrderConfirmed = true
       res.redirect("/success")
     }
@@ -641,10 +659,8 @@ router.post('/delete-item', verifyUser, async (req, res) => {
 })
 
 router.post('/verify-payment', (req, res) => {
-  // console.log(req.body);
   userhelpers.verifyPayment(req.body).then(() => {
     userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
-      console.log("paymentsuccess");
       res.json({ status: true })
     })
   }).catch((err) => {
@@ -793,6 +809,51 @@ router.get('/move-to-wishlist/:id', verifyUser, (req, res) => {
     })
   }
 })
+
+router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
+
+  let proId = req.params.id
+  let user = req.session.user
+  await productHelpers.checkCoupon(req.body.code).then(async (response) => {
+    // console.log(totalPrice);
+    let singleprice;
+    await productHelpers.buyNowProducts(proId).then(async (products) => {
+      // console.log(products);
+      if (products[0].isoffer == true) {
+        singleprice = products[0].offerprice
+        req.session.user.Orderamount = singleprice
+      } else {
+        singleprice = products[0].price
+        req.session.user.Orderamount = singleprice
+      }
+      // console.log("kerii");
+      if (response) {
+        // console.log("epo keriii");
+        let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
+        // console.log(couponUsed);
+        if (!couponUsed) {
+          let minamount = response.minamount
+          let percent = response.value
+          if (singleprice >= minamount) {
+            var disPrice = (percent / 100) * singleprice;
+            var couponPrice = singleprice - disPrice
+            // console.log(couponPrice);
+            res.json({ couponPrice, bmessage: "Coupon applied" })
+          } else {
+            res.json({ bvmessage: true, message: "coupon valid for products above" + minamount })
+          }
+
+        } else {
+          res.json({ bumessage: true, uerrmessage: "Coupon already applied" })
+        }
+      } else {
+        // console.log("kerii");
+        res.json({ bimessage: true, invalidmessage: "Invalid Coupon" })
+      }
+    })
+  })
+})
+
 
 
 

@@ -348,13 +348,21 @@ function verifyPayment(payment, order) {
     })
 }
 
-
+var newcoupon;
 $("#buynow-form").submit((e) => {
     e.preventDefault()
+    let data;
+    if (newcoupon) {
+        data = $('#buynow-form').serialize() + "&couponCode=" + newcoupon;
+
+    } else {
+        data = $('#buynow-form').serialize() + "&couponCode=" + false;
+
+    }
     $.ajax({
         url: "/buy-place-order",
         method: "POST",
-        data: $('#buynow-form').serialize(),
+        data: data,
         success: (response) => {
             // alert(response)
             if (response.codsuccess) {
@@ -1195,3 +1203,48 @@ function moveTobag(wishId, proId) {
         }
     })
 }
+
+
+function buynowapplycoupon(proId) {
+    let code = document.getElementById('couponid').value
+
+    $.ajax({
+        url: '/buy-checkout/buy-apply-coupon/' + proId,
+        method: 'post',
+        data: { code },
+        success: (response) => {
+
+            if (response.couponPrice) {
+                console.log(response);
+                newcoupon = code
+                // location.reload()
+                document.getElementById('couponull').innerHTML += ` <li><span>Discount Price</span><span id=""> ₹ ${response.couponPrice}</span>`
+                document.getElementById('applybtnn').disabled = true
+                // alert(response.disPrice)
+                document.getElementById('couponsuccesss').innerHTML = response.bmessage
+                document.getElementById('couponinvalidd').innerHTML = " "
+            } else if (response.bvmessage == true) {
+                document.getElementById('couponinvalidd').innerHTML = " "
+                document.getElementById('couponinvall').innerHTML = response.message
+
+            } else if (response.bimessage == true) {
+                document.getElementById('couponinvall').innerHTML = " "
+                document.getElementById('couponinvalidd').innerHTML = response.invalidmessage
+
+            } else if (response.bumessage == true) {
+                console.log("kerii");
+                document.getElementById('couponinvalidd').innerHTML = response.uerrmessage
+            }
+
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
