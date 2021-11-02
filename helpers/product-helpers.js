@@ -544,7 +544,7 @@ module.exports = {
                     salesOfLastWeekData.push(0)
                 }
             }
-            console.log(salesOfLastWeekData);
+            // console.log(salesOfLastWeekData);
             resolve(salesOfLastWeekData)
 
         })
