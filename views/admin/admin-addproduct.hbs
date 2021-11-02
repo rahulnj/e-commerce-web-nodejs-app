@@ -87,7 +87,9 @@
                                                 hidden></textarea>
                                         </span>
                                     </div>
+                                    <p id="format_err1" class="text-danger"></p>
                                 </div>
+
                             </div>
 
                             {{!-- item 1 end--}}
@@ -111,6 +113,7 @@
                                                 hidden></textarea>
                                         </span>
                                     </div>
+                                    <p id="format_err2" class="text-danger"></p>
                                 </div>
                             </div>
                         </div>
@@ -135,6 +138,7 @@
                                                 hidden></textarea>
                                         </span>
                                     </div>
+                                    <p id="format_err3" class="text-danger"></p>
                                 </div>
                             </div>
 
@@ -157,6 +161,7 @@
                                                 hidden></textarea>
                                         </span>
                                     </div>
+                                    <p id="format_err4" class="text-danger"></p>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +183,7 @@
                                             hidden></textarea>
                                     </span>
                                 </div>
+                                <p id="format_err5" class="text-danger"></p>
                             </div>
                         </div>
 
@@ -373,14 +379,17 @@
 
 <script>
     var img1; var img2; var img3; var img4; var img5;
+    var Img1; var Img2; var Img3; var Img4; var Img5;
+    document.getElementById('image1').onchange = e => {
+        value = e.target.files[0]
+        value = value.type
+        if (value == 'image/jpeg' || value == 'image/jpg' || value == 'image/png') {
+            Img1 = true
+            var image1 = document.getElementById('sampleImage1');
+            var modal1 = $('#modal1');
+            var cropper1;
 
-    $('document').ready(function () {
-        //modal1 and image 1
-        var image1 = document.getElementById('sampleImage1');
-        var modal1 = $('#modal1');
-        var cropper1;
 
-        $('#image1').change(function (event) {
             var files = event.target.files;
 
             var done = function (url) {
@@ -395,48 +404,54 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-        });
 
-        modal1.on('shown.bs.modal', function () {
-            cropper1 = new Cropper(image1, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: '#preview1'
-            });
-        }).on('hidden.bs.modal', function () {
-            cropper1.destroy();
-            cropper1 = null;
-        });
 
-        $('#crop1').click(function () {
-            canvas = cropper1.getCroppedCanvas({
-                width: 400,
-                height: 400
+            modal1.on('shown.bs.modal', function () {
+                cropper1 = new Cropper(image1, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '#preview1'
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper1.destroy();
+                cropper1 = null;
             });
 
-            canvas.toBlob(function (blob) {
-                url = URL.createObjectURL(blob);
-                var reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
+            $('#crop1').click(function () {
+                canvas = cropper1.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
 
-                    modal1.modal('hide');
-                    img1 = base64data
-                    $("#imageValue1").val(base64data)
-                    console.log(img1)
-                    $('#chekPreview1').attr('src', base64data);
-                };
+                canvas.toBlob(function (blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+
+                        modal1.modal('hide');
+                        img1 = base64data
+                        $("#imageValue1").val(base64data)
+                        console.log(img1)
+                        $('#chekPreview1').attr('src', base64data);
+                    };
+                });
             });
-        });
-        //modal1 and image 1 end
+        } else {
+            Img1 = false
+            document.getElementById('format_err1').innerHTML = "invalid format"
+        }
+    }
+    document.getElementById('image2').onchange = e => {
+        value = e.target.files[0]
+        value = value.type
+        if (value == 'image/jpeg' || value == 'image/jpg' || value == 'image/png') {
+            Img2 = true
+            var image2 = document.getElementById('sampleImage2');
+            var modal2 = $('#modal2');
+            var cropper2;
 
-        //modal2 and image 2
-        var image2 = document.getElementById('sampleImage2');
-        var modal2 = $('#modal2');
-        var cropper2;
-
-        $('#image2').change(function (event) {
             var files = event.target.files;
 
             var done = function (url) {
@@ -451,47 +466,52 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-        });
 
-        modal2.on('shown.bs.modal', function () {
-            cropper2 = new Cropper(image2, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: '#preview2'
-            });
-        }).on('hidden.bs.modal', function () {
-            cropper2.destroy();
-            cropper2 = null;
-        });
 
-        $('#crop2').click(function () {
-            canvas = cropper2.getCroppedCanvas({
-                width: 400,
-                height: 400
+            modal2.on('shown.bs.modal', function () {
+                cropper2 = new Cropper(image2, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '#preview2'
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper2.destroy();
+                cropper2 = null;
             });
 
-            canvas.toBlob(function (blob) {
-                url = URL.createObjectURL(blob);
-                var reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
-                    modal2.modal('hide');
-                    img2 = base64data
-                    $("#imageValue2").val(base64data)
-                    $('#chekPreview2').attr('src', base64data);
-                };
+            $('#crop2').click(function () {
+                canvas = cropper2.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
+
+                canvas.toBlob(function (blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal2.modal('hide');
+                        img2 = base64data
+                        $("#imageValue2").val(base64data)
+                        $('#chekPreview2').attr('src', base64data);
+                    };
+                });
             });
-        });
-        //image 2 and modal 2 end
+        } else {
+            Img2 = false
+            document.getElementById('format_err2').innerHTML = "invalid format"
+        }
+    }
+    document.getElementById('image3').onchange = e => {
+        value = e.target.files[0]
+        value = value.type
+        if (value == 'image/jpeg' || value == 'image/jpg' || value == 'image/png') {
+            Img3 = true
+            var image3 = document.getElementById('sampleImage3');
+            var modal3 = $('#modal3');
+            var cropper3;
 
-
-        //modal3 and image 3 start
-        var image3 = document.getElementById('sampleImage3');
-        var modal3 = $('#modal3');
-        var cropper3;
-
-        $('#image3').change(function (event) {
             var files = event.target.files;
 
             var done = function (url) {
@@ -506,46 +526,52 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-        });
 
-        modal3.on('shown.bs.modal', function () {
-            cropper3 = new Cropper(image3, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: '#preview3'
-            });
-        }).on('hidden.bs.modal', function () {
-            cropper3.destroy();
-            cropper3 = null;
-        });
 
-        $('#crop3').click(function () {
-            canvas = cropper3.getCroppedCanvas({
-                width: 400,
-                height: 400
+            modal3.on('shown.bs.modal', function () {
+                cropper3 = new Cropper(image3, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '#preview3'
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper3.destroy();
+                cropper3 = null;
             });
 
-            canvas.toBlob(function (blob) {
-                url = URL.createObjectURL(blob);
-                var reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
-                    modal3.modal('hide');
-                    img3 = base64data
-                    $("#imageValue3").val(base64data)
-                    $('#chekPreview3').attr('src', base64data);
-                };
+            $('#crop3').click(function () {
+                canvas = cropper3.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
+
+                canvas.toBlob(function (blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal3.modal('hide');
+                        img3 = base64data
+                        $("#imageValue3").val(base64data)
+                        $('#chekPreview3').attr('src', base64data);
+                    };
+                });
             });
-        });
-        //image 3 and modal 3 end
+        } else {
+            Img3 = false
+            document.getElementById('format_err3').innerHTML = "invalid format"
+        }
+    }
+    document.getElementById('image4').onchange = e => {
+        value = e.target.files[0]
+        value = value.type
+        if (value == 'image/jpeg' || value == 'image/jpg' || value == 'image/png') {
+            Img4 = true
+            var image4 = document.getElementById('sampleImage4');
+            var modal4 = $('#modal4');
+            var cropper4;
 
-        //modal4 and image 4 start
-        var image4 = document.getElementById('sampleImage4');
-        var modal4 = $('#modal4');
-        var cropper4;
-
-        $('#image4').change(function (event) {
             var files = event.target.files;
 
             var done = function (url) {
@@ -560,45 +586,52 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-        });
 
-        modal4.on('shown.bs.modal', function () {
-            cropper4 = new Cropper(image4, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: '#preview4'
-            });
-        }).on('hidden.bs.modal', function () {
-            cropper4.destroy();
-            cropper4 = null;
-        });
 
-        $('#crop4').click(function () {
-            canvas = cropper4.getCroppedCanvas({
-                width: 400,
-                height: 400
+            modal4.on('shown.bs.modal', function () {
+                cropper4 = new Cropper(image4, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '#preview4'
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper4.destroy();
+                cropper4 = null;
             });
 
-            canvas.toBlob(function (blob) {
-                url = URL.createObjectURL(blob);
-                var reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
-                    modal4.modal('hide');
-                    img4 = base64data
-                    $("#imageValue4").val(base64data)
-                    $('#chekPreview4').attr('src', base64data);
-                };
-            });
-        });
-        //image 4 and modal 4 end
-        //modal5 and image 5
-        var image5 = document.getElementById('sampleImage5');
-        var modal5 = $('#modal5');
-        var cropper5;
+            $('#crop4').click(function () {
+                canvas = cropper4.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
 
-        $('#image5').change(function (event) {
+                canvas.toBlob(function (blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal4.modal('hide');
+                        img4 = base64data
+                        $("#imageValue4").val(base64data)
+                        $('#chekPreview4').attr('src', base64data);
+                    };
+                });
+            });
+        } else {
+            Img4 = false
+            document.getElementById('format_err4').innerHTML = "invalid format"
+        }
+    }
+    document.getElementById('image5').onchange = e => {
+        value = e.target.files[0]
+        value = value.type
+        if (value == 'image/jpeg' || value == 'image/jpg' || value == 'image/png') {
+            Img5 = true
+            var image5 = document.getElementById('sampleImage5');
+            var modal5 = $('#modal5');
+            var cropper5;
+
             var files = event.target.files;
 
             var done = function (url) {
@@ -613,44 +646,42 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-        });
 
-        modal5.on('shown.bs.modal', function () {
-            cropper5 = new Cropper(image5, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: '#preview5'
-            });
-        }).on('hidden.bs.modal', function () {
-            cropper5.destroy();
-            cropper5 = null;
-        });
 
-        $('#crop5').click(function () {
-            canvas = cropper5.getCroppedCanvas({
-                width: 400,
-                height: 400
+            modal5.on('shown.bs.modal', function () {
+                cropper5 = new Cropper(image5, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '#preview5'
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper5.destroy();
+                cropper5 = null;
             });
 
-            canvas.toBlob(function (blob) {
-                url = URL.createObjectURL(blob);
-                var reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
-                    modal5.modal('hide');
-                    img5 = base64data
-                    $("#imageValue5").val(base64data)
-                    $('#chekPreview5').attr('src', base64data);
-                };
+            $('#crop5').click(function () {
+                canvas = cropper5.getCroppedCanvas({
+                    width: 400,
+                    height: 400
+                });
+
+                canvas.toBlob(function (blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal5.modal('hide');
+                        img5 = base64data
+                        $("#imageValue5").val(base64data)
+                        $('#chekPreview5').attr('src', base64data);
+                    };
+                });
             });
-        });
-        //image 5 and modal 5 end
-    });
-
-
-
-
-
+        } else {
+            Img5 = false
+            document.getElementById('format_err5').innerHTML = "invalid format"
+        }
+    }
 
 </script>

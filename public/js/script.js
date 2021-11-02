@@ -934,7 +934,7 @@ $('#addproduct').on("submit", (e) => {
     console.log(product_price)
     console.log(product_qty)
 
-    if (product_name == true && product_des == true && product_price == true && product_qty == true) {
+    if (product_name == true && product_des == true && product_price == true && product_qty == true && Img1 == true && Img2 == true && Img3 == true && Img4 == true && Img5 == true) {
         let data = $("#addproduct")[0];
         let formData = new FormData(data);
         formData.append('data', data);
