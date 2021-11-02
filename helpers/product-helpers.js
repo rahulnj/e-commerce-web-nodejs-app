@@ -495,6 +495,27 @@ module.exports = {
             // console.log(total);
             resolve(total)
         })
+    },
+    getCodCount: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentmethod: 'COD' }).count()
+            resolve(count)
+
+        })
+    },
+    getRazorpayCount: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentmethod: 'RAZORPAY' }).count()
+            resolve(count)
+
+        })
+    },
+    getPaypalCount: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentmethod: 'PAYPAL' }).count()
+            resolve(count)
+
+        })
     }
 
 }

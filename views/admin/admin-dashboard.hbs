@@ -59,18 +59,22 @@
                     <h5 class="card-title">Most Selled</h5>
 
 
-                    <span class="text-muted">Retail & vet</span>
+                    <span class="text-muted">Cash on Delivery</span>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50"
-                            aria-valuemin="0" aria-valuemax="100">50%</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{codPer}}%;"
+                            aria-valuenow="{{codPer}}" aria-valuemin="0" aria-valuemax="100">{{codPer}}%</div>
+                    </div>
+                    <span class="text-muted">Razor Pay</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{razorpayPer}}%;"
+                            aria-valuenow="{{razorpayPer}}" aria-valuemin="0" aria-valuemax="100">{{razorpayPer}}%</div>
                     </div>
 
-
-                    <span class="text-muted">Grooming & Accessories</span>
+                    <span class="text-muted">PayPal</span>
                     <div class="progress mb-3">
 
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100">25%</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{paypalPer}}%;"
+                            aria-valuenow="{{paypalPer}}" aria-valuemin="0" aria-valuemax="100">{{paypalPer}}%</div>
                     </div>
             </div>
 
