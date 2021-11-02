@@ -50,8 +50,8 @@ router.post('/dashboard', async (req, res) => {
 router.post('/dashboard/weeklyReport', async (req, res) => {
 
   let weeklyReport = await productHelpers.getweeklyreport()
-
-  res.json({ data: weeklyReport })
+  let weeklyUserReport = await productHelpers.getWeeklyUsers()
+  res.json({ data: weeklyReport, userdata: weeklyUserReport })
 })
 
 
@@ -69,6 +69,7 @@ router.get('/dashboard', adminAuth, async (req, res) => {
   let razorpayPer = getpercentage(ordersCount, razorpayCount)
   let paypalCount = await productHelpers.getPaypalCount()
   let paypalPer = getpercentage(ordersCount, paypalCount)
+
   res.render('admin/admin-dashboard', { admin: true, usersCount, ordersCount, totalRevenue, codPer, razorpayPer, paypalPer })
 })
 
