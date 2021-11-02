@@ -202,13 +202,11 @@ router.get('/address', verifyUser, (req, res) => {
 // add address
 router.post('/add-address', async (req, res) => {
   let user = req.session.user._id
-  // console.log(req.body);
   await userhelpers.addAddress(user, req.body)
   res.redirect('/checkout')
 })
 //delete address
 router.post('/deleteaddress', async (req, res) => {
-  // console.log(req.body.add);
   let addId = req.body.add
   let userId = req.body.user
   let address = req.body.address
@@ -228,7 +226,6 @@ router.get('/success', verifyUser, (req, res) => {
 })
 
 router.post('/place-order', verifyUser, async (req, res) => {
-  console.log(req.body);
   let user = req.session.user
   let address = req.body.address
   let payment = req.body.payment
@@ -236,22 +233,15 @@ router.post('/place-order', verifyUser, async (req, res) => {
     let response = await productHelpers.checkCoupon(req.body.couponCode)
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let Total = await userhelpers.getTotalofferprice(user._id)
-    console.log(Total);
-    //
     let price;
     if (response) {
       let minamount = response.minamount
       let percent = response.value
       if (Total >= minamount) {
-        console.log("1st keri", Total);
-
-        console.log('keriii');
         var disPrice = (percent / 100) * Total;
         var couponPrice = Total - disPrice
-        // console.log(couponPrice);
         price = couponPrice;
         req.session.user.Orderamount = price
-        // console.log(response);
         await productHelpers.saveCouponuser(user._id, response._id)
 
       } else {
@@ -277,7 +267,6 @@ router.post('/place-order', verifyUser, async (req, res) => {
         } else if (req.body['payment'] === 'RAZORPAY') {
           userhelpers.generateRazorpay(orderId, price).then((response) => {
             req.session.user.OrderConfirmed = true
-            // console.log(response);
             res.json({ res: response, razorpay: true })
           })
         } else if (req.body['payment'] === 'PAYPAL') {
@@ -335,6 +324,7 @@ router.get('/successs', async (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   let user = req.session.user
+  await userhelpers.deleteFinalBag(user._id)
   let totalPrice = await userhelpers.getTotalprice(user._id)
   let Total = await userhelpers.getTotalofferprice(user._id)
   const execute_payment_json = {
@@ -349,11 +339,9 @@ router.get('/successs', async (req, res) => {
 
   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
     if (error) {
-      console.log(error.response);
+
       throw error;
     } else {
-      // console.log("keriii");
-      // console.log(JSON.stringify(payment));
       req.session.user.OrderConfirmed = true
       res.redirect("/success")
     }
