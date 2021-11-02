@@ -455,6 +455,7 @@ module.exports = {
                     salesOfLastWeekData.push(0)
                 }
             }
+            // console.log(salesOfLastWeekData);
             resolve(salesOfLastWeekData)
 
         })
@@ -544,7 +545,99 @@ module.exports = {
                     salesOfLastWeekData.push(0)
                 }
             }
-            // console.log(salesOfLastWeekData);
+            resolve(salesOfLastWeekData)
+
+        })
+    },
+    getDeliverdCount: () => {
+        const dayOfYear = (date) =>
+            Math.floor(
+                (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+            )
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [{ status: { $eq: 'delivered' } }],
+                        createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+                    },
+                },
+
+                { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
+            ]).toArray()
+            const thisday = dayOfYear(new Date())
+            let salesOfLastWeekData = []
+            for (let i = 0; i < 8; i++) {
+                let count = data.find((d) => d._id === thisday + i - 7)
+
+                if (count) {
+                    salesOfLastWeekData.push(count.count)
+                } else {
+                    salesOfLastWeekData.push(0)
+                }
+            }
+            resolve(salesOfLastWeekData)
+
+        })
+    },
+    getCancelledCount: () => {
+        const dayOfYear = (date) =>
+            Math.floor(
+                (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+            )
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [{ status: { $eq: 'cancelled' } }],
+                        createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+                    },
+                },
+
+                { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
+            ]).toArray()
+            const thisday = dayOfYear(new Date())
+            let salesOfLastWeekData = []
+            for (let i = 0; i < 8; i++) {
+                let count = data.find((d) => d._id === thisday + i - 7)
+
+                if (count) {
+                    salesOfLastWeekData.push(count.count)
+                } else {
+                    salesOfLastWeekData.push(0)
+                }
+            }
+            resolve(salesOfLastWeekData)
+
+        })
+    },
+    getPlacedCount: () => {
+        const dayOfYear = (date) =>
+            Math.floor(
+                (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+            )
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [{ status: { $eq: 'placed' } }],
+                        createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+                    },
+                },
+
+                { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
+            ]).toArray()
+            const thisday = dayOfYear(new Date())
+            let salesOfLastWeekData = []
+            for (let i = 0; i < 8; i++) {
+                let count = data.find((d) => d._id === thisday + i - 7)
+
+                if (count) {
+                    salesOfLastWeekData.push(count.count)
+                } else {
+                    salesOfLastWeekData.push(0)
+                }
+            }
             resolve(salesOfLastWeekData)
 
         })

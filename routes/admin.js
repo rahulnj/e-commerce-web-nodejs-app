@@ -51,7 +51,10 @@ router.post('/dashboard/weeklyReport', async (req, res) => {
 
   let weeklyReport = await productHelpers.getweeklyreport()
   let weeklyUserReport = await productHelpers.getWeeklyUsers()
-  res.json({ data: weeklyReport, userdata: weeklyUserReport })
+  let weeklyDeliveredReport = await productHelpers.getDeliverdCount()
+  let weeklyCancelledReport = await productHelpers.getCancelledCount()
+  let weeklyPlacedReport = await productHelpers.getPlacedCount()
+  res.json({ data: weeklyReport, userdata: weeklyUserReport, deliverdReport: weeklyDeliveredReport, cancelReport: weeklyCancelledReport, placeReport: weeklyPlacedReport })
 })
 
 
@@ -60,6 +63,8 @@ function getpercentage(count, paymentcount) {
 }
 
 router.get('/dashboard', adminAuth, async (req, res) => {
+
+
   let usersCount = await productHelpers.getUsersCount()
   let ordersCount = await productHelpers.getOrdersCount()
   let totalRevenue = await productHelpers.getTotalRevenue()

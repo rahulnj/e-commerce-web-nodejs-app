@@ -52,13 +52,11 @@
                 </article> <!-- card-body end// -->
             </div> <!-- card end// -->
         </div> <!-- col end// -->
+
         <div class="col-xl-4 col-lg-12">
             <div class="card mb-4">
                 <article class="card-body">
-
-                    <h5 class="card-title">Most Selled</h5>
-
-
+                    <h5 class="card-title">Most Used Payment Methods</h5>
                     <span class="text-muted">Cash on Delivery</span>
                     <div class="progress mb-3">
                         <div class="progress-bar bg-success" role="progressbar" style="width: {{codPer}}%;"
@@ -67,7 +65,8 @@
                     <span class="text-muted">Razor Pay</span>
                     <div class="progress mb-3">
                         <div class="progress-bar bg-success" role="progressbar" style="width: {{razorpayPer}}%;"
-                            aria-valuenow="{{razorpayPer}}" aria-valuemin="0" aria-valuemax="100">{{razorpayPer}}%</div>
+                            aria-valuenow="{{razorpayPer}}" aria-valuemin="0" aria-valuemax="100">{{razorpayPer}}%
+                        </div>
                     </div>
 
                     <span class="text-muted">PayPal</span>
@@ -80,6 +79,14 @@
 
             </article> <!-- card-body end// -->
         </div> <!-- card end// -->
+        <div class="col-xl-8 col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Order Report</h5>
+                    <canvas id="line-chart" width="800" height="450"></canvas>
+                </article> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </div>
     </div> <!-- col end// -->
     </div> <!-- row end// -->
 
@@ -105,6 +112,9 @@
             if (response.data) {
                 _data = response.data
                 u_data = response.userdata
+                d_data = response.deliverdReport
+                c_data = response.cancelReport
+                p_data = response.placeReport
                 var ctx = document.getElementById('myChart').getContext('2d');
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                 let _labels = []
@@ -130,7 +140,7 @@
                                 data: _data
                             },
                             {
-                                label: 'Visitors',
+                                label: 'Users',
                                 backgroundColor: 'rgb(180, 200, 230)',
                                 borderColor: 'rgb(180, 200, 230)',
                                 data: u_data
@@ -138,11 +148,40 @@
 
                         ]
                     },
-
                     // Configuration options go here
                     options: {}
                 });
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'line',
+                    data: {
+                        labels: [days[(new Date().getDay()) % 7], days[(new Date().getDay() + 1) % 7], days[(new Date().getDay() + 2) % 7], days[(new Date().getDay() + 3) % 7], days[(new Date().getDay() + 4) % 7], days[(new Date().getDay() + 5) % 7], days[(new Date().getDay() + 6) % 7], days[(new Date().getDay())]],
+                        datasets: [{
+                            data: p_data,
+                            label: "Placed",
+                            borderColor: "#3e95cd",
+                            backgroundColor: '#bfd2f5'
 
+                        }, {
+                            data: d_data,
+                            label: "Delivered",
+                            borderColor: "#15cf00",
+                            backgroundColor: '#cbf2c7'
+
+                        }, {
+                            data: c_data,
+                            label: "Cancelled",
+                            borderColor: "#cf0000",
+                            backgroundColor: '#f2aeae'
+                        },
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Order success and cancellation rates'
+                        }
+                    }
+                });
 
 
             } else {
