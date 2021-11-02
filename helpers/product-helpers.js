@@ -644,6 +644,20 @@ module.exports = {
             resolve(salesOfLastWeekData)
 
         })
+    },
+    getSalesReport: (from, to) => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+
+                        createdAt: { $gte: new Date(from), $lte: new Date(to) }
+                    }
+                },
+            ]).toArray()
+            resolve(orders)
+            // console.log(orders);
+        })
     }
 
 }

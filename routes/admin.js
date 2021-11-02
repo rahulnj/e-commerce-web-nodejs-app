@@ -110,12 +110,6 @@ router.post('/changestatus', async (req, res) => {
   })
 })
 
-
-
-
-
-
-
 router.get('/products', adminAuth, async (req, res) => {
   let products = await productHelper.getProducts()
   // console.log(products);
@@ -349,6 +343,12 @@ router.post('/categoryoffer/placecatoffer', async (req, res) => {
   await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 
+
+router.post('/salesreport/report', async (req, res) => {
+  console.log(req.body);
+  let salesReport = await productHelpers.getSalesReport(req.body.from, req.body.to)
+  console.log(salesReport);
+})
 router.get('/salesreport', async (req, res) => {
   let salesreport = await productHelpers.getsalesReport()
   res.render('admin/salesreport', { admin: true, salesreport })

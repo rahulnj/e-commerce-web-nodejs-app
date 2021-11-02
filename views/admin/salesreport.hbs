@@ -5,7 +5,7 @@
         <h2 class="content-title">Sales Report </h2>
 
     </div>
-    <form action="">
+    <form id="salesDate-form">
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row align-items-center">
@@ -16,13 +16,13 @@
 
                     </div>
                     <div class="col-md-2 col-6">
-                        <input type="date" class="form-control">
+                        <input type="datetime-local" name="from" class="form-control" required>
                     </div>
                     <div class="col-md-2 col-6">
-                        <input type="date" class="form-control">
+                        <input type="datetime-local" name="to" class="form-control" required>
                     </div>
                     <div class="col-md-2 col-6">
-                        <button class='btn btn-primary me-md-2' type='submit'>Submit</button>
+                        <button class='btn btn-primary me-md-2' type="submit">Submit</button>
                     </div>
                 </div>
             </header>
@@ -77,6 +77,7 @@
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
 
+
 </section>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -91,6 +92,42 @@
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
 <script>
+    $("#salesDate-form").submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: "/admin/salesreport/report",
+            method: "post",
+            data: $("#salesDate-form").serialize(),
+            success: (response) => {
+                if (response.codsuccess) {
+                    location.href = '/success'
+                } else {
+
+
+                }
+            }
+        })
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $(document).ready(function () {
         $('#example').DataTable({
             "footerCallback": function (row, data, start, end, display) {
