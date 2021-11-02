@@ -31,25 +31,7 @@
 
         <!-- Select Box -->
         <div class="select-box d-flex mt-50 mb-30">
-            {{!-- <form class="form-inline" id="couponapply-form">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="inputPassword2" class="sr-only"></label>
-                    <input type="text" class="form-control" id="coupon" placeholder="Coupon code">
-                    <button type="submit" class=" essence-btn-sm ml-1 "> Apply</button>
-                </div>
-            </form> --}}
-            {{!-- <select name="select" id="productSize" class="mr-5">
-                <option value="value">Size: XL</option>
-                <option value="value">Size: X</option>
-                <option value="value">Size: M</option>
-                <option value="value">Size: S</option>
-            </select>
-            <select name="select" id="productColor">
-                <option value="value">Color: Black</option>
-                <option value="value">Color: White</option>
-                <option value="value">Color: Red</option>
-                <option value="value">Color: Purple</option>
-            </select> --}}
+
         </div>
         <!-- Cart & Favourite Box -->
         <div class="cart-fav-box d-flex align-items-center">
@@ -70,7 +52,7 @@
 
             <!-- Favourite -->
             <div class="product-favourite ml-4">
-                <a href="#" class="favme fa fa-heart"></a>
+                <a onclick="addtowishlist('{{product._id}}')" class="favme fa fa-heart"></a>
             </div>
         </div>
 

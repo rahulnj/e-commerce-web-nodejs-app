@@ -133,13 +133,16 @@ module.exports = {
 
         return new Promise(async (resolve, reject) => {
             let userBag = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            let proExist = userBag.products.findIndex(product => product.item == prodId)
-            if (proExist != -1) {
-                resolve(true)
+            if (userBag) {
+                let proExist = userBag.products.findIndex(product => product.item == prodId)
+                if (proExist != -1) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
             } else {
                 resolve(false)
             }
-
         })
     },
     getDogProducts: async (product) => {
