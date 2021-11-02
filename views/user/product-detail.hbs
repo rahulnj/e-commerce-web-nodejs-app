@@ -3,10 +3,14 @@
     <!-- Single Product Thumb -->
     <div class="single_product_thumb clearfix">
         <div class="product_thumbnail_slides owl-carousel ">
-            <img src="/uploads/image-2/{{product._id}}.jpg" alt="">
-            <img src="/uploads/image-3/{{product._id}}.jpg" alt="">
-            <img src="/uploads/image-4/{{product._id}}.jpg" alt="">
-            <img src="/uploads/image-5/{{product._id}}.jpg" alt="">
+            <img id="zoom" src="/uploads/image-2/{{product._id}}.jpg" alt=""
+                data-zoom-image="/uploads/image-2/{{product._id}}.jpg">
+            <img id="zoom1" src="/uploads/image-3/{{product._id}}.jpg" alt=""
+                data-zoom-image="/uploads/image-3/{{product._id}}.jpg">
+            <img id="zoom2" src="/uploads/image-4/{{product._id}}.jpg" alt=""
+                data-zoom-image="/uploads/image-4/{{product._id}}.jpg">
+            <img id="zoom3" src="/uploads/image-5/{{product._id}}.jpg" alt=""
+                data-zoom-image="/uploads/image-5/{{product._id}}.jpg">
         </div>
     </div>
 
@@ -75,6 +79,8 @@
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
 <script src="/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
+<script type="text/javascript"
+    src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
 <script src="/js/popper.min.js"></script>
 <!-- Bootstrap js -->
 <script src="/js/bootstrap.min.js"></script>
@@ -84,3 +90,25 @@
 <script src="/js/classy-nav.min.js"></script>
 <!-- Active js -->
 <script src="/js/active.js"></script>
+<script>
+    $('#zoom').ezPlus({
+        zoomType: 'lens',
+        lensShape: 'square',
+        lensSize: 200
+    });
+    $('#zoom1').ezPlus({
+        zoomType: 'lens',
+        lensShape: 'square',
+        lensSize: 200
+    });
+    $('#zoom2').ezPlus({
+        zoomType: 'lens',
+        lensShape: 'square',
+        lensSize: 200
+    });
+    $('#zoom3').ezPlus({
+        zoomType: 'lens',
+        lensShape: 'square',
+        lensSize: 200
+    });
+</script>
