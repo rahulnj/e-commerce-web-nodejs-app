@@ -33,7 +33,7 @@
 
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Expiry</label>
-                            <input class="form-control" name="expiry" type="date" required>
+                            <input class="form-control" id="exp_date" name="expiry" type="date" required>
                         </div>
 
                         <div class="d-grid p-2">
@@ -94,6 +94,20 @@
 </section>
 
 <script>
+
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    $('#exp_date').attr('min', today);
+
+
+
+
+
     $('#getcategoryoffer').on("submit", (e) => {
         console.log("api")
         $.ajax({

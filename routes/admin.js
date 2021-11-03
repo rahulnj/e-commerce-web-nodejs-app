@@ -317,7 +317,6 @@ router.post('/coupons/add-coupon', async (req, res) => {
 
 router.post('/coupons/delete-coupon', async (req, res) => {
   // console.log("Api call");
-  console.log(req.body);
   let response = await productHelpers.deleteCoupon(req.body.copId)
   console.log(response);
   res.json(response)
@@ -332,7 +331,6 @@ router.get('/productoffer', adminAuth, async (req, res) => {
 
 router.post('/productoffer/placeprodoffer', async (req, res) => {
   let singleprod = await productHelpers.getSingleproduct(req.body.product)
-  console.log(singleprod.price);
   let percent = req.body.offer
   var disPrice = (percent / 100) * singleprod.price;
   var offerprice = singleprod.price - disPrice

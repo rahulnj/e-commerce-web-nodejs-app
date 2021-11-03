@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Expiry</label>
-                            <input class="form-control" name="expiry" type="datetime-local" required>
+                            <input class="form-control" id="exp_date" name="expiry" type="datetime-local" required>
                         </div>
                         <div class="col-lg-6  mb-6">
                             <label class="form-label">Minimum Purchase Amount</label>
@@ -98,6 +98,25 @@
 </div>
 
 <script>
+    var today = new Date();
+    var hh = (String(today.getHours())).padStart(2, '0');
+    var MM = (String(today.getMinutes())).padStart(2, '0')
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + MM;
+    $('#exp_date').attr('min', today);
+    console.log(today)
+
+
+
+
+
+
+
+
+
     var ccode = false; cvalue = false; cdes = false; camount = false;
     $("#ccode").on('input', function () {
         var name = $(this).val()
