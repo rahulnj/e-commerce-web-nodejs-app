@@ -99,12 +99,21 @@
             method: "post",
             data: $("#salesDate-form").serialize(),
             success: (response) => {
-                if (response.codsuccess) {
-                    location.href = '/success'
-                } else {
-
-
+                if (response.report) {
+                    document.getElementById('example').innerHTML += ''
+                    for (let i = 0; i < response.report.length; i++) {
+                        newelement = `<tr>
+                            <td>${i + 1}</td>
+                        <td> ${response.report[i]._id} </td>
+                         <td> ${response.report[i].user} </td>
+                          <td><span class="badge rounded-pill alert-success"> ${response.report[i].paymentmethod}</span> </td>
+                           <td> ${response.report[i].amount} </td>
+                            <td> ${response.report[i].date} </td>
+                        </tr>`
+                        document.getElementById('example').innerHTML += newelement
+                    }
                 }
+
             }
         })
     })

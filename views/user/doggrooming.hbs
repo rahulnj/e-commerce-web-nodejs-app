@@ -76,6 +76,13 @@
                             <div class="single-product-wrapper">
                                 <!-- Product Image -->
                                 <div class="product-img">
+                                    <div class="product-favourite">
+                                        <button class="favme fa fa-heart btn btn-light p-2 float-right" type="button"
+                                            style="border: none; background:rgb(255,255,255)"
+                                            onclick="addtowishlist('{{this._id}}')"></button>
+                                        {{!-- <a href="" onclick="addtowishlist('{{this._id}}')"
+                                            class="favme fa fa-heart"></a> --}}
+                                    </div>
                                     <img src="/uploads/image-1/{{this._id}}.jpg" alt=""
                                         style="height: 200px; width: 130px;">
                                     <!-- Hover Thumb -->
@@ -90,9 +97,7 @@
                                     {{else}}
                                     {{/if}}
                                     <!-- Favourite -->
-                                    <div class="product-favourite">
-                                        <a href="#" class="favme fa fa-heart"></a>
-                                    </div>
+
                                 </div>
 
                                 <!-- Product Description -->

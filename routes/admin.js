@@ -347,7 +347,8 @@ router.post('/categoryoffer/placecatoffer', async (req, res) => {
 router.post('/salesreport/report', async (req, res) => {
   console.log(req.body);
   let salesReport = await productHelpers.getSalesReport(req.body.from, req.body.to)
-  console.log(salesReport);
+  // console.log(salesReport);
+  res.json({ report: salesReport })
 })
 router.get('/salesreport', async (req, res) => {
   let salesreport = await productHelpers.getsalesReport()
