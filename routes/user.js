@@ -138,7 +138,7 @@ router.get('/catgrooming', async (req, res) => {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   let products = await productHelper.getCatProducts()
-  res.render('user/catgrooming', { products })
+  res.render('user/catgrooming', { user, bagCount, products })
 })
 router.get('/myorders', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -180,6 +180,10 @@ router.post('/cancelorder', async (req, res) => {
 
 router.get('/checkout', verifyUser, async (req, res) => {
   let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   let products = await userhelpers.getMybag(user._id);
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
@@ -187,7 +191,7 @@ router.get('/checkout', verifyUser, async (req, res) => {
 
     await userhelpers.getAddress(user._id).then((addressDetails) => {
       // console.log(addressDetails);
-      res.render('user/checkout', { totalPrice, offerTotal, addressDetails, user })
+      res.render('user/checkout', { totalPrice, bagCount, offerTotal, addressDetails, user })
     })
   } else {
     res.redirect('/mybag')
@@ -352,7 +356,10 @@ router.get('/cancel', (req, res) => res.send('Cancelled'));
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
-  // console.log(user._id);
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   let products = await userhelpers.getMybag(user._id);
   // console.log(products);
   if (products.length != 0) {
@@ -361,7 +368,7 @@ router.get('/mybag', verifyUser, async (req, res) => {
     // console.log("----", offerTotal);
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
       // console.log(singlePrice);
-      res.render('user/mybag', { user, products, totalPrice, offerTotal, singlePrice })
+      res.render('user/mybag', { user, bagCount, products, totalPrice, offerTotal, singlePrice })
     })
   } else {
     res.render('user/mybag', { cartempty: true, user })
@@ -481,11 +488,13 @@ router.post('/buy-checkout/:id', (req, res) => {
 router.get('/buy-checkout/:id', verifyUser, async (req, res) => {
   const id = req.params.id
   let user = req.session.user
-  // console.log(id);
-  // console.log(user);
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   await userhelpers.getAddress(req.session.user._id).then(async (addressDetails) => {
     await productHelpers.buyNowProducts(id).then(async (prodDetails) => {
-      res.render('user/buynow', { user, addressDetails, prodDetails })
+      res.render('user/buynow', { user, bagCount, addressDetails, prodDetails })
     })
   })
 })
@@ -805,6 +814,7 @@ router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
 
   let proId = req.params.id
   let user = req.session.user
+
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
     // console.log(totalPrice);
     let singleprice;

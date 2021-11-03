@@ -331,14 +331,13 @@ router.get('/productoffer', adminAuth, async (req, res) => {
 })
 
 router.post('/productoffer/placeprodoffer', async (req, res) => {
-  console.log(req.body);
   let singleprod = await productHelpers.getSingleproduct(req.body.product)
   console.log(singleprod.price);
   let percent = req.body.offer
   var disPrice = (percent / 100) * singleprod.price;
   var offerprice = singleprod.price - disPrice
-  // console.log(couponPrice);
   await productHelpers.getProductoffer(req.body.product, req.body.offer, offerprice, req.body.expiry)
+  res.json(response)
 })
 
 router.get('/categoryoffer', adminAuth, (req, res) => {

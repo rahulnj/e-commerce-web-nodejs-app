@@ -686,7 +686,8 @@ module.exports = {
             resolve(count)
 
         })
-    }
+    },
+
 
 }
 

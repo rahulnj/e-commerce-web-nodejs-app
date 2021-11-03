@@ -93,7 +93,8 @@
                                     </p>
 
                                     {{else}}
-                                    <p class="product-price"><span class="old-price"></span>₹ {{this.product.price}}</p>
+                                    <p class="product-price"><span class="old-price">₹ {{this.product.price}}</span>₹
+                                        {{this.product.offerprice}} </p>
                                     {{/if}}
                                     <div class="p-1"><button type="button"
                                             onclick="moveTobag('{{this._id}}','{{this.product._id}}')"
