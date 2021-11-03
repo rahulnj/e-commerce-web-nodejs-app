@@ -658,6 +658,34 @@ module.exports = {
             resolve(orders)
             // console.log(orders);
         })
+    },
+    salesretailandvetdogs: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.PRODUCT_COLLECTION).find({ $and: [{ category: { $eq: 'dog' } }, { type: { $eq: 'retailandvet' } }] }).count()
+            resolve(count)
+
+        })
+    },
+    salesretailandvetcats: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.PRODUCT_COLLECTION).find({ $and: [{ category: { $eq: 'cat' } }, { type: { $eq: 'retailandvet' } }] }).count()
+            resolve(count)
+
+        })
+    },
+    accessoriescats: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.PRODUCT_COLLECTION).find({ $and: [{ category: { $eq: 'cat' } }, { type: { $eq: 'accessories' } }] }).count()
+            resolve(count)
+
+        })
+    },
+    accessoriesdogs: () => {
+        return new Promise(async (resolve, reject) => {
+            let count = await db.get().collection(collection.PRODUCT_COLLECTION).find({ $and: [{ category: { $eq: 'dog' } }, { type: { $eq: 'accessories' } }] }).count()
+            resolve(count)
+
+        })
     }
 
 }
