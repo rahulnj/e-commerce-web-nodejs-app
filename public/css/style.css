@@ -232,3 +232,45 @@ mark {
   border-radius: 100%;
   border: 3px solid #fff;
 }
+/*  */
+
+
+
+
+
+.card-1 {
+  box-shadow: 2px 2px 10px 0px rgb(150, 150, 150)
+}
+
+.change-color {
+  color: #830000 !important
+}
+
+.card-2 {
+  box-shadow: 1px 1px 3px 0px rgb(112, 115, 139)
+}
+
+.small {
+    letter-spacing: 0.5px !important
+}
+
+
+/* .rounded {
+  border-radius: 2.25rem !important
+} */
+
+.progress-bar {
+  background-color: rgb(143, 0, 0) !important
+}
+
+.progress {
+  height: 5px !important;
+  margin-bottom: 0
+}
+
+
+
+
+
+
+ 

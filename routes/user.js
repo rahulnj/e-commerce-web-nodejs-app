@@ -145,7 +145,7 @@ router.get('/myorders', verifyUser, async (req, res) => {
   // console.log(user);
   if (user) {
     await userhelpers.getMyOrders(user._id).then(async (orders) => {
-      // console.log(orders);
+      console.log(orders);
       res.render('user/myorders', { user, orders })
     })
   } else {
