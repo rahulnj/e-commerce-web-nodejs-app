@@ -67,7 +67,7 @@ router.post('/dashboard/weeklyReport', async (req, res) => {
 
 
 function getpercentage(count, paymentcount) {
-  return (paymentcount / count) * 100
+  return Math.round((paymentcount / count) * 100)
 }
 
 router.get('/dashboard', adminAuth, async (req, res) => {
@@ -355,7 +355,7 @@ router.post('/salesreport/report', async (req, res) => {
   // console.log(salesReport);
   res.json({ report: salesReport })
 })
-router.get('/salesreport', async (req, res) => {
+router.get('/salesreport', adminAuth, async (req, res) => {
   let salesreport = await productHelpers.getsalesReport()
   res.render('admin/salesreport', { admin: true, salesreport })
 })

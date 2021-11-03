@@ -100,7 +100,7 @@
             data: $("#salesDate-form").serialize(),
             success: (response) => {
                 if (response.report) {
-                    document.getElementById('example').innerHTML += ''
+                    document.getElementById('example').innerHTML = ' '
                     for (let i = 0; i < response.report.length; i++) {
                         newelement = `<tr>
                             <td>${i + 1}</td>
