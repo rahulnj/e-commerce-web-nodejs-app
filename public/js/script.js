@@ -201,11 +201,6 @@ function changeQuantity(cartId, proId, userId, count) {
                     location.reload()
                 })
                 //
-
-
-
-
-
                 // location.reload()
 
                 // alert("Removed from bag")
@@ -215,6 +210,12 @@ function changeQuantity(cartId, proId, userId, count) {
                 document.getElementById(proId).innerHTML = quantity + count
                 document.getElementById('total-price').innerHTML = response.Total
                 document.getElementById('subtotal-price').innerHTML = response.Total
+                if (response.subtotal[0].offertotal) {
+                    document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].offertotal
+
+                } else {
+                    document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].total
+                }
 
             }
 

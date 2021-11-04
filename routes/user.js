@@ -189,7 +189,7 @@ router.get('/checkout', verifyUser, async (req, res) => {
   if (products != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
-
+    // console.log(offerTotal);
     await userhelpers.getAddress(user._id).then((addressDetails) => {
       // console.log(addressDetails);
       res.render('user/checkout', { totalPrice, bagCount, offerTotal, addressDetails, user })
@@ -362,13 +362,14 @@ router.get('/mybag', verifyUser, async (req, res) => {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   let products = await userhelpers.getMybag(user._id);
+
   // console.log(products);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
     // console.log("----", offerTotal);
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
-      // console.log(singlePrice);
+      // console.log("----", singlePrice);
       res.render('user/mybag', { user, bagCount, products, totalPrice, offerTotal, singlePrice })
     })
   } else {
@@ -640,12 +641,15 @@ router.get('/cancel', (req, res) => res.send('Cancelled'));
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
+  // console.log(req.body);
   let products = await userhelpers.getMybag(req.body.user);
   if (products.length != 0) {
     userhelpers.changeQuantity(req.body).then(async (response) => {
+      // console.log(response);
       // response.totalPrice = await userhelpers.getTotalprice(req.body.user)
       response.Total = await userhelpers.getTotalofferprice(req.body.user)
-
+      response.subtotal = await userhelpers.getSingle(req.body.cart, req.body.user, req.body.product)
+      // console.log(response.subtotal);
       singlePrice = await userhelpers.getSingleprice(req.body.user)
       res.json(response)
 

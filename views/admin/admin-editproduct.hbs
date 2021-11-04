@@ -413,22 +413,11 @@
         }
     })
 
-    function editProduct() {
-        console.log(prod_name)
-        console.log(prod_des);
-        console.log(prod_price);
-        console.log(prod_qty);
-        if (prod_name == true && prod_des == true && prod_price == true && prod_qty == true && Img1 == true && Img2 == true && Img3 == true && Img4 == true && Img5 == true) {
-            return true
-        } else {
-            $("#error-message").text("fill the fields");
-            return false;
-        }
-    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     var img1; var img2; var img3; var img4; var img5;
-    var Img1; var Img2; var Img3; var Img4; var Img5;
+    let Img1 = true; let Img2 = true; let Img3 = true; let Img4 = true; let Img5 = true;
     document.getElementById('image1').onchange = e => {
         value = e.target.files[0]
         value = value.type
@@ -729,32 +718,23 @@
         }
     }
 
-
-
-
-
-
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function editProduct() {
+        console.log(prod_name)
+        console.log(prod_des);
+        console.log(prod_price);
+        console.log(prod_qty);
+        console.log(Img1);
+        console.log(Img2);
+        console.log(Img3);
+        console.log(Img4);
+        console.log(Img5);
+        if (prod_name == true && prod_des == true && prod_price == true && prod_qty == true && Img1 == true && Img2 == true && Img3 == true && Img4 == true && Img5 == true) {
+            return true
+        } else {
+            $("#error-message").text("fill the fields");
+            return false;
+        }
+    }
 
 
 

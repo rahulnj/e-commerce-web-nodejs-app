@@ -54,10 +54,10 @@
 
                                 </div>
                                 {{#each products}}
-                                <div
-                                    class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded shadow-sm"
+                                    style="max-height: auto;">
 
-                                    <div class="d-flex flex-row">
+                                    <div class="d-flex flex-row" style="max-height: auto;">
 
                                         <img class="rounded" src="/uploads/image-1/{{this.product._id}}.jpg" width="40"
                                             height="50"><a href=""></a>
@@ -90,7 +90,15 @@
                                             onclick="deleteItem('{{this._id}}','{{this.product._id}}')"><i
                                                 class="fa fa-trash-o ml-2 text-white-70"></i></button>
                                     </div>
-
+                                    {{#if product.isoffer}}
+                                    <div class="ml-2"><span id="{{this.product._id}}subtotal"
+                                            class="d-block">₹{{this.offsubtotal}}</span>
+                                    </div>
+                                    {{else}}
+                                    <div class="ml-2"><span id="{{this.product._id}}subtotal"
+                                            class="d-block">₹{{this.subtotal}}</span>
+                                    </div>
+                                    {{/if}}
                                 </div>
                                 {{/each}}
 

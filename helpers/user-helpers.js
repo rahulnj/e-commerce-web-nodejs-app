@@ -214,9 +214,14 @@ module.exports = {
                         quantity: 1,
                         product: { $arrayElemAt: ['$product', 0] }
                     }
-                }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: 1, subtotal: { $multiply: ['$quantity', '$product.price'] }, offsubtotal: { $multiply: ['$quantity', '$product.offerprice'] }
+                    }
+                },
             ]).toArray()
-            // console.log(cartItems);
+            console.log(cartItems);
             resolve(cartItems)
         })
     },
@@ -258,6 +263,7 @@ module.exports = {
 
         })
     },
+
     deletebagItem: async (cartDetails) => {
         // console.log(cartDetails.cart, cartDetails.product);
         let itemDetails = await db.get().collection(collection.CART_COLLECTION).updateOne({ _id: ObjectId(cartDetails.cart) },
@@ -981,6 +987,57 @@ module.exports = {
         // console.log(itemDetails);
         return { deleteItem: true }
     },
+    getSingle: (cartId, userId, prodId) => {
+        return new Promise(async (resolve, reject) => {
+            let single = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: { _id: ObjectId(cartId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $match: { 'products.item': ObjectId(prodId) }
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                // {
+                //     $project: {
+                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                //         product: 1,
+                //     }
+                // },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        offertotal: { $sum: { $multiply: ['$quantity', '$product.offerprice'] } }
+                    }
+                },
 
+            ]).toArray()
+            // console.log(single);
+            resolve(single)
+        })
+    }
 
 }
