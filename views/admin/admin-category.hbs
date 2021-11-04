@@ -8,18 +8,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <form action="/admin/createCategory" onsubmit="return valcategory()" method="POST">
-                        {{!-- <div class="mb-4">
-                            <label for="product_name" class="form-label">Category</label>
-                            <input type="text" name="category" placeholder="Type here" class="form-control"
-                                id="product_cat" />
-                        </div> --}}
+
                         <div class="mb-4">
                             <label class="form-label">Category</label>
-                            <select name="category" class="form-select" id="product_cat">
-                                <option value="dog">Dog</option>
-                                <option value="cat">Cat</option>
-
-                            </select>
+                            <input type="text" name="category" placeholder="Type here" class="form-control"
+                                id="product_cat" />
                         </div>
                         <div class="mb-4">
                             <label for="product_slug" class="form-label">Sub Category</label>
@@ -27,11 +20,7 @@
                                 id="product_subcat" />
                             <p id="error-cname" class="text-danger"></p>
                         </div>
-                        {{!-- <div class="mb-4">
-                            <label for="product_slug" class="form-label">Type</label>
-                            <input type="text" name="type" placeholder="Type here" class="form-control"
-                                id="product_type" />
-                        </div> --}}
+
                         <div class="mb-4">
                             <label class="form-label">Type</label>
                             <select name="type" class="form-select" id="product_type">
