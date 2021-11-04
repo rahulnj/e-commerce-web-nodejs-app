@@ -6,6 +6,7 @@ const { ObjectId } = require('bson')
 const { Db, ReturnDocument } = require('mongodb')
 const { response } = require('express')
 const moment = require("moment")
+const userHelpers = require('./user-helpers')
 module.exports = {
     addProduct: async (productDetails) => {
         // console.log(productDetails);
@@ -687,7 +688,36 @@ module.exports = {
 
         })
     },
+    getSingleAddress: (userId, addId, add) => {
+        return new Promise(async (resolve, reject) => {
+            let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) }, { address: { $elemMatch: { address: add } } })
+            address = address.address.filter((addr) => (addr.address === add))
+            // console.log(address);
+            resolve(address)
+        })
 
+    },
+    updateAddress: (userId, addobj, addorg) => {
+
+
+
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ user: ObjectId(userId), address: { $elemMatch: { fullname: addorg.fullname, address: addorg.address, city: addorg.city, place: addorg.place, pincode: addorg.pincode, phone: addorg.phone } } },
+                {
+                    $pull: { address: addorg }
+                },
+
+
+            ).then(async (response) => {
+                await userHelpers.addAddress(userId, addobj)
+                console.log(response);
+                resolve(response)
+
+            })
+
+
+        })
+    }
 
 }
 

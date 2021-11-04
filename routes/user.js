@@ -215,15 +215,19 @@ router.get('/checkout', verifyUser, async (req, res) => {
 })
 // address page 
 router.get('/address', verifyUser, (req, res) => {
+  // console.log(req.query);
+  let profile = req.query.profile
   let user = req.session.user
-  res.render('user/address', { user })
+  res.render('user/address', { user, profile })
 })
 
 // add address
 router.post('/add-address', async (req, res) => {
+  console.log(req.body);
   let user = req.session.user._id
   await userhelpers.addAddress(user, req.body)
-  res.redirect('/checkout')
+  res.json({ procheck: req.body.pro })
+
 })
 //delete address
 router.post('/deleteaddress', async (req, res) => {
@@ -234,6 +238,44 @@ router.post('/deleteaddress', async (req, res) => {
     res.json({ status: true })
   })
 })
+
+
+
+
+router.get('/editaddress/:id/:ad', async (req, res) => {
+  let user = req.session.user
+  await productHelpers.getSingleAddress(user._id, req.params.id, req.params.ad).then((address) => {
+    console.log(address);
+    res.render('user/edit-address', { address })
+  })
+})
+router.post('/editaddress', async (req, res) => {
+  console.log("api call vanu");
+  let addobj = {
+    fullname: req.body.fullname,
+    address: req.body.address,
+    city: req.body.city,
+    place: req.body.place,
+    pincode: req.body.pincode,
+    phone: req.body.phone
+  }
+  let addorg = {
+    fullname: req.body.fullnameo,
+    address: req.body.addresso,
+    city: req.body.cityo,
+    place: req.body.placeo,
+    pincode: req.body.pincodeo,
+    phone: req.body.phoneo
+  }
+  console.log(req.body);
+  let user = req.session.user
+  await productHelpers.updateAddress(user._id, addobj, addorg).then((response) => {
+
+  })
+})
+
+
+
 
 router.get('/success', verifyUser, (req, res) => {
   let user = req.session.user
@@ -695,11 +737,12 @@ router.get('/userprofile', verifyUser, async (req, res) => {
   let user = req.session.user
   if (user) {
     await userhelpers.userDetails(user._id).then(async (userDetails) => {
-      // console.log(userDetails);
-      await userhelpers.passwordExist(user._id).then(async (Exist) => {
-        // console.log(Exist);
-        await userhelpers.getBagcount(user._id).then(async (bagCount) => {
-          res.render('user/user-profile', { Exist, user, userDetails, bagCount })
+      await userhelpers.getAddress(user._id).then(async (addressDetails) => {
+        // console.log(addressDetails);
+        await userhelpers.passwordExist(user._id).then(async (Exist) => {
+          await userhelpers.getBagcount(user._id).then(async (bagCount) => {
+            res.render('user/user-profile', { Exist, user, userDetails, bagCount, addressDetails })
+          })
         })
       })
     })

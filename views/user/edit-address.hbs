@@ -14,58 +14,96 @@
     </div>
     <!-- ##### Breadcumb Area End ##### -->
     <div class="container-fluid container pl-3">
-        {{#if profile}}
+        {{!-- {{#if profile}}
 
         {{else}}
         <div class="p-2 float-right"> <button class="btn essence-btn"> <a href="/checkout">
                     < Back</a> </button>
         </div>
-        {{/if}}
+        {{/if}} --}}
         <div class="p-2"></div>
-        <form id="addressform">
-            <input type="text" name="pro" value="{{profile}}" hidden>
+        {{#each address}}
+        <form id="editaddressform">
+            <input type="text" name="fullnameo" class="form-control" value="{{this.fullname}}" id="nameadd" hidden>
+            <input type="text" name="addresso" class="form-control" value="{{this.address}}" id="addressadd" hidden>
+            <input type="text" name="cityo" class="form-control" value="{{this.city}}" id="cityadd" hidden>
+            <input type="text" name="placeo" class="form-control" value="{{this.place}}" id="placeadd" hidden>
+            <input type="text" name="pincodeo" class="form-control" value="{{this.pincode}}" maxlength="6" id="pinadd"
+                hidden>
+            <input type="tel" name="phoneo" class="form-control" value="{{this.phone}}" maxlength="10" id="phoneadd"
+                hidden>
+
+
+
             <div class="form-group">
                 <label for="inputAddress">Full Name</label>
-                <input type="text" name="fullname" class="form-control" id="nameadd">
+                <input type="text" name="fullname" class="form-control" value="{{this.fullname}}" id="nameadd">
                 <p id="namerr" class="text-danger"></p>
             </div>
             <div class="form-group">
                 <label for="inputAddress">Address</label>
-                <input type="text" name="address" class="form-control" id="addressadd">
+                <input type="text" name="address" class="form-control" value="{{this.address}}" id="addressadd">
                 <p id="adderr" class="text-danger"></p>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputCity">City</label>
-                    <input type="text" name="city" class="form-control" id="cityadd">
+                    <input type="text" name="city" class="form-control" value="{{this.city}}" id="cityadd">
                     <p id="cityerr" class="text-danger"></p>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="inputState">Place</label>
-                    <input type="text" name="place" class="form-control" id="placeadd">
+                    <input type="text" name="place" class="form-control" value="{{this.place}}" id="placeadd">
                     <p id="placerr" class="text-danger"></p>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputZip">Pincode</label>
-                    <input type="text" name="pincode" class="form-control" maxlength="6" id="pinadd">
+                    <input type="text" name="pincode" class="form-control" value="{{this.pincode}}" maxlength="6"
+                        id="pinadd">
                     <p id="pinerr" class="text-danger"></p>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputZip">Phone</label>
-                    <input type="tel" name="phone" class="form-control" maxlength="10" id="phoneadd">
+                    <input type="tel" name="phone" class="form-control" value="{{this.phone}}" maxlength="10"
+                        id="phoneadd">
                     <p id="phnerr" class="text-danger"></p>
                 </div>
             </div>
-            <button type="submit" class="btn essence-btn"> + Add</button>
+            <button type="submit" class="btn essence-btn">Edit</button>
             <p id="submit-message" class="text-danger"></p>
         </form>
+        {{/each}}
     </div>
 
 
 
 </section>
+<script>
+    $('#editaddressform').on("submit", (e) => {
+        e.preventDefault()
+
+        $.ajax({
+            url: "/editaddress",
+            data: $("#editaddressform").serialize(),
+            method: "post",
+            success: function (response) {
+                if (response.login == true) {
+
+                    location.href = ('/')
+                } else if (response.login == false) {
+                    document.getElementById('submit-message').innerHTML = "Invalid OTP"
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+
+    })
+</script>
 
 {{!--
 <!-- jQuery (Necessary for All JavaScript Plugins) -->

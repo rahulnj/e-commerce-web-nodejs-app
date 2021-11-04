@@ -473,8 +473,11 @@ $('#addressform').on("submit", (e) => {
             data: $("#addressform").serialize(),
             method: "post",
             success: function (response) {
-                // alert("Form submitted successfully")
-                location.replace('/checkout')
+                if (response.procheck) {
+                    location.replace('/userprofile')
+                } else {
+                    location.replace('/checkout')
+                }
             },
             error: function (err) {
                 alert("Something Error")
