@@ -142,10 +142,11 @@ router.get('/catgrooming', async (req, res) => {
 })
 router.get('/myorders', verifyUser, async (req, res) => {
   let user = req.session.user
-  // console.log(user);
+  let bagCount = null
   if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
     await userhelpers.getMyOrders(user._id).then(async (orders) => {
-      res.render('user/myorders', { user, orders })
+      res.render('user/myorders', { user, orders, bagCount })
     })
   } else {
     res.render('user/myorders',)
@@ -157,6 +158,10 @@ router.get('/myorders', verifyUser, async (req, res) => {
 router.get('/view-order/:id', verifyUser, async (req, res) => {
   // console.log(req.params);
   let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await productHelpers.getMyOrderProd(req.params.id)
     let IsPlaced = orders[0].status === 'placed'
@@ -164,7 +169,7 @@ router.get('/view-order/:id', verifyUser, async (req, res) => {
     let IsDelivered = orders[0].status === 'delivered'
     let IsShipped = orders[0].status === 'shipped'
     let IsConfirmed = orders[0].status === 'confirmed'
-    res.render('user/vieworders', { user, products, IsConfirmed, IsShipped, IsPlaced, IsCancelled, IsDelivered, orders })
+    res.render('user/vieworders', { user, products, IsConfirmed, IsShipped, IsPlaced, IsCancelled, IsDelivered, orders, bagCount })
   })
 })
 
@@ -631,7 +636,6 @@ router.get('/successs', async (req, res) => {
       console.log(error.response);
       throw error;
     } else {
-
       req.session.user.OrderConfirmed = true
       res.redirect("/success")
     }
@@ -641,15 +645,11 @@ router.get('/cancel', (req, res) => res.send('Cancelled'));
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
-  // console.log(req.body);
   let products = await userhelpers.getMybag(req.body.user);
   if (products.length != 0) {
     userhelpers.changeQuantity(req.body).then(async (response) => {
-      // console.log(response);
-      // response.totalPrice = await userhelpers.getTotalprice(req.body.user)
       response.Total = await userhelpers.getTotalofferprice(req.body.user)
       response.subtotal = await userhelpers.getSingle(req.body.cart, req.body.user, req.body.product)
-      // console.log(response.subtotal);
       singlePrice = await userhelpers.getSingleprice(req.body.user)
       res.json(response)
 

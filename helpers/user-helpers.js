@@ -973,18 +973,15 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            // console.log(cartItems[0]);
             resolve(cartItems)
         })
     },
     deletewishItem: async (wishDetails) => {
-        // console.log(cartDetails.cart, cartDetails.product);
         let itemDetails = await db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ _id: ObjectId(wishDetails.wishlist) },
             {
                 $pull: { products: { item: ObjectId(wishDetails.product) } }
             }
         )
-        // console.log(itemDetails);
         return { deleteItem: true }
     },
     getSingle: (cartId, userId, prodId) => {
@@ -1020,12 +1017,6 @@ module.exports = {
                         product: { $arrayElemAt: ['$product', 0] }
                     }
                 },
-                // {
-                //     $project: {
-                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
-                //         product: 1,
-                //     }
-                // },
                 {
                     $group: {
                         _id: null,
