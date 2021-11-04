@@ -97,19 +97,19 @@ router.post('/enterotp', async (req, res) => {
 router.post('/verifyotp', async (req, res) => {
   // console.log(req.body);
   let otp = req.body.otp
-  console.log(otp);
+  // console.log(otp);
   let number = req.session.number
-  console.log(number);
+  // console.log(number);
   await userhelpers.checkNumber(number).then((response) => {
     clientTwillo.verify.services(servicesSSID).verificationChecks
       .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
         console.log(resp);
-        if (resp.valid == true) {
+        if (resp.valid == true && resp.status == 'approved') {
           req.session.loggedIn = true;
           req.session.user = response;
           req.session.user._id = response._id;
           res.json({ login: true })
-        } else if (resp.valid == false) {
+        } else {
           res.json({ login: false })
         }
 
