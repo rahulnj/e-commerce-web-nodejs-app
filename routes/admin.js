@@ -354,6 +354,7 @@ router.post('/salesreport/report', async (req, res) => {
   res.json({ report: salesReport })
 })
 router.get('/salesreport', adminAuth, async (req, res) => {
+  await productHelpers.getNewSalesReport("monthly")
   let salesreport = await productHelpers.getsalesReport()
   res.render('admin/salesreport', { admin: true, salesreport })
 })

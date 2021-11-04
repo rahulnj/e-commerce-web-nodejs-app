@@ -709,6 +709,28 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+    getNewSalesReport: (type) => {
+        const numberOfDays = type === 'weekly' ? 7 : type === 'monthly' ? 30 : type === 'yearly' ? 365 : 0
+        const dayOfYear = (date) =>
+            Math.floor(
+                (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+            )
+        return new Promise(async (resolve, reject) => {
+            const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [{ status: { $eq: 'placed' } }],
+                        createdAt: { $gte: new Date(new Date() - numberOfDays * 60 * 60 * 24 * 1000) },
+                    },
+                },
+
+
+            ]).toArray()
+            console.log(data);
+            resolve(data)
+
+        })
     }
 
 }
