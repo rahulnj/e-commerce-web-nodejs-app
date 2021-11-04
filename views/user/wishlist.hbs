@@ -69,9 +69,9 @@
                                         style="height: 200px; width: 130px;">
 
                                     <!-- Product Badge -->
-                                    {{#if isoffer}}
+                                    {{#if this.product.isoffer}}
                                     <div class="product-badge offer-badge">
-                                        <span>-{{this.offer}}%</span>
+                                        <span>-{{this.product.offer}}%</span>
                                     </div>
                                     {{else}}
                                     {{/if}}
@@ -87,14 +87,13 @@
                                             style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 28ch;">
                                             {{this.product.product}}</h6>
                                     </a>
-                                    {{#if isoffer}}
-                                    <p class="product-price"><span class="">₹ {{this.product.price}}</span>₹
-                                        {{this.offerprice}}
-                                    </p>
-
-                                    {{else}}
+                                    {{#if this.product.isoffer}}
                                     <p class="product-price"><span class="old-price">₹ {{this.product.price}}</span>₹
                                         {{this.product.offerprice}} </p>
+
+                                    {{else}}
+                                    <p class="product-price"><span class="old-price"></span>₹
+                                        {{this.product.price}} </p>
                                     {{/if}}
                                     <div class="p-1"><button type="button"
                                             onclick="moveTobag('{{this._id}}','{{this.product._id}}')"

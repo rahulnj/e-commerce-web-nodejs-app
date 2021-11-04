@@ -164,6 +164,7 @@ function buynow(proId) {
 
 //To change quantity
 function changeQuantity(cartId, proId, userId, count) {
+    console.log(count)
     let quantity = parseInt(document.getElementById(proId).innerHTML)
     count = parseInt(count)
     $.ajax({

@@ -13,7 +13,7 @@
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
 
-                <form class="form-inline" method="post" action="/verifyotp">
+                <form class="form-inline" id="verifyotp">
                     <div class="form-group mb-2">
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
@@ -23,9 +23,35 @@
                     </div>
                     <button type="submit" class="essence-btn mb-2">Confirm otp</button>
                 </form>
+                <p id="submit-message" class="text-danger"></p>
 
 
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    $('#verifyotp').on("submit", (e) => {
+        e.preventDefault()
+
+        $.ajax({
+            url: "/verifyotp",
+            data: $("#verifyotp").serialize(),
+            method: "post",
+            success: function (response) {
+                if (response.login == true) {
+
+                    location.href = ('/')
+                } else if (response.login == false) {
+                    $("#submit-message").html = "Invalid OTP"
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+
+    })
+</script>

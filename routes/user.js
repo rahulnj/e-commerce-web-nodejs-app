@@ -81,7 +81,7 @@ router.get('/verifyotp', (req, res) => {
 router.post('/enterotp', async (req, res) => {
   req.session.number = req.body.phone
   await userhelpers.checkNumber(req.body.phone).then((response) => {
-    console.log(response);
+    // console.log(response);
     if (response) {
       console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
@@ -95,19 +95,29 @@ router.post('/enterotp', async (req, res) => {
 })
 
 router.post('/verifyotp', async (req, res) => {
+  // console.log(req.body);
   let otp = req.body.otp
   console.log(otp);
   let number = req.session.number
   console.log(number);
   await userhelpers.checkNumber(number).then((response) => {
-    req.session.user = response;
-    req.session.user._id = response._id;
+    clientTwillo.verify.services(servicesSSID).verificationChecks
+      .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
+        console.log(resp);
+        if (resp.valid == true) {
+          req.session.loggedIn = true;
+          req.session.user = response;
+          req.session.user._id = response._id;
+          res.json({ login: true })
+        } else if (resp.valid == false) {
+          res.json({ login: false })
+        }
+
+
+      })
+
   })
-  clientTwillo.verify.services(servicesSSID).verificationChecks
-    .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
-      req.session.loggedIn = true;
-      res.redirect('/')
-    })
+
 })
 // otp end
 
