@@ -145,7 +145,6 @@ router.get('/myorders', verifyUser, async (req, res) => {
   // console.log(user);
   if (user) {
     await userhelpers.getMyOrders(user._id).then(async (orders) => {
-      console.log(orders);
       res.render('user/myorders', { user, orders })
     })
   } else {
@@ -160,10 +159,12 @@ router.get('/view-order/:id', verifyUser, async (req, res) => {
   let user = req.session.user
   await userhelpers.getOneOrder(req.params.id).then(async (orders) => {
     let products = await productHelpers.getMyOrderProd(req.params.id)
-    console.log(products);
+    let IsPlaced = orders[0].status === 'placed'
     let IsCancelled = orders[0].status === 'cancelled'
     let IsDelivered = orders[0].status === 'delivered'
-    res.render('user/vieworders', { user, products, IsCancelled, IsDelivered, orders })
+    let IsShipped = orders[0].status === 'shipped'
+    let IsConfirmed = orders[0].status === 'confirmed'
+    res.render('user/vieworders', { user, products, IsConfirmed, IsShipped, IsPlaced, IsCancelled, IsDelivered, orders })
   })
 })
 
