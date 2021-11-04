@@ -223,7 +223,6 @@ router.get('/address', verifyUser, (req, res) => {
 
 // add address
 router.post('/add-address', async (req, res) => {
-  console.log(req.body);
   let user = req.session.user._id
   await userhelpers.addAddress(user, req.body)
   res.json({ procheck: req.body.pro })
@@ -238,9 +237,6 @@ router.post('/deleteaddress', async (req, res) => {
     res.json({ status: true })
   })
 })
-
-
-
 
 router.get('/editaddress/:id/:ad', async (req, res) => {
   let user = req.session.user
@@ -271,9 +267,6 @@ router.post('/editaddress', async (req, res) => {
     res.json(response)
   })
 })
-
-
-
 
 router.get('/success', verifyUser, (req, res) => {
   let user = req.session.user

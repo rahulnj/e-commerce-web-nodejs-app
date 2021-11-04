@@ -857,7 +857,7 @@ async function createPassword() {
         title: 'Enter new Password',
         confirmButtonColor: '#d33',
         inputLabel: 'Your Phone Number',
-        html: "<input id='swal-input3' type='text'  class='swal2-input' required maxlength='10'/>",
+        html: "<input id='swal-input3' type='password'  class='swal2-input' required maxlength='10'/>",
         inputAttributes: { maxlength: '10' },
 
     })
@@ -873,7 +873,7 @@ async function createPassword() {
             method: 'post',
             success: (response) => {
                 if (response.changed) {
-                    Swal.fire(`Password Changed to: ${password}`)
+                    Swal.fire(`Password Changed`)
 
                     location.reload()
                 } else {
