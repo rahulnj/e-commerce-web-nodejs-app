@@ -245,12 +245,11 @@ router.post('/deleteaddress', async (req, res) => {
 router.get('/editaddress/:id/:ad', async (req, res) => {
   let user = req.session.user
   await productHelpers.getSingleAddress(user._id, req.params.id, req.params.ad).then((address) => {
-    console.log(address);
     res.render('user/edit-address', { address })
   })
 })
+
 router.post('/editaddress', async (req, res) => {
-  console.log("api call vanu");
   let addobj = {
     fullname: req.body.fullname,
     address: req.body.address,
@@ -267,10 +266,9 @@ router.post('/editaddress', async (req, res) => {
     pincode: req.body.pincodeo,
     phone: req.body.phoneo
   }
-  console.log(req.body);
   let user = req.session.user
   await productHelpers.updateAddress(user._id, addobj, addorg).then((response) => {
-
+    res.json(response)
   })
 })
 

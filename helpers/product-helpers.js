@@ -698,24 +698,16 @@ module.exports = {
 
     },
     updateAddress: (userId, addobj, addorg) => {
-
-
-
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ user: ObjectId(userId), address: { $elemMatch: { fullname: addorg.fullname, address: addorg.address, city: addorg.city, place: addorg.place, pincode: addorg.pincode, phone: addorg.phone } } },
                 {
                     $pull: { address: addorg }
                 },
-
-
             ).then(async (response) => {
                 await userHelpers.addAddress(userId, addobj)
-                console.log(response);
+                // console.log(response);
                 resolve(response)
-
             })
-
-
         })
     }
 

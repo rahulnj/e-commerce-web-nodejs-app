@@ -89,13 +89,10 @@
             data: $("#editaddressform").serialize(),
             method: "post",
             success: function (response) {
-                if (response.login == true) {
+                if (response) {
 
-                    location.href = ('/')
-                } else if (response.login == false) {
-                    document.getElementById('submit-message').innerHTML = "Invalid OTP"
+                    location.href = ('/userprofile')
                 }
-
             },
             error: function (err) {
                 // alert("Something Error")
