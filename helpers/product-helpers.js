@@ -417,18 +417,7 @@ module.exports = {
                         products: '$products'
                     }
                 },
-                // {
-                //     $lookup: {
-                //         from: collection.PRODUCT_COLLECTION,
-                //         localField: 'item',
-                //         foreignField: '_id',
-                //         as: 'products'
-                //     }
-                // },
-
             ]).toArray()
-            // console.log("----------------------");
-            // console.log(orderItems);
             resolve(orderItems)
         })
     },
@@ -496,8 +485,6 @@ module.exports = {
             orderItems.forEach((i) => {
                 total += (i.amount)
             })
-            // console.log("----------------------");
-            // console.log(total);
             resolve(total)
         })
     },
@@ -657,7 +644,6 @@ module.exports = {
                 },
             ]).toArray()
             resolve(orders)
-            // console.log(orders);
         })
     },
     salesretailandvetdogs: () => {
@@ -723,8 +709,6 @@ module.exports = {
                         createdAt: { $gte: new Date(new Date() - numberOfDays * 60 * 60 * 24 * 1000) },
                     },
                 },
-
-
             ]).toArray()
             resolve(data)
 

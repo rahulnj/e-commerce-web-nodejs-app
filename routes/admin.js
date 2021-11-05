@@ -87,12 +87,6 @@ router.get('/orders', adminAuth, async (req, res) => {
   })
 })
 
-
-
-
-
-
-
 router.get('/orderdetails/:id', adminAuth, async (req, res) => {
   await userhelpers.getAdminOrders(req.params.id).then(async (orderdetails) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
@@ -329,10 +323,7 @@ router.post('/salesreport/report', async (req, res) => {
 })
 
 router.post('/salesreport/monthlyreport', async (req, res) => {
-  // console.log(req.body.type);
-
   let singleReport = await productHelpers.getNewSalesReport(req.body.type)
-  // console.log(singleReport);
   res.json({ wmyreport: singleReport })
 })
 
