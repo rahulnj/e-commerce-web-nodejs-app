@@ -22,7 +22,7 @@
                         <tr>
                             <th>#No.</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
                             <th scope="col">Total</th>
                             <th scope="col">Status</th>
                             <th scope="col">Date</th>
@@ -46,6 +46,7 @@
 
                             </td>
                             {{#if this.iscancelled}}
+                            <td class="text-danger">cancelled</td>
                             {{else}}
                             <td class="text-end">
                                 <select class="form-select d-inline-block" id="{{this._id}}" style="max-width: 200px"
