@@ -6,7 +6,7 @@
 var submitname = false; var submitemail = false; var submitpassword = false; submitphone = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 $(document).ready(function () {
-    $("#usersu").on('input', function () {
+    $("#usersu").blur(function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 3 || name.includes('  ') || name.charAt(0) == ' ') {
