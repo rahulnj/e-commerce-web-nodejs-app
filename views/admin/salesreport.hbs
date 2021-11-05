@@ -30,10 +30,10 @@
 
 
                     <div class="col-md-2 col-6">
-                        <input type="datetime-local" name="from" class="form-control" required>
+                        <input type="date" id="exp_date1" name="from" class="form-control" required>
                     </div>
                     <div class="col-md-2 col-6">
-                        <input type="datetime-local" name="to" class="form-control" required>
+                        <input type="date" id="exp_date2" name="to" class="form-control" required>
                     </div>
                     <div class="col-md-2 col-6">
                         <button class='btn btn-primary me-md-2' type="submit">Submit</button>
@@ -87,6 +87,28 @@
 
 
 <script>
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    $('#exp_date1').attr('max', today);
+    $('#exp_date2').attr('max', today);
+    document.getElementById('exp_date1').onchange = e => {
+        value = e.target.value
+        $('#exp_date2').attr('min', value);
+    }
+
+
+
+
+
+
+
+
+
 
     let table;
 
