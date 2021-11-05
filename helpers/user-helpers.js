@@ -221,7 +221,6 @@ module.exports = {
                     }
                 },
             ]).toArray()
-            console.log(cartItems);
             resolve(cartItems)
         })
     },
@@ -483,8 +482,13 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) }, { address: { $elemMatch: { address: add } } })
             address = address.address.filter((addr) => (addr.address === add))
-            // console.log(address);
-            resolve(address)
+            // console.log(address[0]);
+            if (address[0]) {
+                resolve(address)
+            } else {
+                resolve({ address: false })
+            }
+
 
         })
     },
@@ -839,7 +843,6 @@ module.exports = {
         })
     },
     updateUsermail: (userId, email) => {
-        console.log(userId);
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
                 $set: {
@@ -851,7 +854,6 @@ module.exports = {
         })
     },
     updateUserphone: (userId, number) => {
-        console.log(userId);
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
                 $set: {

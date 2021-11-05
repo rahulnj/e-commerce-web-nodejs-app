@@ -214,11 +214,16 @@ router.get('/checkout', verifyUser, async (req, res) => {
   }
 })
 // address page 
-router.get('/address', verifyUser, (req, res) => {
+router.get('/address', verifyUser, async (req, res) => {
   // console.log(req.query);
-  let profile = req.query.profile
   let user = req.session.user
-  res.render('user/address', { user, profile })
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
+  let profile = req.query.profile
+
+  res.render('user/address', { user, profile, bagCount })
 })
 
 // add address
@@ -240,8 +245,12 @@ router.post('/deleteaddress', async (req, res) => {
 
 router.get('/editaddress/:id/:ad', async (req, res) => {
   let user = req.session.user
+  let bagCount = null
+  if (user) {
+    bagCount = await userhelpers.getBagcount(user._id)
+  }
   await productHelpers.getSingleAddress(user._id, req.params.id, req.params.ad).then((address) => {
-    res.render('user/edit-address', { address })
+    res.render('user/edit-address', { address, bagCount })
   })
 })
 
@@ -309,67 +318,66 @@ router.post('/place-order', verifyUser, async (req, res) => {
 
     }
 
-    // console.log(products);
-    await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.placeOrder(addressDetails, products, price, payment, user._id).then((orderId) => {
-        if (req.body['payment'] === 'COD') {
+    if (address) {
+      await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
+        await userhelpers.placeOrder(addressDetails, products, price, payment, user._id).then((orderId) => {
+          if (req.body['payment'] === 'COD') {
 
-          req.session.user.OrderConfirmed = true
-          res.json({ codsuccess: true })
-
-        } else if (req.body['payment'] === 'RAZORPAY') {
-          userhelpers.generateRazorpay(orderId, price).then((response) => {
             req.session.user.OrderConfirmed = true
-            res.json({ res: response, razorpay: true })
-          })
-        } else if (req.body['payment'] === 'PAYPAL') {
-          const create_payment_json = {
-            "intent": "sale",
-            "payer": {
-              "payment_method": "paypal"
-            },
-            "redirect_urls": {
-              "return_url": "http://localhost:3000/successs",
-              "cancel_url": "http://localhost:3000/cancel"
-            },
-            "transactions": [{
-              "item_list": {
-                "items": [{
-                  "name": "Red Sox Hat",
-                  "sku": "001",
-                  "price": price,
-                  "currency": "USD",
-                  "quantity": 1
-                }]
-              },
-              "amount": {
-                "currency": "USD",
-                "total": price
-              },
-              "description": "Hat for the best team ever"
-            }]
-          };
+            res.json({ codsuccess: true })
 
-          paypal.payment.create(create_payment_json, function (error, payment) {
-            if (error) {
-              console.log(error);
-              throw error;
-            } else {
-              for (let i = 0; i < payment.links.length; i++) {
-                if (payment.links[i].rel === 'approval_url') {
-                  res.json({ paypalsuccess: true, link: payment.links[i].href })
+          } else if (req.body['payment'] === 'RAZORPAY') {
+            userhelpers.generateRazorpay(orderId, price).then((response) => {
+              req.session.user.OrderConfirmed = true
+              res.json({ res: response, razorpay: true })
+            })
+          } else if (req.body['payment'] === 'PAYPAL') {
+            const create_payment_json = {
+              "intent": "sale",
+              "payer": {
+                "payment_method": "paypal"
+              },
+              "redirect_urls": {
+                "return_url": "http://localhost:3000/successs",
+                "cancel_url": "http://localhost:3000/cancel"
+              },
+              "transactions": [{
+                "item_list": {
+                  "items": [{
+                    "name": "Red Sox Hat",
+                    "sku": "001",
+                    "price": price,
+                    "currency": "USD",
+                    "quantity": 1
+                  }]
+                },
+                "amount": {
+                  "currency": "USD",
+                  "total": price
+                },
+                "description": "Hat for the best team ever"
+              }]
+            };
+
+            paypal.payment.create(create_payment_json, function (error, payment) {
+              if (error) {
+                console.log(error);
+                throw error;
+              } else {
+                for (let i = 0; i < payment.links.length; i++) {
+                  if (payment.links[i].rel === 'approval_url') {
+                    res.json({ paypalsuccess: true, link: payment.links[i].href })
+                  }
                 }
               }
-            }
-          });
+            });
 
-        }
+          }
+        })
       })
-    })
-
-    // console.log(addressDetails);
-
-
+    } else {
+      res.json({ noaddress: true })
+    }
   })
 })
 
@@ -411,13 +419,10 @@ router.get('/mybag', verifyUser, async (req, res) => {
   }
   let products = await userhelpers.getMybag(user._id);
 
-  // console.log(products);
   if (products.length != 0) {
     let totalPrice = await userhelpers.getTotalprice(user._id)
     let offerTotal = await userhelpers.getTotalofferprice(user._id)
-    // console.log("----", offerTotal);
     await userhelpers.getSingleprice(user._id).then((singlePrice) => {
-      // console.log("----", singlePrice);
       res.render('user/mybag', { user, bagCount, products, totalPrice, offerTotal, singlePrice })
     })
   } else {
@@ -564,6 +569,7 @@ router.post('/buy-address/:id', verifyUser, async (req, res) => {
 router.post('/buy-place-order', verifyUser, async (req, res) => {
   let user = req.session.user
   let address = req.body.address
+  console.log(address);
   let proId = req.body.proId
   let payment = req.body.payment
   let singleprice;
@@ -599,62 +605,66 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
       req.session.user.Orderamount = price
 
     }
-    await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
-      await userhelpers.buyPlaceOrder(addressDetails, products, price, payment, user._id).then((orderId) => {
-        if (req.body['payment'] === 'COD') {
-          req.session.user.OrderConfirmed = true
-          res.json({ codsuccess: true })
-
-        } else if (req.body['payment'] === 'RAZORPAY') {
-          userhelpers.generateRazorpay(orderId, singleprice).then((response) => {
+    if (address) {
+      await userhelpers.getSelectedAdd(user._id, address).then(async (addressDetails) => {
+        await userhelpers.buyPlaceOrder(addressDetails, products, price, payment, user._id).then((orderId) => {
+          if (req.body['payment'] === 'COD') {
             req.session.user.OrderConfirmed = true
-            // console.log(response);
-            res.json({ res: response, razorpay: true })
-          })
-        } else if (req.body['payment'] === 'PAYPAL') {
-          const create_payment_json = {
-            "intent": "sale",
-            "payer": {
-              "payment_method": "paypal"
-            },
-            "redirect_urls": {
-              "return_url": "http://localhost:3000/successs",
-              "cancel_url": "http://localhost:3000/cancel"
-            },
-            "transactions": [{
-              "item_list": {
-                "items": [{
-                  "name": "Red Sox Hat",
-                  "sku": "001",
-                  "price": price,
-                  "currency": "USD",
-                  "quantity": 1
-                }]
-              },
-              "amount": {
-                "currency": "USD",
-                "total": price
-              },
-              "description": "Hat for the best team ever"
-            }]
-          };
+            res.json({ codsuccess: true })
 
-          paypal.payment.create(create_payment_json, function (error, payment) {
-            if (error) {
-              console.log(error);
-              throw error;
-            } else {
-              for (let i = 0; i < payment.links.length; i++) {
-                if (payment.links[i].rel === 'approval_url') {
-                  res.json({ paypalsuccess: true, link: payment.links[i].href })
+          } else if (req.body['payment'] === 'RAZORPAY') {
+            userhelpers.generateRazorpay(orderId, singleprice).then((response) => {
+              req.session.user.OrderConfirmed = true
+              // console.log(response);
+              res.json({ res: response, razorpay: true })
+            })
+          } else if (req.body['payment'] === 'PAYPAL') {
+            const create_payment_json = {
+              "intent": "sale",
+              "payer": {
+                "payment_method": "paypal"
+              },
+              "redirect_urls": {
+                "return_url": "http://localhost:3000/successs",
+                "cancel_url": "http://localhost:3000/cancel"
+              },
+              "transactions": [{
+                "item_list": {
+                  "items": [{
+                    "name": "Red Sox Hat",
+                    "sku": "001",
+                    "price": price,
+                    "currency": "USD",
+                    "quantity": 1
+                  }]
+                },
+                "amount": {
+                  "currency": "USD",
+                  "total": price
+                },
+                "description": "Hat for the best team ever"
+              }]
+            };
+
+            paypal.payment.create(create_payment_json, function (error, payment) {
+              if (error) {
+                console.log(error);
+                throw error;
+              } else {
+                for (let i = 0; i < payment.links.length; i++) {
+                  if (payment.links[i].rel === 'approval_url') {
+                    res.json({ paypalsuccess: true, link: payment.links[i].href })
+                  }
                 }
               }
-            }
-          });
-        }
+            });
+          }
 
+        })
       })
-    })
+    } else {
+      res.json({ noaddress: true })
+    }
   })
 })
 
@@ -815,7 +825,6 @@ router.post('/checkout/applycoupon', async (req, res) => {
         res.json({ umessage: true, uerrmessage: "Coupon already applied" })
       }
     } else {
-      // console.log("kerii");
       res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
 
@@ -829,7 +838,6 @@ router.get('/wishlist', verifyUser, async (req, res) => {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   await userhelpers.getMyWishlist(user._id).then((products) => {
-    // console.log(products);
     res.render('user/wishlist', { products, user, bagCount })
   })
 
@@ -851,7 +859,6 @@ router.post('/delete-wish-item', verifyUser, async (req, res) => {
   res.json(response)
 })
 router.get('/move-to-wishlist/:id', verifyUser, (req, res) => {
-  // console.log('api call');
   if (req.session.user) {
     userhelpers.addtoBag(req.params.id, req.session.user._id).then(() => {
       res.json({ status: true })
@@ -865,10 +872,8 @@ router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
   let user = req.session.user
 
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
-    // console.log(totalPrice);
     let singleprice;
     await productHelpers.buyNowProducts(proId).then(async (products) => {
-      // console.log(products);
       if (products[0].isoffer == true) {
         singleprice = products[0].offerprice
         req.session.user.Orderamount = singleprice
@@ -876,18 +881,14 @@ router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
         singleprice = products[0].price
         req.session.user.Orderamount = singleprice
       }
-      // console.log("kerii");
       if (response) {
-        // console.log("epo keriii");
         let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
-        // console.log(couponUsed);
         if (!couponUsed) {
           let minamount = response.minamount
           let percent = response.value
           if (singleprice >= minamount) {
             var disPrice = (percent / 100) * singleprice;
             var couponPrice = singleprice - disPrice
-            // console.log(couponPrice);
             res.json({ couponPrice, bmessage: "Coupon applied" })
           } else {
             res.json({ bvmessage: true, message: "coupon valid for products above" + minamount })
@@ -897,7 +898,6 @@ router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
           res.json({ bumessage: true, uerrmessage: "Coupon already applied" })
         }
       } else {
-        // console.log("kerii");
         res.json({ bimessage: true, invalidmessage: "Invalid Coupon" })
       }
     })

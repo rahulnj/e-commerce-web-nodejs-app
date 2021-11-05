@@ -165,63 +165,107 @@ function buynow(proId) {
 //To change quantity
 function changeQuantity(cartId, proId, userId, count) {
     console.log(count)
+    let value = parseInt(document.getElementById(proId).innerHTML)
+    console.log(value);
     let quantity = parseInt(document.getElementById(proId).innerHTML)
     count = parseInt(count)
-    $.ajax({
-        url: '/change-quantity',
-        data: {
+    if (value == 1 && count == -1) {
+        Swal.fire({
+            title: 'Remove from Bag?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Remove'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/change-quantity',
+                    data: {
 
-            cart: cartId,
-            product: proId,
-            user: userId,
-            count: count,
-            quantity: quantity
-        },
-        method: 'post',
-        success: (response) => {
+                        cart: cartId,
+                        product: proId,
+                        user: userId,
+                        count: count,
+                        quantity: quantity
+                    },
+                    method: 'post',
+                    success: (response) => {
 
-            // console.log(response.removeProduct);
-            if (response.removeProduct) {
-                //
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        // console.log(response.removeProduct);
+                        if (response.removeProduct) {
+                            //
+
+
+                            location.reload()
+
+                            //
+                            // location.reload()
+
+                            // alert("Removed from bag")
+
+                        } else {
+                            // location.reload()
+                            document.getElementById(proId).innerHTML = quantity + count
+                            document.getElementById('total-price').innerHTML = response.Total
+                            document.getElementById('subtotal-price').innerHTML = response.Total
+                            if (response.subtotal[0].offertotal) {
+                                document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].offertotal
+
+                            } else {
+                                document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].total
+                            }
+
+                        }
+
                     }
                 })
+            }
+        });
+    } else {
+        $.ajax({
+            url: '/change-quantity',
+            data: {
 
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Removed from Bag'
-                }).then((res) => {
+                cart: cartId,
+                product: proId,
+                user: userId,
+                count: count,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+
+                // console.log(response.removeProduct);
+                if (response.removeProduct) {
+                    //
+
+
                     location.reload()
-                })
-                //
-                // location.reload()
 
-                // alert("Removed from bag")
+                    //
+                    // location.reload()
 
-            } else {
-                // location.reload()
-                document.getElementById(proId).innerHTML = quantity + count
-                document.getElementById('total-price').innerHTML = response.Total
-                document.getElementById('subtotal-price').innerHTML = response.Total
-                if (response.subtotal[0].offertotal) {
-                    document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].offertotal
+                    // alert("Removed from bag")
 
                 } else {
-                    document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].total
+                    // location.reload()
+                    document.getElementById(proId).innerHTML = quantity + count
+                    document.getElementById('total-price').innerHTML = response.Total
+                    document.getElementById('subtotal-price').innerHTML = response.Total
+                    if (response.subtotal[0].offertotal) {
+                        document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].offertotal
+
+                    } else {
+                        document.getElementById(`${proId}subtotal`).innerHTML = "₹" + response.subtotal[0].total
+                    }
+
                 }
 
             }
-
-        }
-    })
+        })
+    }
 }
 
 // deleteItem
@@ -289,6 +333,8 @@ $("#checkout-form").submit((e) => {
             } else if (response.paypalsuccess) {
 
                 location.href = response.link
+            } else if (response.noaddress) {
+                Swal.fire("Choose a address")
             }
         }
     })
@@ -376,6 +422,8 @@ $("#buynow-form").submit((e) => {
             } else if (response.paypalsuccess) {
                 location.href = response.link
 
+            } else if (response.noaddress == true) {
+                Swal.fire("Choose a address")
             }
         }
     })
