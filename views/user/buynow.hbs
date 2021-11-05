@@ -183,25 +183,38 @@
 </section>
 <script>
     function deleteaddress(addId, userId, add) {
+        Swal.fire({
+            title: 'Remove Address ?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Remove'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(add)
+                $.ajax({
+                    url: '/deleteaddress',
+                    data: {
+                        add: addId,
+                        user: userId,
+                        address: add
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        if (response.status) {
+                            // alert("Deleted")
+                            location.reload()
+                        } else {
 
-        console.log(add)
-        $.ajax({
-            url: '/deleteaddress',
-            data: {
-                add: addId,
-                user: userId,
-                address: add
-            },
-            method: 'post',
-            success: (response) => {
-                if (response.status) {
-                    // alert("Deleted")
-                    location.reload()
-                } else {
+                        }
+                    }
+                })
+            } else {
 
-                }
             }
-        })
+        });
     }
 
 </script>
