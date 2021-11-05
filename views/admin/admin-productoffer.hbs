@@ -10,7 +10,7 @@
                     <form id="getproducts">
                         <div class="mb-4">
                             <label class="form-label">Product</label>
-                            <select name="product" class="form-select" id="">
+                            <select name="product" class="form-select" id="productname">
                                 <option value="">select</option>
                                 {{#each products}}
                                 <option value="{{this._id}}">{{this.product}}</option>
@@ -97,7 +97,11 @@
     today = yyyy + '-' + mm + '-' + dd;
     $('#exp_date').attr('min', today);
 
-
+    $(document).ready(function () {
+        $('productname').selectize({
+            sortField: 'text'
+        });
+    });
 
 
 
