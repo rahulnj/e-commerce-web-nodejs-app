@@ -691,13 +691,24 @@ module.exports = {
     changestatus: (cartId, userId, status) => {
         // console.log(cartId);
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
-                {
-                    $set: { status: status }
-                }).then((response) => {
-                    // console.log(response);
-                    resolve({ status: true })
-                })
+            if (status === 'cancelled') {
+                await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
+                    {
+                        $set: { status: status, iscancelled: true }
+                    }).then((response) => {
+                        // console.log(response);
+                        resolve({ status: true })
+                    })
+            } else {
+                await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
+                    {
+                        $set: { status: status, iscancelled: false }
+                    }).then((response) => {
+                        // console.log(response);
+                        resolve({ status: true })
+                    })
+            }
+
         })
     },
     cancelOrder: (cartId, cancel) => {

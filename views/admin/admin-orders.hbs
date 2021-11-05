@@ -27,6 +27,7 @@
                             <th scope="col">Status</th>
                             <th scope="col">Date</th>
                             <th scope="col" class="text-end"> Action </th>
+                            <th scope="col" class="text-end"> Action </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,23 @@
                                         style="text-decoration: none; color:white">Details</a></button>
 
                             </td>
+                            {{#if this.iscancelled}}
+                            {{else}}
+                            <td class="text-end">
+                                <select class="form-select d-inline-block" id="{{this._id}}" style="max-width: 200px"
+                                    onchange="changeSinglestatus('{{this._id}}','{{this.user}}')">
+
+                                    <option>change status</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancel</option>
+
+                                </select>
+                            </td>
+
+                            {{/if}}
+
                         </tr>
                         {{/each}}
 
@@ -58,3 +76,26 @@
 
 
 </section> <!-- content-main end// -->
+<script>
+    function changeSinglestatus(cartId, userId) {
+        let stat = document.getElementById(cartId).value
+        console.log(cartId, userId, stat)
+        $.ajax({
+            url: '/admin/changestatus',
+            data: {
+                cart: cartId,
+                user: userId,
+                status: stat
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    // alert("Deleted")
+                    location.reload()
+                } else {
+
+                }
+            }
+        })
+    }
+</script>

@@ -158,27 +158,7 @@
 
 
 
-    function changestatus(cartId, userId) {
-        let stat = document.getElementById('status').value
-        console.log(cartId, userId, stat)
-        $.ajax({
-            url: '/admin/changestatus',
-            data: {
-                cart: cartId,
-                user: userId,
-                status: stat
-            },
-            method: 'post',
-            success: (response) => {
-                if (response.status) {
-                    // alert("Deleted")
-                    location.reload()
-                } else {
 
-                }
-            }
-        })
-    }
 
 
 

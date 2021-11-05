@@ -86,6 +86,13 @@ router.get('/orders', adminAuth, async (req, res) => {
     res.render('admin/admin-orders', { admin: true, orders })
   })
 })
+
+
+
+
+
+
+
 router.get('/orderdetails/:id', adminAuth, async (req, res) => {
   await userhelpers.getAdminOrders(req.params.id).then(async (orderdetails) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
