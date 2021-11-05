@@ -720,7 +720,6 @@ module.exports = {
             const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                     $match: {
-                        $and: [{ status: { $eq: 'placed' } }],
                         createdAt: { $gte: new Date(new Date() - numberOfDays * 60 * 60 * 24 * 1000) },
                     },
                 },

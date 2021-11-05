@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+
 <section>
     <div class="content-header container-fluid">
         <h2 class="content-title">Sales Report </h2>
@@ -61,28 +62,18 @@
 
                         </tr>
                     </thead>
-                    {{#each salesreport}}
-                    <tr>
-                        <td>{{calculation @index}}</td>
-                        <td>{{orderid}}</td>
-                        <td>{{userid}}</td>
-                        <td><span class="badge rounded-pill alert-success">{{payment}}</span></td>
-                        <td>₹ {{amount}}</td>
-                        <td>{{date}}</td>
-                        {{!-- <td class="text-end">
-                            <a href="#" class="btn btn-light">Detail</a>
-                            <div class="dropdown">
-                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
-                                        class="material-icons md-more_horiz"></i> </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">View detail</a>
-                                    <a class="dropdown-item" href="#">Edit info</a>
-                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div> <!-- dropdown //end -->
-                        </td> --}}
-                    </tr>
-                    {{/each}}
+                    <tbody id="examplebody">
+                        {{#each salesreport}}
+                        <tr>
+                            <td>{{calculation @index}}</td>
+                            <td>{{orderid}}</td>
+                            <td>{{userid}}</td>
+                            <td><span class="badge rounded-pill alert-success">{{payment}}</span></td>
+                            <td>₹ {{amount}}</td>
+                            <td>{{date}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
 
                 </table>
             </div> <!-- table-responsive end// -->
@@ -91,19 +82,13 @@
 
 
 </section>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
 <script>
+
+    let table;
+
     $("#salesDate-form").submit((e) => {
         e.preventDefault()
         $.ajax({
@@ -112,7 +97,9 @@
             data: $("#salesDate-form").serialize(),
             success: (response) => {
                 if (response.report) {
-                    document.getElementById('example').innerHTML = ' '
+                    table.destroy();
+                    document.getElementById('examplebody').innerHTML = ' '
+
                     for (let i = 0; i < response.report.length; i++) {
                         newelement = `<tr>
                             <td>${i + 1}</td>
@@ -122,8 +109,39 @@
                            <td> ${response.report[i].amount} </td>
                             <td> ${response.report[i].date} </td>
                         </tr>`
-                        document.getElementById('example').innerHTML += newelement
+
+                        document.getElementById('examplebody').innerHTML += newelement
                     }
+                    table = $('#example').DataTable({
+                        "footerCallback": function (row, data, start, end, display) {
+                            var api = this.api(), data;
+
+                            // Remove the formatting to get integer data for summation
+                            var intVal = function (i) {
+                                return typeof i === 'string' ?
+                                    i.replace(/[\$,]/g, '') * 1 :
+                                    typeof i === 'number' ?
+                                        i : 0;
+                            };
+
+                            // Total over all pages
+                            total = api
+                                .column(4)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+                            // Update footer
+                            $(api.column(4).footer()).html(
+                                ' ( $' + total + ' total)'
+                            );
+                        },
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ],
+                    });
+
                 }
 
             }
@@ -140,7 +158,8 @@
             method: 'post',
             success: (response) => {
                 if (response.wmyreport) {
-                    document.getElementById('example').innerHTML = ' '
+                    table.destroy()
+                    document.getElementById('examplebody').innerHTML = ' '
                     for (let i = 0; i < response.wmyreport.length; i++) {
                         newelement = `<tr>
                             <td>${i + 1}</td>
@@ -150,24 +169,48 @@
                            <td> ${response.wmyreport[i].amount} </td>
                             <td> ${response.wmyreport[i].date} </td>
                         </tr>`
-                        document.getElementById('example').innerHTML += newelement
+                        document.getElementById('examplebody').innerHTML += newelement
                     }
+                    table = $('#example').DataTable({
+                        "footerCallback": function (row, data, start, end, display) {
+                            var api = this.api(), data;
+
+                            // Remove the formatting to get integer data for summation
+                            var intVal = function (i) {
+                                return typeof i === 'string' ?
+                                    i.replace(/[\$,]/g, '') * 1 :
+                                    typeof i === 'number' ?
+                                        i : 0;
+                            };
+
+                            // Total over all pages
+                            total = api
+                                .column(4)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+
+                            // Update footer
+                            $(api.column(4).footer()).html(
+                                ' ( $' + total + ' total)'
+                            );
+                        },
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ],
+                    });
+
                 }
             }
         })
     }
 
 
-
-
-
-
-
-
-
-
     $(document).ready(function () {
-        $('#example').DataTable({
+        table = $('#example').DataTable({
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
@@ -200,3 +243,14 @@
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>

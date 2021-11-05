@@ -329,7 +329,10 @@ router.post('/salesreport/report', async (req, res) => {
 })
 
 router.post('/salesreport/monthlyreport', async (req, res) => {
+  // console.log(req.body.type);
+
   let singleReport = await productHelpers.getNewSalesReport(req.body.type)
+  // console.log(singleReport);
   res.json({ wmyreport: singleReport })
 })
 
