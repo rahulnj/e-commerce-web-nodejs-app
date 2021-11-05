@@ -711,7 +711,7 @@ module.exports = {
         })
     },
     getNewSalesReport: (type) => {
-        const numberOfDays = type === 'weekly' ? 7 : type === 'monthly' ? 30 : type === 'yearly' ? 365 : 0
+        const numberOfDays = type === 'daily' ? 1 : type === 'weekly' ? 7 : type === 'monthly' ? 30 : type === 'yearly' ? 365 : 0
         const dayOfYear = (date) =>
             Math.floor(
                 (date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
