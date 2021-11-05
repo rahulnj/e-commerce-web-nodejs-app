@@ -8,9 +8,9 @@ var userhelpers = require('../helpers/user-helpers')
 const { OAuth2Client } = require('google-auth-library');
 const paypal = require('paypal-rest-sdk');
 // 
-const servicesSSID = "	VAcc710d22d3d0cb7e51e0a59715f643c3"
-const accountSSID = "ACbe1c37edc9560c82fe7b569d383d98b3"
-const authToken = "5936582cf92822c4bf47259fcacc1aff"
+const servicesSSID = "VA6372e797caca0e71e2cffe91c11b5168"
+const accountSSID = "AC2b16619f3603bb5447f6417cdd805f0d"
+const authToken = "2514ef681766ef450acce3bcfaa85088"
 const clientTwillo = require("twilio")(accountSSID, authToken);
 
 
@@ -86,8 +86,8 @@ router.post('/enterotp', async (req, res) => {
       console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
-      res.redirect('/verifyotp')
-
+      // res.redirect('/verifyotp')
+      res.json({ otp: true })
     } else {
       res.redirect('/user-signup')
     }
@@ -95,11 +95,9 @@ router.post('/enterotp', async (req, res) => {
 })
 
 router.post('/verifyotp', async (req, res) => {
-  // console.log(req.body);
   let otp = req.body.otp
-  // console.log(otp);
   let number = req.session.number
-  // console.log(number);
+  console.log(number);
   await userhelpers.checkNumber(number).then((response) => {
     clientTwillo.verify.services(servicesSSID).verificationChecks
       .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {

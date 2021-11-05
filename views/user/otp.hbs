@@ -13,18 +13,124 @@
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
 
-                <form class="form-inline" method="post" action="/enterotp">
+                <form class="form-inline" id="enterotp">
 
                     <div class="form-group mx-sm-3 mb-2">
                         <label for="inputPassword2" class="sr-only">Phone</label>
                         <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otp"
                             placeholder="Phone">
+
                     </div>
-                    <button type="submit" class="essence-btn mb-2">Confirm identity</button>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <button type="submit" id="confirm" class="essence-btn-sm mb-2">Send OTP</button>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <button type="submit" id="resend" style="display: none;"
+                            class="essence-btn-sm mb-2">Resend</button>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputPassword2" class="sr-only">otp</label>
+                        <input type="tel" name="otp" class="form-control" style="height: 60px;" id="OTP"
+                            placeholder="OTP">
+                    </div>
                 </form>
+                <div class="form-group mx-sm-3 mb-2">
+                    <button type="button" id="confirmotp" onclick="resend()"
+                        class=" essence-btn-sm mb-2">Confirm</button>
+                </div>
+                <p id="countdown"></p>
+
+
 
 
             </div>
         </div>
     </div>
 </section>
+
+
+<script>
+    $('#enterotp').on("submit", (e) => {
+        e.preventDefault()
+
+        $.ajax({
+            url: "/enterotp",
+            data: $("#enterotp").serialize(),
+            method: "post",
+            success: function (response) {
+                console.log(response)
+                if (response.otp == true) {
+                    const startingMinutes = 1;
+                    let time = startingMinutes * 60;
+
+                    const countdownEl = document.getElementById('countdown')
+                    let int = setInterval(updateCountdown, 1000);
+
+                    function updateCountdown() {
+                        const minutes = Math.floor(time / 60);
+                        let seconds = time % 60;
+                        if (minutes == 0 && seconds == 0) {
+                            clearInterval(int)
+                            document.getElementById('countdown').style.display = 'none'
+                            document.getElementById('confirm').style.display = 'none'
+                            document.getElementById('resend').style.display = ''
+                            document.getElementById('confirmotp').style.display = 'none'
+                        } else {
+                            document.getElementById('countdown').style.display = ''
+                            document.getElementById('confirm').style.display = 'none'
+                            document.getElementById('resend').style.display = 'none'
+                            document.getElementById('confirmotp').style.display = ''
+                        }
+                        seconds = seconds < 10 ? '0' + seconds : seconds;
+                        countdownEl.innerHTML = `${minutes}:${seconds}`;
+                        time--;
+                    }
+
+                } else {
+
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+
+    })
+
+    /////
+    function resend() {
+        let otp = document.getElementById('OTP').value
+        console.log(otp)
+        $.ajax({
+            url: "/verifyotp",
+            data: { otp },
+            method: "post",
+            success: function (response) {
+                if (response.login == true) {
+
+                    location.href = ('/')
+                } else if (response.login == false) {
+                    Swal.fire("Invalid OTP")
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
