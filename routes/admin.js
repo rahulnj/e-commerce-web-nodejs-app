@@ -33,13 +33,11 @@ router.get('/', adminReauth, function (req, res, next) {
 
 //admin signin
 router.post('/dashboard', async (req, res) => {
-  // console.log(req.body);
   const response = await userhelpers.adminLogin(req.body)
   if (response && response.status) {
     req.session.loggedin = true
     req.session.admin = response.admin
     res.json(response)
-    // res.render('admin/admin-dashboard', { admin: true })
   } else {
     req.session.adminError = true
     res.redirect('/admin')
@@ -80,7 +78,6 @@ router.get('/dashboard', adminAuth, async (req, res) => {
   let razorpayPer = getpercentage(ordersCount, razorpayCount)
   let paypalCount = await productHelpers.getPaypalCount()
   let paypalPer = getpercentage(ordersCount, paypalCount)
-
   res.render('admin/admin-dashboard', { admin: true, usersCount, ordersCount, totalRevenue, codPer, razorpayPer, paypalPer })
 })
 
@@ -90,42 +87,32 @@ router.get('/orders', adminAuth, async (req, res) => {
   })
 })
 router.get('/orderdetails/:id', adminAuth, async (req, res) => {
-  // console.log(req.params.id);
   await userhelpers.getAdminOrders(req.params.id).then(async (orderdetails) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
       await productHelpers.getadminOrderProd(req.params.id).then(async (products) => {
-        // console.log(orderdetails);
         const isCancelled = orderdetails[0].status === 'cancelled'
-        // console.log(isCancelled);
         res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, singlePrice, products, })
-
-        // console.log(products);
       })
     })
   })
 })
 // 
 router.post('/changestatus', async (req, res) => {
-  // console.log(req.body.cart);
   let cart = req.body.cart
   let user = req.body.user
   let status = req.body.status
   await userhelpers.changestatus(cart, user, status).then((response) => {
-    // console.log(response);
     res.json(response)
   })
 })
 
 router.get('/products', adminAuth, async (req, res) => {
   let products = await productHelper.getProducts()
-  // console.log(products);
-  // console.log(JSON.stringify(products))
   res.render('admin/admin-products', { admin: true, products })
 })
 
 router.get('/addproduct', adminAuth, async (req, res) => {
   let details = await productHelper.categoryDetails()
-
   res.render('admin/admin-addproduct', { admin: true, details })
 
 })
@@ -147,23 +134,18 @@ router.post('/createCategory', (req, res) => {
 // Delete category
 router.get('/delete-category/:id', async (req, res) => {
   let categoryId = req.params.id
-  // console.log(categoryId);
   await productHelper.deleteCategory(categoryId)
   res.redirect('/admin/category')
 })
 // show category
 router.post('/getSubcategory', async (req, res) => {
-  // console.log(req.body);
   let show = await productHelper.showSubcategory(req.body.detail)
   res.json({ category: show })
-  // console.log(show.subcategory);
-
 })
 
 
 router.get('/users', adminAuth, async (req, res) => {
   await userhelpers.usersDetails().then((newusers) => {
-    // console.log(newusers);
     res.render('admin/admin-user', { admin: true, newusers })
   })
 })
@@ -171,23 +153,16 @@ router.get('/users', adminAuth, async (req, res) => {
 // edit products
 router.get('/editproduct/:id', adminAuth, async (req, res) => {
   let proId = req.params.id
-  // console.log(req.params.id);
   let product = await productHelpers.editProduct(proId)
   res.render('admin/admin-editproduct', { admin: true, product })
 })
 
 router.post('/editproduct/:id', async (req, res) => {
-  // console.log("call");
   let proId = req.params.id
-  // console.log("------------");
-  // console.log(req.body);
   await productHelpers.updateProduct(proId, req.body)
-
-  // console.log(req.files);
   res.redirect('/admin/products')
   if (req.body) {
     if (req.body.image1_b64 || req.body.image2_b64 || req.body.image3_b64 || req.body.image4_b64 || req.body.image5_b64) {
-      // console.log(req.body.img1);
       if (req.body.image1_b64) {
         let image1 = req.body.image1_b64
         let path1 = './public/uploads/image-1/' + proId + '.jpg'
@@ -226,7 +201,6 @@ router.post('/editproduct/:id', async (req, res) => {
         fs.writeFileSync(path5, img5, { encoding: 'base64' })
 
       }
-      // console.log(image1);
     }
   }
 })
@@ -238,7 +212,6 @@ router.post('/products/deleteproduct', async (req, res) => {
   let proId = req.body.proId
   let response = await productHelpers.deleteProducts(proId)
   res.json(response)
-  // res.redirect('/admin/products')
 })
 
 
@@ -277,7 +250,6 @@ router.post('/add-product', async (req, res) => {
   let image3 = req.body.img3
   let image4 = req.body.img4
   let image5 = req.body.img5
-  // console.log(image2);
 
   let path1 = './public/uploads/image-1/' + id + '.jpg'
   let path2 = './public/uploads/image-2/' + id + '.jpg'
@@ -310,13 +282,11 @@ router.get('/coupons', adminAuth, async (req, res) => {
 
 
 router.post('/coupons/add-coupon', async (req, res) => {
-  // console.log(req.body);
   await productHelpers.addCoupon(req.body)
   res.json(response)
 })
 
 router.post('/coupons/delete-coupon', async (req, res) => {
-  // console.log("Api call");
   let response = await productHelpers.deleteCoupon(req.body.copId)
   console.log(response);
   res.json(response)
@@ -342,19 +312,21 @@ router.get('/categoryoffer', adminAuth, (req, res) => {
   res.render('admin/admin-categoryoffer', { admin: true })
 })
 router.post('/categoryoffer/placecatoffer', async (req, res) => {
-  // console.log(req.body);
   await productHelpers.getCategoryoffer(req.body.category, req.body.type, req.body.offer, req.body.expiry)
 })
 
 
 router.post('/salesreport/report', async (req, res) => {
-  // console.log(req.body);
   let salesReport = await productHelpers.getSalesReport(req.body.from, req.body.to)
-  // console.log(salesReport);
   res.json({ report: salesReport })
 })
+
+router.post('/salesreport/monthlyreport', async (req, res) => {
+  let singleReport = await productHelpers.getNewSalesReport(req.body.type)
+  res.json({ wmyreport: singleReport })
+})
+
 router.get('/salesreport', adminAuth, async (req, res) => {
-  await productHelpers.getNewSalesReport("monthly")
   let salesreport = await productHelpers.getsalesReport()
   res.render('admin/salesreport', { admin: true, salesreport })
 })

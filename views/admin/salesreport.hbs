@@ -16,14 +16,16 @@
 
                     </div>
                     <div class="col-md-2 col-6">
-                        <button class='btn btn-primary me-md-2' value="weekly" type="button">Weekly</button>
+                        <select class="form-select d-inline-block" id="status_sales" style="max-width: 200px"
+                            onchange="getNewSale()">
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+
+                        </select>
                     </div>
-                    <div class="col-md-2 col-6">
-                        <button class='btn btn-primary me-md-2' value="monthly" type="button">Monthly</button>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <button class='btn btn-primary me-md-2' value="yearly" type="button">Yearly</button>
-                    </div>
+
+
                     <div class="col-md-2 col-6">
                         <input type="datetime-local" name="from" class="form-control" required>
                     </div>
@@ -127,15 +129,32 @@
         })
     })
 
-
-
-
-
-
-
-
-
-
+    function getNewSale() {
+        let stat = document.getElementById('status_sales').value
+        $.ajax({
+            url: '/admin/salesreport/monthlyreport',
+            data: {
+                type: stat
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.wmyreport) {
+                    document.getElementById('example').innerHTML = ' '
+                    for (let i = 0; i < response.wmyreport.length; i++) {
+                        newelement = `<tr>
+                            <td>${i + 1}</td>
+                        <td> ${response.wmyreport[i]._id} </td>
+                         <td> ${response.wmyreport[i].user} </td>
+                          <td><span class="badge rounded-pill alert-success"> ${response.wmyreport[i].paymentmethod}</span> </td>
+                           <td> ${response.wmyreport[i].amount} </td>
+                            <td> ${response.wmyreport[i].date} </td>
+                        </tr>`
+                        document.getElementById('example').innerHTML += newelement
+                    }
+                }
+            }
+        })
+    }
 
 
 
