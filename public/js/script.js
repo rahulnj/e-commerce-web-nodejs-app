@@ -3,7 +3,7 @@
 
 
 // form validation
-var submitname = false; var submitemail = false; var submitpassword = false; submitphone = false;
+var submitname = false; var submitemail = false; var submitpassword = false; submitphone = true;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 $(document).ready(function () {
     $("#usersu").blur(function () {
@@ -164,9 +164,8 @@ function buynow(proId) {
 
 //To change quantity
 function changeQuantity(cartId, proId, userId, count) {
-    console.log(count)
     let value = parseInt(document.getElementById(proId).innerHTML)
-    console.log(value);
+
     let quantity = parseInt(document.getElementById(proId).innerHTML)
     count = parseInt(count)
     if (value == 1 && count == -1) {
@@ -237,17 +236,13 @@ function changeQuantity(cartId, proId, userId, count) {
             method: 'post',
             success: (response) => {
 
-                // console.log(response.removeProduct);
                 if (response.removeProduct) {
                     //
 
 
                     location.reload()
 
-                    //
-                    // location.reload()
 
-                    // alert("Removed from bag")
 
                 } else {
                     // location.reload()

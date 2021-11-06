@@ -7,7 +7,29 @@
             <div class="col-md-9 col-lg-6 col-xl-5 p-5">
                 <img src="/img/bg-img/bg-signup.jpg" class="img-fluid" alt="Sample image">
             </div>
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <div id="otp_signup">
+                <div class="form-group mx-sm-3 mb-2">
+
+                    <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otpsignup"
+                        placeholder="Phone">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="tel" name="otp" class="form-control" style="height: 60px;" id="signupsotp"
+                        placeholder="OTP">
+                </div>
+
+                <p id="countdowns"></p>
+                <div class="form-group mx-sm-3 mb-2">
+                    <button type="button" onclick="sendnumber()" id="verifynumber"
+                        class="essence-btn-sm mb-2">Verify</button>
+                    <button type="button" onclick="sendnumber()" id="resend" class="essence-btn-sm mb-2"
+                        style="display: none;">Resend</button>
+                    <button type="button" onclick="enterotp()" id="confirmotp"
+                        class=" essence-btn-sm mb-2">Confirm</button>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1" id="signupdiv" style="display: none;">
+
                 <form id="signupform">
 
                     <div class="pt-5">
@@ -75,5 +97,86 @@
 
 
 <script>
+    let number;
+    function sendnumber() {
+        number = document.getElementById('otpsignup').value
+        console.log(number)
+        $.ajax({
+            url: "/entersignupnumber",
+            data: { number },
+            method: "post",
+            success: function (response) {
+                console.log(response)
+                document.getElementById('verifynumber').style.display = 'none'
+
+                if (response.number == true) {
+                    const startingMinutes = 1;
+                    let time = startingMinutes * 60;
+
+                    const countdownEl = document.getElementById('countdowns')
+                    let int = setInterval(updateCountdown, 1000);
+
+                    function updateCountdown() {
+                        const minutes = Math.floor(time / 60);
+                        let seconds = time % 60;
+                        if (minutes == 0 && seconds == 0) {
+                            clearInterval(int)
+                            document.getElementById('countdowns').style.display = 'none'
+                            document.getElementById('verifynumber').style.display = 'none'
+                            document.getElementById('confirmotp').style.display = 'none'
+                            document.getElementById('resend').style.display = ''
+                        } else {
+                            document.getElementById('countdowns').style.display = ''
+                            document.getElementById('confirmotp').style.display = ''
+                            document.getElementById('resend').style.display = 'none'
+                        }
+                        seconds = seconds < 10 ? '0' + seconds : seconds;
+                        countdownEl.innerHTML = `${minutes}:${seconds}`;
+                        time--;
+                    }
+                } else if (response.login == false) {
+                    Swal.fire("Invalid OTP")
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    }
+
+    function enterotp() {
+        let otp = document.getElementById('signupsotp').value
+        console.log(otp)
+        $.ajax({
+            url: "/verifysignupotp",
+            data: { otp },
+            method: "post",
+            success: function (response) {
+                if (response.login == true) {
+                    document.getElementById('signupdiv').style.display = ''
+                    document.getElementById('phonesu').innerHTML = number
+                    document.getElementById('phonesu').value = number
+                    document.getElementById('otp_signup').style.display = 'none'
+                } else if (response.login == false) {
+                    Swal.fire("Invalid OTP")
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
 
 </script>
