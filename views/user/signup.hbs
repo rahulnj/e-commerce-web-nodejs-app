@@ -11,7 +11,7 @@
                 <div class="form-group mx-sm-3 mb-2">
 
                     <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otpsignup"
-                        placeholder="Phone">
+                        placeholder="Phone" maxlength="10">
                 </div>
                 <div class="form-group mx-sm-3 mb-2">
                     <input type="tel" name="otp" class="form-control" style="height: 60px;" id="signupsotp"
@@ -104,49 +104,53 @@
     function sendnumber() {
         number = document.getElementById('otpsignup').value
         console.log(number)
-        $.ajax({
-            url: "/entersignupnumber",
-            data: { number },
-            method: "post",
-            success: function (response) {
-                console.log(response)
-                document.getElementById('verifynumber').style.display = 'none'
+        if (submitphone == true) {
+            $.ajax({
+                url: "/entersignupnumber",
+                data: { number },
+                method: "post",
+                success: function (response) {
+                    console.log(response)
+                    document.getElementById('verifynumber').style.display = 'none'
 
-                if (response.number == true) {
-                    const startingMinutes = 1;
-                    let time = startingMinutes * 60;
+                    if (response.number == true) {
+                        const startingMinutes = 2;
+                        let time = startingMinutes * 60;
 
-                    const countdownEl = document.getElementById('countdowns')
-                    let int = setInterval(updateCountdown, 1000);
+                        const countdownEl = document.getElementById('countdowns')
+                        let int = setInterval(updateCountdown, 1000);
 
-                    function updateCountdown() {
-                        const minutes = Math.floor(time / 60);
-                        let seconds = time % 60;
-                        if (minutes == 0 && seconds == 0) {
-                            clearInterval(int)
-                            document.getElementById('countdowns').style.display = 'none'
-                            document.getElementById('verifynumber').style.display = 'none'
-                            document.getElementById('confirmotp').style.display = 'none'
-                            document.getElementById('resend').style.display = ''
-                        } else {
-                            document.getElementById('countdowns').style.display = ''
-                            document.getElementById('confirmotp').style.display = ''
-                            document.getElementById('resend').style.display = 'none'
+                        function updateCountdown() {
+                            const minutes = Math.floor(time / 60);
+                            let seconds = time % 60;
+                            if (minutes == 0 && seconds == 0) {
+                                clearInterval(int)
+                                document.getElementById('countdowns').style.display = 'none'
+                                document.getElementById('verifynumber').style.display = 'none'
+                                document.getElementById('confirmotp').style.display = 'none'
+                                document.getElementById('resend').style.display = ''
+                            } else {
+                                document.getElementById('countdowns').style.display = ''
+                                document.getElementById('confirmotp').style.display = ''
+                                document.getElementById('resend').style.display = 'none'
+                            }
+                            seconds = seconds < 10 ? '0' + seconds : seconds;
+                            countdownEl.innerHTML = `${minutes}:${seconds}`;
+                            time--;
                         }
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-                        countdownEl.innerHTML = `${minutes}:${seconds}`;
-                        time--;
+                    } else if (response.number == false) {
+                        Swal.fire("User Exists with this number")
+                        document.getElementById('previous').style.display = ''
                     }
-                } else if (response.number == false) {
-                    Swal.fire("User Exists with this number")
-                    document.getElementById('previous').style.display = ''
-                }
 
-            },
-            error: function (err) {
-                // alert("Something Error")
-            }
-        })
+                },
+                error: function (err) {
+                    // alert("Something Error")
+                }
+            })
+        } else {
+            Swal.fire("Invalid number")
+        }
     }
 
     function enterotp() {
@@ -172,6 +176,24 @@
             }
         })
     }
+    let submitphone;
+    $('#otpsignup').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+            submitphone = false;
+            $("#error-phone").html("Invalid Number");
+
+        } else {
+            submitphone = true;
+            $("#error-phone").html(" ");
+
+        }
+    })
+
+
+
+
 
 
 

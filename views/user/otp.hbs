@@ -17,7 +17,7 @@
                     <div class="form-group mx-sm-3 mb-2">
 
                         <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otp_number"
-                            placeholder="Phone">
+                            placeholder="Phone" maxlength="10">
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
                         <input type="tel" name="otp" class="form-control" style="height: 60px;" id="OTP_code"
@@ -34,7 +34,7 @@
                         <button type="button" onclick=" sendnumbersignin()" id="resend" class="essence-btn-sm mb-2"
                             style="display: none;">Resend</button>
                         <button type="button" onclick="signinenterotp()" id="confirmotp" class=" essence-btn-sm mb-2"
-                            style="display: none;">Confirms</button>
+                            style="display: none;">Confirm</button>
                     </div>
                 </div>
                 {{!-- <div class="form-group mx-sm-3 mb-2">
@@ -52,47 +52,51 @@
     function sendnumbersignin() {
         let number = document.getElementById('otp_number').value
         console.log(number)
-        $.ajax({
-            url: "/enterotp",
-            data: { number },
-            method: "post",
-            success: function (response) {
-                if (response.number == true) {
-                    document.getElementById('confirm').style.display = 'none'
-                    const startingMinutes = 1;
-                    let time = startingMinutes * 60;
+        if (submitphone == true) {
+            $.ajax({
+                url: "/enterotp",
+                data: { number },
+                method: "post",
+                success: function (response) {
+                    if (response.number == true) {
+                        document.getElementById('confirm').style.display = 'none'
+                        const startingMinutes = 2;
+                        let time = startingMinutes * 60;
 
-                    const countdownEl = document.getElementById('countdown')
-                    let int = setInterval(updateCountdown, 100);
+                        const countdownEl = document.getElementById('countdown')
+                        let int = setInterval(updateCountdown, 1000);
 
-                    function updateCountdown() {
-                        const minutes = Math.floor(time / 60);
-                        let seconds = time % 60;
-                        if (minutes == 0 && seconds == 0) {
-                            clearInterval(int)
-                            document.getElementById('countdown').style.display = 'none'
-                            document.getElementById('confirm').style.display = 'none'
-                            document.getElementById('confirmotp').style.display = 'none'
-                            document.getElementById('resend').style.display = ''
-                        } else {
-                            document.getElementById('countdown').style.display = ''
-                            document.getElementById('confirmotp').style.display = ''
-                            document.getElementById('resend').style.display = 'none'
+                        function updateCountdown() {
+                            const minutes = Math.floor(time / 60);
+                            let seconds = time % 60;
+                            if (minutes == 0 && seconds == 0) {
+                                clearInterval(int)
+                                document.getElementById('countdown').style.display = 'none'
+                                document.getElementById('confirm').style.display = 'none'
+                                document.getElementById('confirmotp').style.display = 'none'
+                                document.getElementById('resend').style.display = ''
+                            } else {
+                                document.getElementById('countdown').style.display = ''
+                                document.getElementById('confirmotp').style.display = ''
+                                document.getElementById('resend').style.display = 'none'
+                            }
+                            seconds = seconds < 10 ? '0' + seconds : seconds;
+                            countdownEl.innerHTML = `${minutes}:${seconds}`;
+                            time--;
                         }
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-                        countdownEl.innerHTML = `${minutes}:${seconds}`;
-                        time--;
+                    } else if (response.number == false) {
+                        Swal.fire("User not Exist")
+
                     }
-                } else if (response.number == false) {
-                    Swal.fire("User not Exist")
 
+                },
+                error: function (err) {
+                    // alert("Something Error")
                 }
-
-            },
-            error: function (err) {
-                // alert("Something Error")
-            }
-        })
+            })
+        } else {
+            Swal.fire("Invalid number")
+        }
     }
 
     /////
@@ -117,7 +121,20 @@
         })
     }
 
+    let submitphone;
+    $('#otp_number').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+            submitphone = false;
+            $("#error-phone").html("Invalid Number");
 
+        } else {
+            submitphone = true;
+            $("#error-phone").html(" ");
+
+        }
+    })
 
 
 
