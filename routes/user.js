@@ -131,7 +131,7 @@ router.post('/entersignupnumber', async (req, res) => {
         .then((verification) => console.log(verification.status));
       res.json({ number: true })
     } else {
-      // res.redirect('/user-signup')
+      res.json({ number: false })
     }
   })
 })
