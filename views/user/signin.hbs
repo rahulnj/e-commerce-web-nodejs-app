@@ -122,12 +122,18 @@
                 url: "/signin",
                 data: $("#signinform").serialize(),
                 method: "post",
-                success: function (response) {
+                success: function (result) {
+
                     // alert("Form submitted successfully")
-                    if (response.status == true) {
-                        location.replace('/')
+                    if (result.res.status == true) {
+                        if (result.guest) {
+                            location.href = `/add-to-bag/${result.guest.proid}`
+                        } else {
+                            location.replace('/')
+                        }
+
                     } else {
-                        $("#submit-errmessage").html(response.err);
+                        $("#submit-errmessage").html(result.err);
                     }
 
                 },

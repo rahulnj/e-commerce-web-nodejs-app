@@ -56,10 +56,14 @@ router.get('/user-signup', userAuth, (req, res) => {
   res.render('user/signup')
 })
 
+
 router.get('/user-signin', userAuth, (req, res) => {
   res.render('user/signin', { usererr: req.session.loginError })
   req.session.loginError = false
 })
+
+
+
 
 router.get('/dogretailvet', async (req, res) => {
   let user = req.session.user
@@ -491,7 +495,11 @@ router.post('/signin', async (req, res) => {
   if (response && response.status) {
     req.session.loggedIn = true
     req.session.user = response.user
-    res.json(response)
+    let guest;
+    if (req.session.guestUser) {
+      guest = req.session.guestUser
+    }
+    res.json({ res: response, guest })
   } else if (!response.status) {
     res.json(response)
   }
@@ -518,12 +526,37 @@ router.get('/single-product/:id', async (req, res) => {
   }
 })
 
+
+
+
+// add to cart without user
+
+router.get("/add-to-cart/:id", (req, res) => {
+
+  if (req.session.user) {
+    res.redirect(`/add-to-bag/${req.params.id}`)
+  } else {
+    let data = { proid: req.params.id }
+    req.session.guestUser = data
+    res.redirect("/user-signin")
+  }
+
+})
+
+
 // Add-to-bag
 router.get('/add-to-bag/:id', verifyUser, (req, res) => {
   if (req.session.user) {
     userhelpers.addtoBag(req.params.id, req.session.user._id).then(async () => {
       await userhelpers.getBagcount(req.session.user._id).then(async (bagCount) => {
-        res.json({ status: true, count: bagCount })
+        if (req.session.guestUser) {
+          // console.log("1", req.session.guestUser);
+          delete req.session.guestUser
+          // console.log("2", req.session.guestUser);
+          res.redirect("/mybag")
+        } else {
+          res.json({ status: true, count: bagCount })
+        }
 
       })
     })

@@ -110,8 +110,9 @@ function myFunction() {
 
 
 function addTobag(proId) {
+
     $.ajax({
-        url: '/add-to-bag/' + proId,
+        url: '/add-to-cart/' + proId,
         method: 'get',
         success: (response) => {
             // console.log(response)
