@@ -1,3 +1,27 @@
+{{!-- --}}
+{{#if wishlistempty}}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>Wishlist</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+<div class="product-details shadow-sm text-center  p-3 m-2  ">
+    <h3 class=" text-center page-title justify-content-center p-2">Your Wishlist is Empty !!!</h3>
+</div>
+<br>
+<div class="text-center">
+    <a href="/" class="btn essence-btn ">Add Now</a>
+</div>
+{{else}}
 <div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -18,31 +42,6 @@
         <div class="row">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="shop_sidebar_area">
-
-
-
-
-                    {{!-- <div class="widget color mb-50">
-                        <!-- Widget Title 2 -->
-
-
-                    </div> --}}
-
-                    <!-- ##### Single Widget ##### -->
-                    {{!-- <div class="widget brands mb-50">
-                        <!-- Widget Title 2 -->
-                        <p class="widget-title2 mb-20">Catagories</p>
-                        <ul>
-                            <li><a href="#">puppy</a></li>
-                            <li><a href="#">Adult</a></li>
-                        </ul>
-                        <ul>
-                            <li><a href="#">Vet Products</a></li>
-                        </ul>
-
-
-
-                    </div> --}}
                 </div>
             </div>
 
@@ -126,7 +125,7 @@
         </div>
     </div>
 </section>
-
+{{/if}}
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
 <script src="/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->

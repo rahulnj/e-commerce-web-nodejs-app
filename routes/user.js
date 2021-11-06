@@ -182,12 +182,12 @@ router.get('/myorders', verifyUser, async (req, res) => {
   let bagCount = null
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
-    await userhelpers.getMyOrders(user._id).then(async (orders) => {
+    let orders = await userhelpers.getMyOrders(user._id)
+    if (orders.length != 0) {
       res.render('user/myorders', { user, orders, bagCount })
-    })
-  } else {
-    res.render('user/myorders',)
-
+    } else {
+      res.render('user/myorders', { orderempty: true, user, bagCount })
+    }
   }
 })
 
@@ -856,9 +856,12 @@ router.get('/wishlist', verifyUser, async (req, res) => {
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
-  await userhelpers.getMyWishlist(user._id).then((products) => {
+  let products = await userhelpers.getMyWishlist(user._id)
+  if (products.length != 0) {
     res.render('user/wishlist', { products, user, bagCount })
-  })
+  } else {
+    res.render('user/wishlist', { wishlistempty: true, user, bagCount })
+  }
 
 })
 
