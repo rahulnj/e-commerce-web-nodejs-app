@@ -13,36 +13,35 @@
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
 
-                <form class="form-inline" id="enterotp">
-
+                <div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <label for="inputPassword2" class="sr-only">Phone</label>
-                        <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otp"
+
+                        <input type="tel" name="phone" class="form-control" style="height: 60px;" id="otp_number"
                             placeholder="Phone">
-
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <button type="submit" id="confirm" class="essence-btn-sm mb-2">Send OTP</button>
-                    </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <button type="submit" id="resend" style="display: none;"
-                            class="essence-btn-sm mb-2">Resend</button>
-                    </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <label for="inputPassword2" class="sr-only">otp</label>
-                        <input type="tel" name="otp" class="form-control" style="height: 60px;" id="OTP"
+                        <input type="tel" name="otp" class="form-control" style="height: 60px;" id="OTP_code"
                             placeholder="OTP">
                     </div>
-                </form>
-                <div class="form-group mx-sm-3 mb-2">
-                    <button type="button" id="confirmotp" onclick="resend()"
-                        class=" essence-btn-sm mb-2">Confirm</button>
+                    <a id="previous" href="/user-signin" style="display: none;">
+                        <p class="upin">Go back to login page</p>
+                    </a>
+
+                    <p id="countdowns"></p>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <button type="button" onclick=" sendnumbersignin()" id="confirm"
+                            class="essence-btn-sm mb-2">Verify</button>
+                        <button type="button" onclick=" sendnumbersignin()" id="resend" class="essence-btn-sm mb-2"
+                            style="display: none;">Resend</button>
+                        <button type="button" onclick="signinenterotp()" id="confirmotp" class=" essence-btn-sm mb-2"
+                            style="display: none;">Confirms</button>
+                    </div>
                 </div>
+                {{!-- <div class="form-group mx-sm-3 mb-2">
+                    <button type="button" id="confirmotp" onclick="signinenterotp()" style="display: none;"
+                        class=" essence-btn-sm mb-2">Confirm</button>
+                </div> --}}
                 <p id="countdown"></p>
-
-
-
-
             </div>
         </div>
     </div>
@@ -50,21 +49,21 @@
 
 
 <script>
-    $('#enterotp').on("submit", (e) => {
-        e.preventDefault()
-
+    function sendnumbersignin() {
+        let number = document.getElementById('otp_number').value
+        console.log(number)
         $.ajax({
             url: "/enterotp",
-            data: $("#enterotp").serialize(),
+            data: { number },
             method: "post",
             success: function (response) {
-                console.log(response)
-                if (response.otp == true) {
+                if (response.number == true) {
+                    document.getElementById('confirm').style.display = 'none'
                     const startingMinutes = 1;
                     let time = startingMinutes * 60;
 
                     const countdownEl = document.getElementById('countdown')
-                    let int = setInterval(updateCountdown, 1000);
+                    let int = setInterval(updateCountdown, 100);
 
                     function updateCountdown() {
                         const minutes = Math.floor(time / 60);
@@ -73,20 +72,19 @@
                             clearInterval(int)
                             document.getElementById('countdown').style.display = 'none'
                             document.getElementById('confirm').style.display = 'none'
-                            document.getElementById('resend').style.display = ''
                             document.getElementById('confirmotp').style.display = 'none'
+                            document.getElementById('resend').style.display = ''
                         } else {
                             document.getElementById('countdown').style.display = ''
-                            document.getElementById('confirm').style.display = 'none'
-                            document.getElementById('resend').style.display = 'none'
                             document.getElementById('confirmotp').style.display = ''
+                            document.getElementById('resend').style.display = 'none'
                         }
                         seconds = seconds < 10 ? '0' + seconds : seconds;
                         countdownEl.innerHTML = `${minutes}:${seconds}`;
                         time--;
                     }
-
-                } else {
+                } else if (response.number == false) {
+                    Swal.fire("User not Exist")
 
                 }
 
@@ -95,12 +93,11 @@
                 // alert("Something Error")
             }
         })
-
-    })
+    }
 
     /////
-    function resend() {
-        let otp = document.getElementById('OTP').value
+    function signinenterotp() {
+        let otp = document.getElementById('OTP_code').value
         console.log(otp)
         $.ajax({
             url: "/verifyotp",
@@ -108,8 +105,7 @@
             method: "post",
             success: function (response) {
                 if (response.login == true) {
-
-                    location.href = ('/')
+                    location.href = "/"
                 } else if (response.login == false) {
                     Swal.fire("Invalid OTP")
                 }
