@@ -79,15 +79,12 @@ router.get('/verifyotp', (req, res) => {
 })
 
 router.post('/enterotp', async (req, res) => {
-
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
-    // console.log(response);
     if (response) {
       console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
-      // res.redirect('/verifyotp')
       res.json({ number: true })
     } else {
       res.json({ number: false })
@@ -96,15 +93,11 @@ router.post('/enterotp', async (req, res) => {
 })
 
 router.post('/verifyotp', async (req, res) => {
-  console.log("api call2");
-  console.log(req.body);
   let otp = req.body.otp
   let number = req.session.number
-  // console.log(number);
   await userhelpers.checkNumber(number).then((response) => {
     clientTwillo.verify.services(servicesSSID).verificationChecks
       .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
-        // console.log(resp);
         if (resp.valid == true && resp.status == 'approved') {
           req.session.loggedIn = true;
           req.session.user = response;
@@ -113,12 +106,8 @@ router.post('/verifyotp', async (req, res) => {
         } else {
           res.json({ login: false })
         }
-
-
       })
-
   })
-
 })
 // otp end
 
@@ -126,7 +115,6 @@ router.post('/entersignupnumber', async (req, res) => {
 
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
-    // console.log(response);
     if (!response) {
       console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
@@ -142,21 +130,14 @@ router.post('/verifysignupotp', async (req, res) => {
 
   let otp = req.body.otp
   let number = req.session.number
-  // console.log(number);
   clientTwillo.verify.services(servicesSSID).verificationChecks
     .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
-      // console.log(resp);
       if (resp.valid == true && resp.status == 'approved') {
         res.json({ login: true })
       } else {
         res.json({ login: false })
       }
-
-
     })
-
-
-
 })
 
 
