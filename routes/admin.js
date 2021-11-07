@@ -338,6 +338,18 @@ router.get('/logout', (req, res) => {
   res.redirect('/admin')
 })
 
+router.post('/admin-search-product', async (req, res) => {
+  console.log("api call");
+  await productHelpers.searchProduct(req.body.key).then((result) => {
+    if (result) {
+      res.json({ body: result })
+    } else {
+      res.json({ body: false })
+    }
+
+
+  })
+})
 
 
 module.exports = router;

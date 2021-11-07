@@ -1,91 +1,97 @@
 <section class="content-main">
-
     <div class="content-header">
         <h2 class="content-title">Products</h2>
-        <div>
 
+        <div>
             <button class='btn btn-success btn-success  me-md-2' type='button'><a href="/admin/addproduct"
                     style="text-decoration: none; color:white">Add product</a></button>
         </div>
     </div>
-
     <div class="card mb-4">
         <header class="card-header">
             <div class="row gx-3">
-                {{!-- <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Search..." class="form-control">
-                </div> --}}
-                {{!-- <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>All category</option>
-                        <option>Electronics</option>
-                        <option>Clothings</option>
-                        <option>Something else</option>
-                    </select>
-                </div> --}}
-                {{!-- <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>Latest added</option>
-                        <option>Cheap first</option>
-                        <option>Most viewed</option>
-                    </select>
-                </div> --}}
             </div>
         </header> <!-- card-header end// -->
-        <div class="card-body">
-
-            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-                {{#each products}}
-                <div class="col">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="/uploads/image-1/{{this._id}}.jpg" alt="Product"> </a>
-                        <div class="info-wrap">
-                            <a href="#" class="title text-truncate">{{this.product}}</a>
-                            <div class="price mb-2">₹{{this.price}}</div> <!-- price.// -->
-
-                            <a href="/admin/editproduct/{{this._id}}" class="btn btn-sm btn-light">
-                                <i class="material-icons md-edit"></i> Edit
+        <div class="row gx-3">
+            <div class="col-lg-4 col-md-6 me-auto">
+                <form id="admin-search">
+                    <input type="text" id="admin-product-search" placeholder="Search..." class="form-control">
+                    <button type="submit" aria-hidden="true"></button>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5"
+                    id="admin-search-products"></div>
+                <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5"
+                    id="adminproducts">
+                    {{#each products}}
+                    <div class="col">
+                        <div class="card card-product-grid">
+                            <a href="#" class="img-wrap"> <img src="/uploads/image-1/{{this._id}}.jpg" alt="Product">
                             </a>
-                            <a onclick="deleteProduct('{{this._id}}')" class="btn btn-sm btn-outline-danger">
-                                <i class="material-icons md-delete_forever"></i> Delete
-                            </a>
-                        </div>
-                    </div> <!-- card-product  end// -->
-                </div> <!-- col.// -->
-                {{/each}}
-                {{!-- <div class="col">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="/images admin/items/2.jpg" alt="Product"> </a>
-                        <div class="info-wrap">
-                            <a href="#" class="title text-truncate">Brown Winter Jacket for Men</a>
-                            <div class="price mb-2">$179.00</div> <!-- price.// -->
+                            <div class="info-wrap">
+                                <a href="#" class="title text-truncate">{{this.product}}</a>
+                                <div class="price mb-2">₹{{this.price}}</div> <!-- price.// -->
 
-                            <a href="/admin/editproduct" class="btn btn-sm btn-light">
-                                <i class="material-icons md-edit"></i> Edit
-                            </a>
-                            <a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-outline-danger">
-                                <i class="material-icons md-delete_forever"></i> Delete
-                            </a>
-                        </div>
-                    </div> <!-- card-product  end// -->
-                </div> <!-- col.// --> --}}
-
-
-            </div> <!-- row.// -->
-
-            {{!-- <nav class="float-end mt-4" aria-label="Page navigation">
-                <ul class="pagination">
-                    <li class="page-item disabled"><a class="page-link" href="#">Prev</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav> --}}
-
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
-
-
-
+                                <a href="/admin/editproduct/{{this._id}}" class="btn btn-sm btn-light">
+                                    <i class="material-icons md-edit"></i> Edit
+                                </a>
+                                <a onclick="deleteProduct('{{this._id}}')" class="btn btn-sm btn-outline-danger">
+                                    <i class="material-icons md-delete_forever"></i> Delete
+                                </a>
+                            </div>
+                        </div> <!-- card-product  end// -->
+                    </div> <!-- col.// -->
+                    {{/each}}
+                </div> <!-- row.// -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
 </section> <!-- content-main end// -->
+<script>
+    $('#admin-search').on("submit", (e) => {
+        let key = document.getElementById('admin-product-search').value
+        e.preventDefault()
+        let elem
+        $.ajax({
+            url: "/admin/admin-search-product",
+            data: { key },
+            method: "post",
+            success: function (response) {
+                console.log(response)
+                if (response.body) {
+                    document.getElementById('adminproducts').style.display = "none"
+                    document.getElementById('admin-search-products').innerHTML = ''
+                    for (i = 0; i <= response.body.length; i++) {
+                        elem = `   <div class="col">
+                        <div class="card card-product-grid">
+                            <a href="#" class="img-wrap"> <img src="/uploads/image-1/${response.body[i]._id}.jpg" alt="Product">
+                            </a>
+                            <div class="info-wrap">
+                                <a href="#" class="title text-truncate">${response.body[i].product}</a>
+                                <div class="price mb-2">₹${response.body[i].price}</div> <!-- price.// -->
+
+                                <a href="/admin/editproduct/${response.body[i]._id}" class="btn btn-sm btn-light">
+                                    <i class="material-icons md-edit"></i> Edit
+                                </a>
+                                <a onclick="deleteProduct('${response.body[i]._id}')" class="btn btn-sm btn-outline-danger">
+                                    <i class="material-icons md-delete_forever"></i> Delete
+                                </a>
+                            </div>
+                        </div> <!-- card-product  end// -->
+                    </div> `
+                        document.getElementById('admin-search-products').innerHTML += elem
+                    }
+
+                } else {
+                    Swal.fire("No matching product")
+                }
+
+            },
+            error: function (err) {
+                // alert("Something Error")
+            }
+        })
+
+
+    })
+</script>
