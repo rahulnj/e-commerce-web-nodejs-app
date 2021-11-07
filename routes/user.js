@@ -547,9 +547,7 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
     userhelpers.addtoBag(req.params.id, req.session.user._id).then(async () => {
       await userhelpers.getBagcount(req.session.user._id).then(async (bagCount) => {
         if (req.session.guestUser) {
-          // console.log("1", req.session.guestUser);
           delete req.session.guestUser
-          // console.log("2", req.session.guestUser);
           res.redirect("/mybag")
         } else {
           res.json({ status: true, count: bagCount })

@@ -54,15 +54,18 @@
                                 <td>{{this.category}}
                                 </td>
                                 <td><b>{{#each this.subcategory}}{{this.name}} <br />{{/each}}</b></td>
-
+                                <input type="text" id="idn" value="{{this._id}}" hidden>
                                 <td>{{#each this.type}}{{this.name}}<br /> {{/each}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light"> <i
-                                                class="material-icons md-more_horiz"></i> </a>
+                                                class="material-icons md-more_horiz"></i></a>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item text-danger"
+                                                onclick="editCategory('{{this._id}}')">Edit</a>
+                                            <a class="dropdown-item text-danger"
                                                 href="/admin/delete-category/{{this._id}}">Delete</a>
+
                                         </div>
                                     </div>
                                     <!-- dropdown //end -->
@@ -72,14 +75,72 @@
                         </tbody>
                     </table>
 
+
+                    <div id="editcatdiv" style="display: none;">
+                        <div class="col-md-4">
+                            <form id="editcat">
+
+                                <div class="mb-4" id="ecat">
+
+                                </div>
+                                <div class="mb-4" id="esubcat">
+                                    <p id="error-cname" class="text-danger"></p>
+                                </div>
+
+                                <div class="mb-4" id="etype">
+
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Edit category</button>
+                                    <p id="error-message" class="text-danger"></p>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
                 </div> <!-- .col// -->
             </div> <!-- .row // -->
         </div> <!-- card body .// -->
     </div> <!-- card .// -->
 </section> <!-- content-main end// -->
 <script>
-    var product_cat = false; var product_subcat = false; var product_type = false;
-    $("#product_cat").on('input', function () {
+
+
+
+
+
+
+
+    function editCategory(catId) {
+        document.getElementById('editcatdiv').style.display = ""
+        $.ajax({
+            url: "/admin/edit-category/",
+            data: { catId },
+            method: "post",
+            success: function (response) {
+                console.log(response.category)
+                document.getElementById('ecat').innerHTML = '';
+                document.getElementById('esubcat').innerHTML = '';
+                document.getElementById('etype').innerHTML = '';
+                console.log(response.category.subcategory.length)
+                let elem = `<input type="text" name="category" value="${response.category.category}" id="ecatv" class="form-control" />`
+                document.getElementById('ecat').innerHTML = elem;
+                for (let i = 0; i < response.category.subcategory.length; i++) {
+                    let element = `<input type="text" name="subcategory" value="${response.category.subcategory[i].name}" id="esubv" class="form-control" />`
+                    document.getElementById('esubcat').innerHTML += element;
+                }
+                for (let i = 0; i < response.category.type.length; i++) {
+                    let typeelement = `<input type="text" name="type" value="${response.category.type[i].name}" id="etypev"  class="form-control"/>`
+                    document.getElementById('etype').innerHTML += typeelement;
+                }
+                // alert("Form submitted successfully")
+            }
+        })
+    }
+
+    var ecatv = true; var esubv = true; var etypev = true;
+    $("#ecatvt").on('input', function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
@@ -91,7 +152,7 @@
 
         }
     })
-    $("#product_subcat").on('input', function () {
+    $("#esubv").on('input', function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
@@ -103,7 +164,7 @@
 
         }
     })
-    $("#product_type").on('input', function () {
+    $("#etypev").on('input', function () {
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {
@@ -115,18 +176,39 @@
 
         }
     })
-    console.log(product_cat)
-    console.log(product_subcat)
-    console.log(product_type)
+
+
+    $('#editcat').on("submit", (e) => {
+        let data;
+        let catId = document.getElementById('idn').value
+        data = $('#editcat').serialize() + "&catId=" + catId;
+        $.ajax({
+            url: "/admin/editcategory",
+            data: data,
+            method: "post",
+            success: function (response) {
+                if (response == true) {
+                    location.reload()
+                } else {
+
+                }
+
+            }
+        })
+
+
+    })
 
 
 
-    function valcategory() {
-        if (product_cat == true && product_subcat == true && product_type == true) {
-            return true
-        } else {
-            $("#error-message").text("fill the fields");
-            return false;
-        }
-    }
+
+
+
+
+
+
+
+
+
+
 </script>

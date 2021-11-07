@@ -6,7 +6,7 @@ var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
 const fs = require('fs');
 const { Db } = require('mongodb');
-const { count } = require('console');
+const { count, log } = require('console');
 
 // Auth middleware for admin
 const adminAuth = (req, res, next) => {
@@ -132,6 +132,40 @@ router.post('/createCategory', (req, res) => {
     res.redirect('/admin/category')
   })
 })
+//Edit category
+
+router.post('/edit-category', async (req, res) => {
+  // console.log("api call");
+  // console.log(req.body);
+  let singleCat = await productHelpers.showEditCategory(req.body.catId)
+  // console.log(singleCat);
+  res.json({ category: singleCat })
+})
+
+router.post('/editcategory', async (req, res) => {
+  await productHelpers.updateCategory(req.body.catId, req.body).then((response) => {
+    console.log(response);
+    res.json({ category: singleCat })
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Delete category
 router.get('/delete-category/:id', async (req, res) => {
   let categoryId = req.params.id
@@ -348,6 +382,12 @@ router.post('/admin-search-product', async (req, res) => {
     }
   })
 })
+
+
+
+
+
+
 
 
 module.exports = router;

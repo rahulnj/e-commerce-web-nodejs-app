@@ -37,6 +37,33 @@ module.exports = {
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(product) })
         return prodDetails
     },
+    showEditCategory: async (cat) => {
+        let catDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectId(cat) })
+        return catDetails
+    },
+    updateCategory: (catId, cat) => {
+        let subcategory = cat.subcategory.map((subCategory) => ({ name: subCategory }))
+        let type = cat.type.map((type) => ({ name: type }))
+        let updatedObject = {
+            category: cat.category,
+            subcategory,
+            type
+        }
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: ObjectId(catId) }, { $set: updatedObject })
+
+        }).then((response) => {
+            resolve(response)
+        })
+    },
+
+
+
+
+
+
+
+
     updateProduct: async (proId, product) => {
         // console.log(product);
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, {

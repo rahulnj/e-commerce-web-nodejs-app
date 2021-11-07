@@ -115,9 +115,7 @@ function addTobag(proId) {
         url: '/add-to-cart/' + proId,
         method: 'get',
         success: (response) => {
-            // console.log(response)
             if (response.status) {
-                // location.reload()
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -130,7 +128,6 @@ function addTobag(proId) {
                         document.getElementById('bag-count').innerHTML = response.count
                     }
                 })
-
                 Toast.fire({
                     icon: 'success',
                     title: 'Added to Bag'
@@ -1312,6 +1309,10 @@ function changestatus(cartId, userId) {
         }
     })
 }
+
+
+
+
 
 
 
