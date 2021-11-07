@@ -713,6 +713,44 @@ module.exports = {
             resolve(data)
 
         })
+    },
+    searchProduct: (keyword) => {
+        return new Promise(async (resolve, reject) => {
+            // key = keyword.toUpperCase();
+            console.log(keyword);
+            p_name = await db.get().collection(collection.PRODUCT_COLLECTION).find({ "product": keyword }).toArray()
+            cat = await db.get().collection(collection.PRODUCT_COLLECTION).find({ "category": keyword }).toArray()
+            sub = await db.get().collection(collection.PRODUCT_COLLECTION).find({ "subcategory": keyword }).toArray()
+            // console.log(p_name[0], cat[0], sub[0]);
+
+            if (p_name[0]) {
+                // console.log("p_name");
+
+                resolve(p_name)
+            }
+            else if (cat[0]) {
+                // console.log("cat");
+
+
+                resolve(cat)
+            }
+            else if (sub[0]) {
+                // console.log("sub");
+
+
+                resolve(sub)
+            }
+            else {
+                // console.log("false");
+
+                resolve(false)
+            }
+
+
+
+
+        })
+
     }
 
 }

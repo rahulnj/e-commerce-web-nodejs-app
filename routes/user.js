@@ -928,6 +928,26 @@ router.post('/buy-checkout/buy-apply-coupon/:id', async (req, res) => {
   })
 })
 
+router.post('/search-product', async (req, res) => {
+  console.log("api call");
+  console.log(req.body);
+  await productHelpers.searchProduct(req.body.key).then((result) => {
+    console.log(result);
+    if (result) {
+      res.json({ body: result })
+    } else {
+      res.json({ body: false })
+    }
+
+
+  })
+})
+
+
+
+
+
+
 // user signout
 router.get('/signout', (req, res) => {
   req.session.user = null;
