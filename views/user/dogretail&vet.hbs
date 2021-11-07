@@ -33,9 +33,9 @@
                     <div class="widget brands mb-50">
                         <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-20">Catagories</p>
-                        <ul>
-                            <li><a href="#">puppy</a></li>
-                            <li><a href="#">Adult</a></li>
+                        <ul id="list1">
+                            <li><a style="cursor: pointer;" onclick="dogpagination('puppy')">puppy</a></li>
+                            <li><a style="cursor: pointer;" onclick="dogpagination('adult')">Adult</a></li>
                         </ul>
 
 
@@ -70,8 +70,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
+                    <div class="row" id="pagedogshow"></div>
+                    <div class="row" id="pagedog">
 
                         <!-- Single Product -->
                         {{#each products}}
@@ -170,3 +170,80 @@
 <script src="/js/classy-nav.min.js"></script>
 <!-- Active js -->
 <script src="/js/active.js"></script>
+<script>
+    function dogpagination(cat) {
+        console.log(cat)
+        let elem;
+        $.ajax({
+            url: '/paginationdog',
+            data: {
+                cat
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.body) {
+                    document.getElementById('pagedog').style.display = "none"
+                    document.getElementById('pagedogshow').innerHTML = ""
+                    for (i = 0; i <= response.body.length; i++) {
+
+                        elem = `  <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="single-product-wrapper">
+                                <!-- Product Image -->
+                                <div class="product-img">
+                                    <div class="product-favourite">
+                                        <button class="favme fa fa-heart btn btn-light p-2 float-right" type="button"
+                                            style="border: none; background:rgb(255,255,255)"
+                                            onclick="addtowishlist('${response.body[i]._id}')"></button>
+                                       
+                                    </div>
+                                    <img src="/uploads/image-1/${response.body[i]._id}.jpg" alt=""
+                                        style="height: 200px; width: 130px;">
+                                    <!-- Hover Thumb -->
+                                   
+
+                                    <!-- Product Badge -->
+                                    {{#if isoffer}}
+                                    <div class="product-badge offer-badge">
+                                        <span>-{{this.offer}}%</span>
+                                    </div>
+                                    {{else}}
+                                    {{/if}}
+                                    <!-- Favourite -->
+
+                                </div>
+
+                                <!-- Product Description -->
+                                <div class="product-description">
+                                    <span>paw paw</span>
+                                    <a href="/single-product/${response.body[i]._id}">
+                                        <h6
+                                            style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 28ch;">
+                                            ${response.body[i].product}</h6>
+                                    </a>
+                                    {{#if isoffer}}
+                                    <p class="product-price"><span class="">₹${response.body[i].price}</span>₹ ${response.body[i].offerprice}
+                                    </p>
+
+                                    {{else}}
+                                    <p class="product-price"><span class="old-price"></span>₹ ${response.body[i].price}</p>
+                                    {{/if}}
+                                    <div class="p-1"><button type="button" onclick="addTobag('${response.body[i]._id}')"
+                                            class="btn btn-outline-danger btn-sm">Add to
+                                            bag</button></a>
+                                        <button type="button" onclick="buynow('${response.body[i]._id}')"
+                                            class="btn btn-outline-danger btn-sm">Buy Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                        document.getElementById('pagedogshow').innerHTML += elem
+
+
+                    }
+                } else {
+                    Swal.fire("No matching product")
+                }
+            }
+        })
+    }
+</script>

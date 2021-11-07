@@ -67,12 +67,14 @@
             <!-- Header Meta Data -->
             <div class="header-meta d-flex clearfix justify-content-end">
                 <!-- Search Area -->
+                {{#if search}}
                 <div class="search-area">
                     <form id="search-product">
                         <input type="search" name="search" id="headerSearch" placeholder="Search">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
                 </div>
+                {{/if}}
                 <!-- Favourite Area -->
                 <div class="favourite-area">
                     <a href="/wishlist"><img src="/img/core-img/heart.svg" alt=""></a>

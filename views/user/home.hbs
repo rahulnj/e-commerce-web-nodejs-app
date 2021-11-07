@@ -269,7 +269,7 @@
     $('#search-product').on("submit", (e) => {
         let key = document.getElementById('headerSearch').value
         e.preventDefault()
-        let elem
+        let elem;
         $.ajax({
             url: "/search-product",
             data: { key },

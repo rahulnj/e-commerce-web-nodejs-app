@@ -346,8 +346,6 @@ router.post('/admin-search-product', async (req, res) => {
     } else {
       res.json({ body: false })
     }
-
-
   })
 })
 

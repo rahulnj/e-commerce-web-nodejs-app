@@ -48,7 +48,7 @@ router.get('/', async function (req, res, next) {
   }
   await productHelpers.checkExpiryoffer()
   let products = await productHelper.getDogProducts()
-  res.render('user/home', { products, user, bagCount })
+  res.render('user/home', { products, user, bagCount, search: true })
 
 });
 
@@ -61,9 +61,6 @@ router.get('/user-signin', userAuth, (req, res) => {
   res.render('user/signin', { usererr: req.session.loginError })
   req.session.loginError = false
 })
-
-
-
 
 router.get('/dogretailvet', async (req, res) => {
   let user = req.session.user
@@ -935,8 +932,26 @@ router.post('/search-product', async (req, res) => {
     } else {
       res.json({ body: false })
     }
+  })
+})
 
+router.post('/paginationdog', async (req, res) => {
+  await productHelpers.searchdogProduct(req.body.cat).then((result) => {
+    if (result) {
+      res.json({ body: result })
+    } else {
+      res.json({ body: false })
+    }
+  })
+})
 
+router.post('/paginationcat', async (req, res) => {
+  await productHelpers.searchcatProduct(req.body.cat).then((result) => {
+    if (result) {
+      res.json({ body: result })
+    } else {
+      res.json({ body: false })
+    }
   })
 })
 

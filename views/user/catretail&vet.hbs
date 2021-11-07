@@ -34,12 +34,10 @@
                         <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-20">Catagories</p>
                         <ul>
-                            <li><a href="#">Kitten</a></li>
-                            <li><a href="#">Adult</a></li>
+                            <li><a style="cursor: pointer;" onclick="catpagination('kitten')">Kitten</a></li>
+                            <li><a style="cursor: pointer;" onclick="catpagination('adult')">Adult</a></li>
                         </ul>
-                        <ul>
-                            <li><a href="#">Vet Products</a></li>
-                        </ul>
+
 
 
 
@@ -53,27 +51,12 @@
                         <div class="col-12">
                             <div class="product-topbar d-flex align-items-center justify-content-between">
                                 <!-- Total Products -->
-                                {{!-- <div class="total-products">
-                                    <p><span>186</span> products found</p>
-                                </div> --}}
-                                <!-- Sorting -->
-                                {{!-- <div class="product-sorting d-flex">
-                                    <p>Sort by:</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortByselect">
-                                            <option value="value">Highest Rated</option>
-                                            <option value="value">Newest</option>
-                                            <option value="value">Price: $$ - $</option>
-                                            <option value="value">Price: $ - $$</option>
-                                        </select>
-                                        <input type="submit" class="d-none" value="">
-                                    </form>
-                                </div> --}}
+
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
+                    <div class="row" id="pagecatshow"></div>
+                    <div class="row" id="pagecat">
 
                         <!-- Single Product -->
                         {{#each products}}
@@ -139,22 +122,88 @@
                             </div>
                         </div>
                         {{/each}}
-
                     </div>
                 </div>
-                <!-- Pagination -->
-                {{!-- <nav aria-label="navigation">
-                    <ul class="pagination mt-50 mb-70">
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">21</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                </nav> --}}
             </div>
         </div>
     </div>
 </section>
+<script>
+    function catpagination(cat) {
+        console.log(cat)
+        let elem;
+        $.ajax({
+            url: '/paginationcat',
+            data: {
+                cat
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.body) {
+                    document.getElementById('pagecat').style.display = "none"
+                    document.getElementById('pagecatshow').innerHTML = ""
+                    for (i = 0; i <= response.body.length; i++) {
+                        elem = `<div class="col-12 col-sm-6 col-lg-4">
+                            <div class="single-product-wrapper">
+                                <!-- Product Image -->
+                                <div class="product-img">
+                                    <div class="product-favourite">
+                                        <button class="favme fa fa-heart btn btn-light p-2 float-right" type="button"
+                                            style="border: none; background:rgb(255,255,255)"
+                                            onclick="addtowishlist('${response.body[i]._id}')"></button>
+                                        {{!-- <a href="" onclick="addtowishlist('${response.body[i]._id}')"
+                                            class="favme fa fa-heart"></a> --}}
+                                    </div>
+                                    <img src="/uploads/image-1/${response.body[i]._id}.jpg" alt=""
+                                        style="height: 200px; width: 130px;">
+                                    <!-- Hover Thumb -->
+                                    {{!-- <img class="hover-img" src="/uploads/image-1/${response.body[i]._id}.jpg" alt=""
+                                        style="height: 190px; width: 130px;"> --}}
+
+                                    <!-- Product Badge -->
+                                    {{#if isoffer}}
+                                    <div class="product-badge offer-badge">
+                                        <span>-${response.body[i].offer}%</span>
+                                    </div>
+                                    {{else}}
+                                    {{/if}}
+                                    <!-- Favourite -->
+
+                                </div>
+
+                                <!-- Product Description -->
+                                <div class="product-description">
+                                    <span>paw paw</span>
+                                    <a href="/single-product/${response.body[i]._id}">
+                                        <h6
+                                            style=" display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 28ch;">
+                                            ${response.body[i].product}</h6>
+                                    </a>
+                                    {{#if isoffer}}
+                                    <p class="product-price"><span class="">₹ ${response.body[i].price}</span>₹ ${response.body[i].offerprice}
+                                    </p>
+                                    {{else}}
+                                    <p class="product-price"><span class="old-price"></span>₹ ${response.body[i].price}</p>
+                                    {{/if}}
+                                    <div class="p-1"><button type="button" onclick="addTobag('${response.body[i]._id}')"
+                                            class="btn btn-outline-danger btn-sm">Add to
+                                            bag</button></a>
+                                        <button type="button" onclick="buynow('${response.body[i]._id}')"
+                                            class="btn btn-outline-danger btn-sm">Buy Now</button>
+                                    </div>
+                                    <!-- Hover Content -->
+                                   
+                                </div>
+                            </div>
+                        </div>`
+                        document.getElementById('pagecatshow').innerHTML += elem
+
+
+                    }
+                } else {
+                    Swal.fire("No matching product")
+                }
+            }
+        })
+    }
+</script>

@@ -735,6 +735,34 @@ module.exports = {
 
         })
 
+    },
+    searchdogProduct: (keyword) => {
+        return new Promise(async (resolve, reject) => {
+
+            sub = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'dog', "subcategory": keyword }).toArray()
+            if (sub[0]) {
+                resolve(sub)
+            }
+            else {
+                resolve(false)
+            }
+
+        })
+
+    },
+    searchcatProduct: (keyword) => {
+        return new Promise(async (resolve, reject) => {
+
+            sub = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'cat', "subcategory": keyword }).toArray()
+            if (sub[0]) {
+                resolve(sub)
+            }
+            else {
+                resolve(false)
+            }
+
+        })
+
     }
 
 }
