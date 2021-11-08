@@ -368,7 +368,6 @@ router.get('/customization', (req, res) => {
 })
 
 router.post('/customization', async (req, res) => {
-  // console.log(req.body.img1);
 
   let image1 = req.body.img1
   let image2 = req.body.img2

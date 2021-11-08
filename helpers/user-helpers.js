@@ -98,11 +98,11 @@ module.exports = {
 
             if (!status) {
                 console.log("User login failed");
-                return { err: "Incorrect username or password" }
+                return { err: "Incorrect username or password", res: { status: false }, }
 
             } else if (status && !user.status) {
                 console.log("User login failed blocked");
-                return { err: "Blocked by Admin" }
+                return { err: "Blocked by Admin", res: { status: false } }
 
             } else {
                 console.log("User login success");

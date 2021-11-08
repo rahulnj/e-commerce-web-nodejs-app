@@ -123,7 +123,7 @@
                 data: $("#signinform").serialize(),
                 method: "post",
                 success: function (result) {
-
+                    console.log(result)
                     // alert("Form submitted successfully")
                     if (result.res.status == true) {
                         if (result.guest) {
@@ -132,7 +132,8 @@
                             location.replace('/')
                         }
 
-                    } else {
+                    } else if (result.err) {
+                        console.log("hai")
                         $("#submit-errmessage").html(result.err);
                     }
 
