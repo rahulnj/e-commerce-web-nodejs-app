@@ -783,7 +783,14 @@ module.exports = {
         })
 
     },
-
+    changeBannertext: async (bannerDetails) => {
+        bannerObj = {
+            bannertext: bannerDetails.bannertext,
+            banneroffer: bannerDetails.offerbanner
+        }
+        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).insertOne(bannerObj)
+        return data.insertedId
+    }
 
 }
 

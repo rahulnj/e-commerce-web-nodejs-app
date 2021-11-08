@@ -955,8 +955,6 @@ router.post('/paginationcat', async (req, res) => {
 })
 
 router.post('/profilechange', async (req, res) => {
-  console.log("api call");
-  // console.log(req.body.img1);
   let id = req.session.user._id
   let user1 = req.body.img1
   let path1 = './public/uploads/userprofile/' + id + '.jpg'

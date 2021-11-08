@@ -373,52 +373,41 @@ router.post('/customization', async (req, res) => {
   let image1 = req.body.img1
   let image2 = req.body.img2
 
-
-
-
   let path1 = `./public/uploads/banner/banner1.jpg`
   let path2 = `./public/uploads/banner/banner2.jpg`
-
-
 
   let img1 = image1.replace(/^data:([A-Za-z-+/]+);base64,/, "")
   let img2 = image2.replace(/^data:([A-Za-z-+/]+);base64,/, "")
 
-
   if (img1 && img2) {
-
-
     fs.writeFileSync(path1, img1, { encoding: 'base64' })
     fs.writeFileSync(path2, img2, { encoding: 'base64' })
   } else if (img1) {
     fs.writeFileSync(path1, img1, { encoding: 'base64' })
-
   } else if (img2) {
     fs.writeFileSync(path2, img2, { encoding: 'base64' })
-
-
   }
   else if (img1 && img3) {
     fs.writeFileSync(path1, img1, { encoding: 'base64' })
     fs.writeFileSync(path3, img3, { encoding: 'base64' })
-
   }
   else if (img1) {
     fs.writeFileSync(path1, img1, { encoding: 'base64' })
-
   }
   else if (img2) {
     fs.writeFileSync(path2, img2, { encoding: 'base64' })
-
-
   }
-
-
   res.json({ status: true })
-
-
 })
 
+router.get('/bannertext', (req, res) => {
+  res.render('admin/admin-bannertext', { admin: true })
+})
+
+router.post('/bannertext', async (req, res) => {
+  await productHelpers.changeBannertext(req.body)
+  res.json({ status: true })
+})
 
 
 

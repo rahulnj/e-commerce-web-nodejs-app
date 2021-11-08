@@ -165,6 +165,7 @@
         }
     })
     $("#etypev").on('input', function () {
+        alert("hello")
         this.value = this.value.replace(/[^ a-zA-Z]/, '');
         var name = $(this).val()
         if (name.length < 2 || name.includes('  ') || name.charAt(0) == ' ') {

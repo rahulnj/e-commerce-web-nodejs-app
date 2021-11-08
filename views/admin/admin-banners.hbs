@@ -14,7 +14,7 @@
 
                             <div class="mb-4">
                                 <div class="col-sm-6 mb-3">
-                                    <h6 class="text-muted">Banner</h6>
+                                    <h6 class="text-muted">Banner1</h6>
                                     <div class="fileinput fileinput-new text-center">
                                         <div class="fileinput-new thumbnail">
                                             <img src="/img/core-img/placeholder-image.png" id="chekPreview1" alt="...">
@@ -35,7 +35,7 @@
                             </div>
                             <div class="mb-4">
                                 <div class="col-sm-6 mb-3">
-                                    <h6 class="text-muted">Banner</h6>
+                                    <h6 class="text-muted">Banner2</h6>
                                     <div class="fileinput fileinput-new text-center">
                                         <div class="fileinput-new thumbnail">
                                             <img src="/img/core-img/placeholder-image.png" id="chekPreview2" alt="...">
@@ -137,27 +137,6 @@
     </div> <!-- card .// -->
 </section>
 <script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     let img1; let img2;
     let Img1; let Img2;
     document.getElementById('image1').onchange = e => {
@@ -168,10 +147,7 @@
             var image1 = document.getElementById('sampleImage1');
             var modal1 = $('#modal1');
             var cropper1;
-
-
             var files = event.target.files;
-
             var done = function (url) {
                 image1.src = url;
                 modal1.modal('show');
@@ -184,8 +160,6 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-
-
             modal1.on('shown.bs.modal', function () {
                 cropper1 = new Cropper(image1, {
                     aspectRatio: 2.49,
@@ -202,7 +176,6 @@
                     width: 400,
                     height: 400
                 });
-
                 canvas.toBlob(function (blob) {
                     url = URL.createObjectURL(blob);
                     var reader = new FileReader();
@@ -246,8 +219,6 @@
                 };
                 reader.readAsDataURL(files[0]);
             }
-
-
             modal2.on('shown.bs.modal', function () {
                 cropper2 = new Cropper(image2, {
                     aspectRatio: 2.49,
@@ -284,10 +255,6 @@
             document.getElementById('format_err2').innerHTML = "invalid format"
         }
     }
-
-
-
-
 
     $('#changeBanner').on("submit", (e) => {
         e.preventDefault()

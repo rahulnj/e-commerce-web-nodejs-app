@@ -1,0 +1,59 @@
+<section class="content-main container">
+    <div class="content-header">
+        <h2 class="content-title">Banner Text</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form id="bannertext">
+
+                        <div class="mb-4">
+                            <label class="form-label">Banner Text</label>
+                            <input type="text" name="bannertext" style="height: 100px;" placeholder="Type here"
+                                class="form-control" id="product_cat" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_slug" class="form-label">Offer Banner</label>
+                            <input type="number" name="offerbanner" placeholder="Type here" class="form-control"
+                                id="product_subcat" />
+                            <p id="error-cname" class="text-danger"></p>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Change</button>
+                            <p id="error-message" class="text-danger"></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-8">
+
+
+
+
+
+                </div> <!-- .col// -->
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section>
+
+<script>
+    $('#bannertext').on("submit", (e) => {
+        $.ajax({
+            url: "/admin/bannertext",
+            data: $("#bannertext").serialize(),
+            method: "post",
+            success: function (response) {
+                // alert("Form submitted successfully")
+                if (response.status == true) {
+                    Swal.fire("Changed Banner Text")
+                } else {
+                    $("#submit-pmessage").html("fill the fields");
+                }
+
+            }
+        })
+    })
+
+</script>
