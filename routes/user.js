@@ -7,6 +7,7 @@ var productHelper = require('../helpers/product-helpers')
 var userhelpers = require('../helpers/user-helpers')
 const { OAuth2Client } = require('google-auth-library');
 const paypal = require('paypal-rest-sdk');
+const fs = require('fs');
 // 
 const servicesSSID = "VA6372e797caca0e71e2cffe91c11b5168"
 const accountSSID = "AC2b16619f3603bb5447f6417cdd805f0d"
@@ -953,7 +954,16 @@ router.post('/paginationcat', async (req, res) => {
   })
 })
 
-
+router.post('/profilechange', async (req, res) => {
+  console.log("api call");
+  // console.log(req.body.img1);
+  let id = req.session.user._id
+  let user1 = req.body.img1
+  let path1 = './public/uploads/userprofile/' + id + '.jpg'
+  let img1 = user1.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  fs.writeFileSync(path1, img1, { encoding: 'base64' })
+  res.json({ status: true })
+})
 
 
 
