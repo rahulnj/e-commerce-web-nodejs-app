@@ -56,14 +56,6 @@ module.exports = {
             resolve(response)
         })
     },
-
-
-
-
-
-
-
-
     updateProduct: async (proId, product) => {
         // console.log(product);
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, {
@@ -790,7 +782,8 @@ module.exports = {
 
         })
 
-    }
+    },
+
 
 }
 

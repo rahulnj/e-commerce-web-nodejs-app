@@ -135,10 +135,7 @@ router.post('/createCategory', (req, res) => {
 //Edit category
 
 router.post('/edit-category', async (req, res) => {
-  // console.log("api call");
-  // console.log(req.body);
   let singleCat = await productHelpers.showEditCategory(req.body.catId)
-  // console.log(singleCat);
   res.json({ category: singleCat })
 })
 
@@ -148,23 +145,6 @@ router.post('/editcategory', async (req, res) => {
     res.json({ category: singleCat })
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Delete category
 router.get('/delete-category/:id', async (req, res) => {
@@ -383,8 +363,61 @@ router.post('/admin-search-product', async (req, res) => {
   })
 })
 
+router.get('/customization', (req, res) => {
+  res.render('admin/admin-banners', { admin: true })
+})
+
+router.post('/customization', async (req, res) => {
+  // console.log(req.body.img1);
+
+  let image1 = req.body.img1
+  let image2 = req.body.img2
 
 
+
+
+  let path1 = `./public/uploads/banner/banner1.jpg`
+  let path2 = `./public/uploads/banner/banner2.jpg`
+
+
+
+  let img1 = image1.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+  let img2 = image2.replace(/^data:([A-Za-z-+/]+);base64,/, "")
+
+
+  if (img1 && img2) {
+
+
+    fs.writeFileSync(path1, img1, { encoding: 'base64' })
+    fs.writeFileSync(path2, img2, { encoding: 'base64' })
+  } else if (img1) {
+    fs.writeFileSync(path1, img1, { encoding: 'base64' })
+
+  } else if (img2) {
+    fs.writeFileSync(path2, img2, { encoding: 'base64' })
+
+
+  }
+  else if (img1 && img3) {
+    fs.writeFileSync(path1, img1, { encoding: 'base64' })
+    fs.writeFileSync(path3, img3, { encoding: 'base64' })
+
+  }
+  else if (img1) {
+    fs.writeFileSync(path1, img1, { encoding: 'base64' })
+
+  }
+  else if (img2) {
+    fs.writeFileSync(path2, img2, { encoding: 'base64' })
+
+
+  }
+
+
+  res.json({ status: true })
+
+
+})
 
 
 
