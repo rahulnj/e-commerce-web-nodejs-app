@@ -66,14 +66,15 @@ module.exports = {
         })
     },
     adminLogin: async (adminData) => {
+        console.log(adminData);
         let loginstatus = false
         let response = {}
         let admin = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ username: adminData.username })
         if (admin) {
-            const status = await bcrypt.compare(adminData.password, admin.password)
+            const status = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ $and: [{ username: { $eq: adminData.username } }, { password: { $eq: adminData.password } }] })
             if (status) {
                 console.log("Admin login success");
-                return { admin, status }
+                return { admin, status: true }
 
             } else {
                 console.log("Admin login failed");
