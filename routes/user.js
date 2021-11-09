@@ -48,7 +48,6 @@ router.get('/', async function (req, res, next) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
   let banner = await productHelpers.getBannerText()
-  console.log(banner);
   await productHelpers.checkExpiryoffer()
   let products = await productHelper.getDogProducts()
   res.render('user/home', { banner, products, user, bagCount, search: true })

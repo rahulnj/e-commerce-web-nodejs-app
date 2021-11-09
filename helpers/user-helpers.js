@@ -97,22 +97,18 @@ module.exports = {
 
 
             if (!status) {
-                console.log("User login failed");
                 return { err: "Incorrect username or password", res: { status: false }, }
 
             } else if (status && !user.status) {
-                console.log("User login failed blocked");
                 return { err: "Blocked by Admin", res: { status: false } }
 
             } else {
-                console.log("User login success");
                 return { user, status }
             }
 
         } else {
-            console.log("User doesn't exist");
             return {
-                err: "User doesn't exist"
+                err: "User doesn't exist", res: { status: false }
             }
         }
 
