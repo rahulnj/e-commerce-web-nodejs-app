@@ -786,7 +786,7 @@ module.exports = {
     changeBannertext: async (bannerDetails) => {
 
 
-        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ _id: ObjectId("618a0c38d9ced8d6f2da85ae") }, {
+        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ _id: ObjectId("618ab0300dc910dbe777b0af") }, {
             $set: {
                 bannertext1: bannerDetails.bannertext1,
                 bannertext2: bannerDetails.bannertext2,
