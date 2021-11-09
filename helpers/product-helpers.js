@@ -784,12 +784,20 @@ module.exports = {
 
     },
     changeBannertext: async (bannerDetails) => {
-        bannerObj = {
-            bannertext: bannerDetails.bannertext,
-            banneroffer: bannerDetails.offerbanner
-        }
-        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).insertOne(bannerObj)
+
+
+        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ _id: ObjectId("618a0c38d9ced8d6f2da85ae") }, {
+            $set: {
+                bannertext1: bannerDetails.bannertext1,
+                bannertext2: bannerDetails.bannertext2,
+                banneroffer: bannerDetails.offerbanner
+            }
+        })
         return data.insertedId
+    },
+    getBannerText: async () => {
+        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).find().toArray()
+        return data
     }
 
 }

@@ -363,7 +363,7 @@ router.post('/admin-search-product', async (req, res) => {
   })
 })
 
-router.get('/customization', (req, res) => {
+router.get('/customization', adminAuth, (req, res) => {
   res.render('admin/admin-banners', { admin: true })
 })
 
@@ -399,11 +399,13 @@ router.post('/customization', async (req, res) => {
   res.json({ status: true })
 })
 
-router.get('/bannertext', (req, res) => {
-  res.render('admin/admin-bannertext', { admin: true })
+router.get('/bannertext', adminAuth, async (req, res) => {
+  let banner = await productHelpers.getBannerText()
+  res.render('admin/admin-bannertext', { banner, admin: true })
 })
 
 router.post('/bannertext', async (req, res) => {
+  console.log(req.body);
   await productHelpers.changeBannertext(req.body)
   res.json({ status: true })
 })

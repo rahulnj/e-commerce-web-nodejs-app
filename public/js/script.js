@@ -320,7 +320,6 @@ $("#checkout-form").submit((e) => {
             if (response.codsuccess) {
                 location.href = '/success'
             } else if (response.razorpay) {
-                console.log("vanuu");
                 razorpayPayment(response.res)
 
             } else if (response.paypalsuccess) {

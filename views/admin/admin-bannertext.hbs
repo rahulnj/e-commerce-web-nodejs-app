@@ -7,24 +7,35 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
+                    {{#each banner}}
                     <form id="bannertext">
 
                         <div class="mb-4">
-                            <label class="form-label">Banner Text</label>
-                            <input type="text" name="bannertext" style="height: 100px;" placeholder="Type here"
-                                class="form-control" id="product_cat" />
+                            <label class="form-label">Banner Text Line #1</label>
+                            <input type="text" name="bannertext1" style="height: 100px;" placeholder="Type here"
+                                class="form-control" value="{{this.bannertext1}}" maxlength="16" id="ban1" />
+                            <p class="text-danger" id="ban-1"></p>
                         </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Banner Text Line #2</label>
+                            <input type="text" name="bannertext2" value="{{this.bannertext2}}" style="height: 100px;"
+                                placeholder="Type here" class="form-control" maxlength="10" id="ban2" />
+                            <p class="text-danger" id="ban-2"></p>
+                        </div>
+
                         <div class="mb-4">
                             <label for="product_slug" class="form-label">Offer Banner</label>
-                            <input type="number" name="offerbanner" placeholder="Type here" class="form-control"
-                                id="product_subcat" />
-                            <p id="error-cname" class="text-danger"></p>
+                            <input type="number" value="{{this.banneroffer}}" name="offerbanner" placeholder="Type here"
+                                class="form-control" id="offban" />
+                            <p class="text-danger" id="off-ban"></p>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Change</button>
-                            <p id="error-message" class="text-danger"></p>
+                            <p id="error-offer" class="text-danger"></p>
                         </div>
                     </form>
+                    {{/each}}
                 </div>
                 <div class="col-md-8">
 
@@ -39,21 +50,79 @@
 </section>
 
 <script>
-    $('#bannertext').on("submit", (e) => {
-        $.ajax({
-            url: "/admin/bannertext",
-            data: $("#bannertext").serialize(),
-            method: "post",
-            success: function (response) {
-                // alert("Form submitted successfully")
-                if (response.status == true) {
-                    Swal.fire("Changed Banner Text")
-                } else {
-                    $("#submit-pmessage").html("fill the fields");
-                }
 
-            }
-        })
+    var ban1 = true; var ban2 = true; var offban = true;
+
+    $("#ban1").blur(function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#ban-1").text("Invalid Name");
+            ban1 = false;
+        } else if (name.length <= 16) {
+            ban1 = true;
+            $("#ban-1").text(" ");
+
+        }
     })
+
+    $("#ban2").blur(function () {
+        this.value = this.value.replace(/[^ a-zA-Z]/, '');
+        var name = $(this).val()
+        if (name.length < 5 || name.includes('  ') || name.charAt(0) == ' ') {
+            $("#ban-2").text("Invalid Name");
+            ban2 = false;
+        } else if (name.length <= 10) {
+            ban2 = true;
+            $("#ban-2").text(" ");
+
+        }
+    })
+
+
+    $('#offban').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length > 2) {
+            offban = false;
+            $("#off-ban").html("offer should be less than 99%");
+
+        } else {
+            offban = true;
+            $("#off-ban").html(" ");
+
+        }
+    })
+
+
+    $('#bannertext').on("submit", (e) => {
+        e.preventDefault()
+        console.log(ban1)
+        console.log(ban2)
+        console.log(offban)
+        if (ban1 == true && ban2 == true && offban == true) {
+            $.ajax({
+                url: "/admin/bannertext",
+                data: $("#bannertext").serialize(),
+                method: "post",
+                success: function (response) {
+                    // alert("Form submitted successfully")
+                    if (response.status == true) {
+                        Swal.fire("Changed Banner Text")
+                    } else {
+                        $("#submit-pmessage").html("fill the fields");
+                    }
+
+                }
+            })
+        } else {
+            $("#error-offer").html("Fill the Fields");
+        }
+    })
+
+
+
+
+
 
 </script>
