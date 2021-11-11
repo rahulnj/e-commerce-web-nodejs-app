@@ -41,7 +41,9 @@ module.exports = {
         let catDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectId(cat) })
         return catDetails
     },
-    updateCategory: (catId, cat) => {
+    updateCategory: async (catId, cat) => {
+        console.log(catId);
+        console.log(cat);
         let subcategory = cat.subcategory.map((subCategory) => ({ name: subCategory }))
         let type = cat.type.map((type) => ({ name: type }))
         let updatedObject = {
@@ -786,7 +788,7 @@ module.exports = {
     changeBannertext: async (bannerDetails) => {
 
 
-        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ _id: ObjectId("618ab0300dc910dbe777b0af") }, {
+        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ bid: "12345" }, {
             $set: {
                 bannertext1: bannerDetails.bannertext1,
                 bannertext2: bannerDetails.bannertext2,
