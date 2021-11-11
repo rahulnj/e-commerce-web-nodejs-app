@@ -1,15 +1,19 @@
-<section class="single_product_details_area d-flex align-items-center">
+<section class="single_product_details_area d-flex align-items-center ">
 
     <!-- Single Product Thumb -->
     <div class="single_product_thumb clearfix">
         <div class="product_thumbnail_slides owl-carousel ">
-            <img id="zoom" src="/uploads/image-2/{{product._id}}.jpg" alt=""
+            <img class="img-fluid" style="width:550px; height: 500px;" id="zoom"
+                src="/uploads/image-2/{{product._id}}.jpg" alt=""
                 data-zoom-image="/uploads/image-2/{{product._id}}.jpg">
-            <img id="zoom1" src="/uploads/image-3/{{product._id}}.jpg" alt=""
+            <img class="img-fluid" style="width:550px; height: 500px;" id="zoom1"
+                src="/uploads/image-3/{{product._id}}.jpg" alt=""
                 data-zoom-image="/uploads/image-3/{{product._id}}.jpg">
-            <img id="zoom2" src="/uploads/image-4/{{product._id}}.jpg" alt=""
+            <img class="img-fluid" id="zoom2" style="width:550px; height: 500px;"
+                src="/uploads/image-4/{{product._id}}.jpg" alt=""
                 data-zoom-image="/uploads/image-4/{{product._id}}.jpg">
-            <img id="zoom3" src="/uploads/image-5/{{product._id}}.jpg" alt=""
+            <img class="img-fluid" style="width:550px; height: 500px;" id="zoom3"
+                src="/uploads/image-5/{{product._id}}.jpg" alt=""
                 data-zoom-image="/uploads/image-5/{{product._id}}.jpg">
         </div>
     </div>
@@ -76,21 +80,21 @@
     $('#zoom').ezPlus({
         zoomType: 'lens',
         lensShape: 'square',
-        lensSize: 200
+        lensSize: 250
     });
     $('#zoom1').ezPlus({
         zoomType: 'lens',
         lensShape: 'square',
-        lensSize: 200
+        lensSize: 250
     });
     $('#zoom2').ezPlus({
         zoomType: 'lens',
         lensShape: 'square',
-        lensSize: 200
+        lensSize: 250
     });
     $('#zoom3').ezPlus({
         zoomType: 'lens',
         lensShape: 'square',
-        lensSize: 200
+        lensSize: 250
     });
 </script>
