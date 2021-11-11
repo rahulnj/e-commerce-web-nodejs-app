@@ -20,8 +20,8 @@
                             placeholder="Phone" maxlength="10">
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="tel" name="otp" class="form-control" style="height: 60px;" id="OTP_code"
-                            placeholder="OTP">
+                        <input type="tel" name="otp" class="form-control" style="height: 60px; display: none;"
+                            id="OTP_code" placeholder="OTP">
                     </div>
                     <a id="previous" href="/user-signin" style="display: none;">
                         <p class="upin">Go back to login page</p>
@@ -58,7 +58,9 @@
                 data: { number },
                 method: "post",
                 success: function (response) {
+
                     if (response.number == true) {
+                        document.getElementById('OTP_code').style.display = ""
                         document.getElementById('confirm').style.display = 'none'
                         const startingMinutes = 2;
                         let time = startingMinutes * 60;
@@ -71,6 +73,7 @@
                             let seconds = time % 60;
                             if (minutes == 0 && seconds == 0) {
                                 clearInterval(int)
+                                document.getElementById('OTP_code').style.display = "none"
                                 document.getElementById('countdown').style.display = 'none'
                                 document.getElementById('confirm').style.display = 'none'
                                 document.getElementById('confirmotp').style.display = 'none'
