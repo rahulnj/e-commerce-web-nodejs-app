@@ -352,8 +352,8 @@ router.post('/place-order', verifyUser, async (req, res) => {
                 "payment_method": "paypal"
               },
               "redirect_urls": {
-                "return_url": "http://localhost:3000/successs",
-                "cancel_url": "http://localhost:3000/cancel"
+                "return_url": "https://shop.rahuljayaraman.tech/successs",
+                "cancel_url": "https://shop.rahuljayaraman.tech/cancel"
               },
               "transactions": [{
                 "item_list": {
@@ -642,8 +642,8 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
                 "payment_method": "paypal"
               },
               "redirect_urls": {
-                "return_url": "http://localhost:3000/successs",
-                "cancel_url": "http://localhost:3000/cancel"
+                "return_url": "https://shop.rahuljayaraman.tech/successs",
+                "cancel_url": "https://shop.rahuljayaraman.tech/cancel"
               },
               "transactions": [{
                 "item_list": {
