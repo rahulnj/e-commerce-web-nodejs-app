@@ -798,9 +798,12 @@ module.exports = {
         return data.insertedId
     },
     getBannerText: async () => {
-        let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).find().toArray()
-        return data
-    }
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collection.ADMIN_CUSTOMIZATION).find().toArray().then((prod) => {
+                resolve(prod)
+            })
 
+        })
+    }
 }
 

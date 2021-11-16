@@ -42,12 +42,12 @@ const verifyUser = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
+  let banner = await productHelpers.getBannerText()
   let user = req.session.user
   let bagCount = null
   if (user) {
     bagCount = await userhelpers.getBagcount(user._id)
   }
-  let banner = await productHelpers.getBannerText()
   await productHelpers.checkExpiryoffer()
   let products = await productHelper.getDogProducts()
   res.render('user/home', { banner, products, user, bagCount, search: true })
