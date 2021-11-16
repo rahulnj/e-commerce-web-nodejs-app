@@ -420,7 +420,7 @@ router.get('/successs', async (req, res) => {
     }
   });
 });
-router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/cancel', (req, res) => res.redirect('/'));
 
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
@@ -711,7 +711,7 @@ router.get('/successs', async (req, res) => {
     }
   });
 });
-router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/cancel', (req, res) => res.redirect('/'));
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
