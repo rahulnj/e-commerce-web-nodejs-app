@@ -420,8 +420,9 @@ router.get('/successs', async (req, res) => {
     }
   });
 });
-router.get('/cancel', (req, res) => res.redirect('/'));
-
+router.get('/cancel', (req, res) => {
+  res.redirect('/');
+})
 //my bag 
 router.get('/mybag', verifyUser, async (req, res) => {
   let user = req.session.user
@@ -711,7 +712,9 @@ router.get('/successs', async (req, res) => {
     }
   });
 });
-router.get('/cancel', (req, res) => res.redirect('/'));
+router.get('/cancel', (req, res) => {
+  res.redirect('/');
+})
 
 // change bag product quantity
 router.post('/change-quantity', async (req, res) => {
