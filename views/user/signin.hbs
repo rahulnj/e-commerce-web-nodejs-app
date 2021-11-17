@@ -70,8 +70,15 @@
                 data: { token: id_token },
                 method: "post",
                 success: function (response) {
-                    // alert("Form submitted successfully")
-                    location.replace('/')
+                    if (response.guest) {
+                        console.log("kerii")
+                        console.log(response.guest.proid)
+                        location.href = `/add-to-bag/${response.guest.proid}`
+                    } else {
+
+                        location.replace('/')
+                    }
+
                 },
                 error: function (err) {
                     alert("Something Error")

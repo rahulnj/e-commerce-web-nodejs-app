@@ -468,22 +468,31 @@ router.post('/signupwithgoogle', async (req, res) => {
     const { email, name } = payload
     const user = await userhelpers.checkEmailExist(email)
     // console.log(user);
+    let guest;
     if (user && !user.status) {
       req.session.loggedIn = false
       res.status(401).json(user)
     }
+
     else if (user && user.status) {
+
+      if (req.session.guestUser) {
+        guest = req.session.guestUser
+      }
       req.session.loggedIn = true
       req.session.user = user
-      res.json(user)
+      res.json({ user: user, guest })
     } else {
       let response = await userhelpers.googleSignup(payload)
       req.session.loggedIn = true
       req.session.user = response
-      res.status(201).json(response)
+      if (req.session.guestUser) {
+        guest = req.session.guestUser
+      }
+      res.json({ response, guest })
     }
   } catch (error) {
-
+    console.log("error");
     res.status(400).json(error)
   }
 
@@ -532,8 +541,8 @@ router.get('/single-product/:id', async (req, res) => {
 // add to cart without user
 
 router.get("/add-to-cart/:id", (req, res) => {
-
   if (req.session.user) {
+    console.log("kerii");
     res.redirect(`/add-to-bag/${req.params.id}`)
   } else {
     let data = { proid: req.params.id }
@@ -546,6 +555,7 @@ router.get("/add-to-cart/:id", (req, res) => {
 
 // Add-to-bag
 router.get('/add-to-bag/:id', verifyUser, (req, res) => {
+  console.log(req.session.user);
   if (req.session.user) {
     userhelpers.addtoBag(req.params.id, req.session.user._id).then(async () => {
       await userhelpers.getBagcount(req.session.user._id).then(async (bagCount) => {

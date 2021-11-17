@@ -38,11 +38,10 @@ module.exports = {
             mail: data.email,
             coupons: [],
             createdAt: new Date()
-
-
-
         }
-        return await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+        await db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+        return await db.get().collection(collection.USER_COLLECTION).findOne(userData)
+
     },
     checkEmailExist: (email) => {
         return new Promise(async (resolve, reject) => {
