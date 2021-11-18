@@ -804,6 +804,15 @@ module.exports = {
             })
 
         })
+    },
+    deleteUnwantedOrder: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectId(orderId) }).then((res) => {
+                resolve(res)
+            })
+
+        })
+
     }
 }
 

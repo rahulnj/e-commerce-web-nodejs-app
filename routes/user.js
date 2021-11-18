@@ -977,6 +977,9 @@ router.post('/profilechange', async (req, res) => {
   res.json({ status: true })
 })
 
+router.post('/deletefakeorder', async (req, res) => {
+  await productHelpers.deleteUnwantedOrder(req.body.id)
+})
 
 
 

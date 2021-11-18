@@ -310,7 +310,7 @@ $("#checkout-form").submit((e) => {
 
     }
 
-    console.log(data);
+
     $.ajax({
         url: "/place-order",
         method: "POST",
@@ -355,6 +355,12 @@ function razorpayPayment(order) {
         },
         "theme": {
             "color": "#3399cc"
+        },
+        "modal": {
+            "ondismiss": function () {
+                console.log("delete" + order.receipt);
+                deleteOrder(order.receipt)
+            }
         }
     };
     var rzp1 = new Razorpay(options);
@@ -388,6 +394,35 @@ function verifyPayment(payment, order) {
         }
     })
 }
+
+function deleteOrder(orderId) {
+    console.log("ello");
+    $.ajax({
+        url: "/deletefakeorder",
+        method: "post",
+        data: { id: orderId },
+        success: function () {
+
+        },
+        error: function () {
+
+        }
+
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 var newcoupon;
 $("#buynow-form").submit((e) => {
