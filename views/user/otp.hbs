@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
                         <input type="tel" name="otp" class="form-control" style="height: 60px; display: none;"
-                            id="OTP_code" placeholder="OTP">
+                            id="OTP_code" placeholder="OTP" maxlength="6">
                     </div>
                     <a id="previous" href="/user-signin" style="display: none;">
                         <p class="upin">Go back to login page</p>
@@ -103,6 +103,23 @@
     }
 
     /////
+
+    $('#OTP_code').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+
+            $("").html("Invalid Number");
+
+        } else {
+
+            $("").html(" ");
+
+        }
+    })
+
+
+
     function signinenterotp() {
         let otp = document.getElementById('OTP_code').value
         console.log(otp)
