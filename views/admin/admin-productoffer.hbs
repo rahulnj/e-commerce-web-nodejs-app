@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-6  mb-6">
                             <label class="form-label">Offer %</label>
-                            <input class="form-control" id="cvalue" name="offer" type="number" placeholder="Type here"
+                            <input class="form-control" id="pvalue" name="offer" type="number" placeholder="Type here"
                                 required>
                             <p id="cvalueerr" class="text-danger"></p>
 
@@ -87,6 +87,15 @@
     </div> <!-- card .// -->
 </section>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+    integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+
+
+
 <script>
 
     var today = new Date();
@@ -98,13 +107,25 @@
     $('#exp_date').attr('min', today);
 
     $(document).ready(function () {
-        $('productname').selectize({
+        $('#productname').selectize({
             sortField: 'text'
         });
     });
 
+    let cvalue;
+    $('#pvalue').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length > 2) {
+            cvalue = false;
+            $("#cvalueerr").html("offer should be less than 99%");
 
+        } else {
+            cvalue = true;
+            $("#cvalueerr").html(" ");
 
+        }
+    })
 
 
 
@@ -114,24 +135,28 @@
 
 
     $('#getproducts').on("submit", (e) => {
-        console.log("api")
-        $.ajax({
-            url: "/admin/productoffer/placeprodoffer",
-            method: "post",
-            data: $("#getproducts").serialize(),
-            success: function (response) {
-                if (response) {
-                    // alert("Form submitted successfully")
-                    location.reload()
-                } else {
+        if (cvalue == true) {
+            console.log("api")
+            $.ajax({
+                url: "/admin/productoffer/placeprodoffer",
+                method: "post",
+                data: $("#getproducts").serialize(),
+                success: function (response) {
+                    if (response) {
+                        // alert("Form submitted successfully")
+                        location.reload()
+                    } else {
 
+                    }
+
+                },
+                error: function (err) {
+                    // alert("Something Error")
                 }
-
-            },
-            error: function (err) {
-                // alert("Something Error")
-            }
-        })
+            })
+        } else {
+            $("#error-message").html("Fill the Fields");
+        }
     })
 
 
