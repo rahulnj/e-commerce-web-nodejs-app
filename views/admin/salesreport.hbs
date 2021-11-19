@@ -163,6 +163,14 @@
                         buttons: [
                             'excel', 'pdf', 'print'
                         ],
+                        drawCallback: function () {
+                            var hasRows = this.api().rows({ filter: 'applied' }).data().length > 0;
+                            $('.buttons-excel')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                            $('.buttons-pdf')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                            $('.buttons-print')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                        }
+
+
                     });
 
                 }
@@ -224,6 +232,12 @@
                         buttons: [
                             'excel', 'pdf', 'print'
                         ],
+                        drawCallback: function () {
+                            var hasRows = this.api().rows({ filter: 'applied' }).data().length > 0;
+                            $('.buttons-excel')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                            $('.buttons-pdf')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                            $('.buttons-print')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                        }
                     });
 
                 }
@@ -263,6 +277,12 @@
             buttons: [
                 'excel', 'pdf', 'print'
             ],
+            drawCallback: function () {
+                var hasRows = this.api().rows({ filter: 'applied' }).data().length > 0;
+                $('.buttons-excel')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                $('.buttons-pdf')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+                $('.buttons-print')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+            }
         });
     });
 </script>
