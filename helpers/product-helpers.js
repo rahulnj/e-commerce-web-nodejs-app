@@ -48,7 +48,6 @@ module.exports = {
         })
     },
     updateProduct: async (proId, product) => {
-        // console.log(product);
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, {
             $set: {
 
@@ -62,31 +61,23 @@ module.exports = {
     },
     getSingleproduct: async (proId, product) => {
         let prodDetails = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) })
-        // console.log(prodDetails);
         return prodDetails
     },
     createCategory: (category, sub, type) => {
         return new Promise(async (resolve, reject) => {
 
             let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category, "subcategory.name": sub })
-            // console.log(categoryDetails);
             if (!categoryDetails) {
                 let catDetails = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category })
                 if (catDetails) {
-                    // console.log(categoryDetails);
-                    // console.log("yeah");
                     if (sub) {
                         db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
-
                             $push: { subcategory: { name: sub } }
-
                         }
                         ).then((response) => {
-
                         });
                     }
                     typeManage();
-
                     function typeManage() {
                         let alreadyTypeFound = catDetails.type.find(elem => elem.name == type);
                         if (alreadyTypeFound) {
@@ -97,9 +88,7 @@ module.exports = {
                                 resolve()
                             } else {
                                 db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ category: category }, {
-
                                     $push: { type: { name: type } }
-
                                 }).then(() => {
                                     resolve();
                                 })
@@ -116,10 +105,8 @@ module.exports = {
                         resolve()
                     })
                 }
-
             } else {
                 resolve()
-
             }
         })
     }, categoryDetails: async () => {
@@ -132,16 +119,13 @@ module.exports = {
     },
     showSubcategory: async (category) => {
         let show = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category }, { subcategory: 0 })
-        // console.log(show.subcategory);
         return show
     },
     getCatProducts: async (product) => {
         let proDetails = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'cat', type: 'retailandvet' }).toArray()
-        // console.log(proDetails);
         return proDetails
     },
     checkProdinBag: (prodId, userId) => {
-
         return new Promise(async (resolve, reject) => {
             let userBag = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
             if (userBag) {
@@ -158,7 +142,6 @@ module.exports = {
     },
     getDogProducts: async (product) => {
         let proDetails = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'dog', type: 'retailandvet' }).toArray()
-        // console.log(proDetails);
         return proDetails
     },
     getBagProductList: (userId) => {
@@ -197,14 +180,7 @@ module.exports = {
                         product: { $arrayElemAt: ['$product', 0] }
                     }
                 },
-                // {
-                //     $project: {
-                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
-                //     }
-                // },
-
             ]).toArray()
-            // console.log(orderItems);
             resolve(orderItems)
         })
     },
@@ -238,29 +214,16 @@ module.exports = {
                         product: { $arrayElemAt: ['$product', 0] }
                     }
                 },
-                // {
-                //     $project: {
-                //         total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
-                //     }
-                // },
-
             ]).toArray()
-            // console.log(orderItems);
             resolve(orderItems)
         })
     },
     buyNowProducts: (proId) => {
-        // console.log(proId);
-
         return new Promise(async (resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).find({ _id: ObjectId(proId) }).toArray().then((prod) => {
                 resolve(prod)
-                // console.log(prod);
             })
-
         })
-
-
     },
     addCoupon: (couponDetails) => {
         let coupon = {
@@ -271,7 +234,6 @@ module.exports = {
             expireAt: new Date(couponDetails.expiry),
             minamount: parseInt(couponDetails.minamount)
         }
-        // console.log(coupon);
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.COUPON_COLLECTION).insertOne(coupon).then((response) => {
                 resolve()
@@ -290,7 +252,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.COUPON_COLLECTION).findOne({ couponcode: code }).then((response) => {
                 resolve(response)
-                // console.log(response);
             })
         })
     },
@@ -324,10 +285,7 @@ module.exports = {
         })
     },
     saveCouponuser: (userId, couponId) => {
-        // console.log(userId);
-        // console.log(couponId);
         return new Promise(async (resolve, reject) => {
-
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) });
             if (user.coupons) {
                 await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
@@ -360,7 +318,6 @@ module.exports = {
     },
     displayProductoffer: async () => {
         let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ isoffer: true }).toArray()
-        // console.log(products);
         return products
     },
     checkExpiryoffer: () => {
@@ -458,7 +415,6 @@ module.exports = {
                     salesOfLastWeekData.push(0)
                 }
             }
-            // console.log(salesOfLastWeekData);
             resolve(salesOfLastWeekData)
 
         })
@@ -467,14 +423,12 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let count = await db.get().collection(collection.USER_COLLECTION).find({}).count()
             resolve(count)
-
         })
     },
     getOrdersCount: () => {
         return new Promise(async (resolve, reject) => {
             let count = await db.get().collection(collection.ORDER_COLLECTION).find({}).count()
             resolve(count)
-
         })
     },
     getTotalRevenue: () => {
@@ -488,8 +442,6 @@ module.exports = {
                         amount: '$amount',
                     }
                 },
-
-
             ]).toArray()
             let total = 0
             orderItems.forEach((i) => {
@@ -502,7 +454,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let count = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentmethod: 'COD' }).count()
             resolve(count)
-
         })
     },
     getRazorpayCount: () => {
@@ -516,7 +467,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let count = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentmethod: 'PAYPAL' }).count()
             resolve(count)
-
         })
     },
     getWeeklyUsers: async () => {
@@ -539,7 +489,6 @@ module.exports = {
             let salesOfLastWeekData = []
             for (let i = 0; i < 8; i++) {
                 let count = data.find((d) => d._id === thisday + i - 7)
-
                 if (count) {
                     salesOfLastWeekData.push(count.count)
                 } else {
@@ -547,7 +496,6 @@ module.exports = {
                 }
             }
             resolve(salesOfLastWeekData)
-
         })
     },
     getDeliverdCount: () => {
@@ -563,14 +511,12 @@ module.exports = {
                         createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
                     },
                 },
-
                 { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
             ]).toArray()
             const thisday = dayOfYear(new Date())
             let salesOfLastWeekData = []
             for (let i = 0; i < 8; i++) {
                 let count = data.find((d) => d._id === thisday + i - 7)
-
                 if (count) {
                     salesOfLastWeekData.push(count.count)
                 } else {
@@ -578,7 +524,6 @@ module.exports = {
                 }
             }
             resolve(salesOfLastWeekData)
-
         })
     },
     getCancelledCount: () => {
@@ -594,14 +539,12 @@ module.exports = {
                         createdAt: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
                     },
                 },
-
                 { $group: { _id: { $dayOfYear: '$createdAt' }, count: { $sum: 1 } } },
             ]).toArray()
             const thisday = dayOfYear(new Date())
             let salesOfLastWeekData = []
             for (let i = 0; i < 8; i++) {
                 let count = data.find((d) => d._id === thisday + i - 7)
-
                 if (count) {
                     salesOfLastWeekData.push(count.count)
                 } else {
@@ -609,7 +552,6 @@ module.exports = {
                 }
             }
             resolve(salesOfLastWeekData)
-
         })
     },
     getPlacedCount: () => {
@@ -632,7 +574,6 @@ module.exports = {
             let salesOfLastWeekData = []
             for (let i = 0; i < 8; i++) {
                 let count = data.find((d) => d._id === thisday + i - 7)
-
                 if (count) {
                     salesOfLastWeekData.push(count.count)
                 } else {
@@ -640,7 +581,6 @@ module.exports = {
                 }
             }
             resolve(salesOfLastWeekData)
-
         })
     },
     getSalesReport: (from, to) => {
@@ -688,7 +628,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userId) }, { address: { $elemMatch: { address: add } } })
             address = address.address.filter((addr) => (addr.address === add))
-            // console.log(address);
             resolve(address)
         })
 
@@ -701,7 +640,6 @@ module.exports = {
                 },
             ).then(async (response) => {
                 await userHelpers.addAddress(userId, addobj)
-                // console.log(response);
                 resolve(response)
             })
         })
@@ -742,7 +680,6 @@ module.exports = {
             else {
                 resolve(false)
             }
-
         })
 
     },
@@ -756,13 +693,11 @@ module.exports = {
             else {
                 resolve(false)
             }
-
         })
 
     },
     searchcatProduct: (keyword) => {
         return new Promise(async (resolve, reject) => {
-
             sub = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: 'cat', "subcategory": keyword }).toArray()
             if (sub[0]) {
                 resolve(sub)
@@ -770,13 +705,9 @@ module.exports = {
             else {
                 resolve(false)
             }
-
         })
-
     },
     changeBannertext: async (bannerDetails) => {
-
-
         let data = await db.get().collection(collection.ADMIN_CUSTOMIZATION).updateOne({ bid: "12345" }, {
             $set: {
                 bannertext1: bannerDetails.bannertext1,
@@ -791,7 +722,6 @@ module.exports = {
             db.get().collection(collection.ADMIN_CUSTOMIZATION).find().toArray().then((prod) => {
                 resolve(prod)
             })
-
         })
     },
     deleteUnwantedOrder: (orderId) => {
@@ -799,9 +729,7 @@ module.exports = {
             db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectId(orderId) }).then((res) => {
                 resolve(res)
             })
-
         })
-
     }
 }
 

@@ -85,7 +85,6 @@ router.post('/enterotp', async (req, res) => {
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
     if (response) {
-      console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
       res.json({ number: true })
@@ -119,7 +118,6 @@ router.post('/entersignupnumber', async (req, res) => {
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
     if (!response) {
-      console.log('session no', req.session.number);
       clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
       res.json({ number: true })
@@ -374,7 +372,6 @@ router.post('/place-order', verifyUser, async (req, res) => {
             };
             paypal.payment.create(create_payment_json, function (error, payment) {
               if (error) {
-                console.log(error);
                 throw error;
               } else {
                 for (let i = 0; i < payment.links.length; i++) {
@@ -467,7 +464,6 @@ router.post('/signupwithgoogle', async (req, res) => {
     const payload = ticket.getPayload()
     const { email, name } = payload
     const user = await userhelpers.checkEmailExist(email)
-    // console.log(user);
     let guest;
     if (user && !user.status) {
       req.session.loggedIn = false
@@ -492,7 +488,6 @@ router.post('/signupwithgoogle', async (req, res) => {
       res.json({ response, guest })
     }
   } catch (error) {
-    console.log("error");
     res.status(400).json(error)
   }
 
@@ -535,14 +530,10 @@ router.get('/single-product/:id', async (req, res) => {
   }
 })
 
-
-
-
 // add to cart without user
 
 router.get("/add-to-cart/:id", (req, res) => {
   if (req.session.user) {
-    console.log("kerii");
     res.redirect(`/add-to-bag/${req.params.id}`)
   } else {
     let data = { proid: req.params.id }
@@ -552,10 +543,8 @@ router.get("/add-to-cart/:id", (req, res) => {
 
 })
 
-
 // Add-to-bag
 router.get('/add-to-bag/:id', verifyUser, (req, res) => {
-  console.log(req.session.user);
   if (req.session.user) {
     userhelpers.addtoBag(req.params.id, req.session.user._id).then(async () => {
       await userhelpers.getBagcount(req.session.user._id).then(async (bagCount) => {
@@ -570,6 +559,7 @@ router.get('/add-to-bag/:id', verifyUser, (req, res) => {
     })
   }
 })
+
 //////buy now
 router.post('/buy-checkout/:id', (req, res) => {
   res.json(response)
@@ -594,6 +584,7 @@ router.get('/buy-address/:id', verifyUser, async (req, res) => {
   let id = req.params.id
   res.render('user/buy-address', { id })
 })
+
 router.post('/buy-address/:id', verifyUser, async (req, res) => {
   let user = req.session.user
   await userhelpers.addBuyAddress(user._id, req.body)
@@ -603,7 +594,6 @@ router.post('/buy-address/:id', verifyUser, async (req, res) => {
 router.post('/buy-place-order', verifyUser, async (req, res) => {
   let user = req.session.user
   let address = req.body.address
-  console.log(address);
   let proId = req.body.proId
   let payment = req.body.payment
   let singleprice;
@@ -676,7 +666,6 @@ router.post('/buy-place-order', verifyUser, async (req, res) => {
 
             paypal.payment.create(create_payment_json, function (error, payment) {
               if (error) {
-                console.log(error);
                 throw error;
               } else {
                 for (let i = 0; i < payment.links.length; i++) {
@@ -714,7 +703,6 @@ router.get('/successs', async (req, res) => {
 
   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
     if (error) {
-      console.log(error.response);
       throw error;
     } else {
       req.session.user.OrderConfirmed = true
@@ -780,10 +768,8 @@ router.get('/userprofile', verifyUser, async (req, res) => {
 })
 
 router.post('/userprofile/editmail', verifyUser, async (req, res) => {
-  // console.log(req.body)
   let user = req.session.user
   await userhelpers.EmailExist(req.body.email).then(async (response) => {
-    // console.log(response);
     if (response) {
       res.json({ changed: false })
     } else {
@@ -795,10 +781,8 @@ router.post('/userprofile/editmail', verifyUser, async (req, res) => {
 })
 
 router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
-  // console.log(req.body)
   let user = req.session.user
   await userhelpers.checkPhone(req.body.number).then(async (response) => {
-    // console.log(response);
     if (response) {
       res.json({ changed: false })
     } else {
@@ -808,6 +792,7 @@ router.post('/userprofile/editPhone', verifyUser, async (req, res) => {
     }
   })
 })
+
 //create password for google users 
 router.post('/userprofile/create-password', async (req, res) => {
   let user = req.session.user
@@ -815,6 +800,7 @@ router.post('/userprofile/create-password', async (req, res) => {
     res.json({ changed: true })
   })
 })
+
 //change password
 router.post('/userprofile/change-password', async (req, res) => {
   let user = req.session.user
@@ -832,13 +818,9 @@ router.post('/checkout/applycoupon', async (req, res) => {
   let user = req.session.user
   await productHelpers.checkCoupon(req.body.code).then(async (response) => {
     let totalPrice = await userhelpers.getTotalprice(user._id)
-    // console.log(totalPrice);
     let Total = await userhelpers.getTotalofferprice(user._id)
-    // console.log("kerii");
     if (response) {
-
       let couponUsed = await productHelpers.checkCouponUsed(req.session.user._id, response._id)
-      // console.log(couponUsed);
       if (!couponUsed) {
         let minamount = response.minamount
         let percent = response.value
@@ -849,14 +831,12 @@ router.post('/checkout/applycoupon', async (req, res) => {
         } else {
           res.json({ vmessage: true, message: "coupon valid for products above" + minamount })
         }
-
       } else {
         res.json({ umessage: true, uerrmessage: "Coupon already applied" })
       }
     } else {
       res.json({ imessage: true, invalidmessage: "Invalid Coupon" })
     }
-
   })
 })
 

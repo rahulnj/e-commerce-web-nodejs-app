@@ -141,7 +141,6 @@ router.post('/edit-category', async (req, res) => {
 
 router.post('/editcategory', async (req, res) => {
   await productHelpers.updateCategory(req.body.catId, req.body).then((response) => {
-    console.log(response);
     res.json({ category: singleCat })
   })
 })
@@ -303,7 +302,6 @@ router.post('/coupons/add-coupon', async (req, res) => {
 
 router.post('/coupons/delete-coupon', async (req, res) => {
   let response = await productHelpers.deleteCoupon(req.body.copId)
-  console.log(response);
   res.json(response)
 })
 
@@ -353,7 +351,6 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/admin-search-product', async (req, res) => {
-  console.log("api call");
   await productHelpers.searchProduct(req.body.key).then((result) => {
     if (result) {
       res.json({ body: result })
@@ -405,7 +402,6 @@ router.get('/bannertext', adminAuth, async (req, res) => {
 })
 
 router.post('/bannertext', async (req, res) => {
-  console.log(req.body);
   await productHelpers.changeBannertext(req.body)
   res.json({ status: true })
 })
