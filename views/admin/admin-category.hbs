@@ -178,6 +178,7 @@
 
 
     $('#editcat').on("submit", (e) => {
+        e.preventDefault()
         $.ajax({
             url: "/admin/editcategory",
             data: $('#editcat').serialize(),

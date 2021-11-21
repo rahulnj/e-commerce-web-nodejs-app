@@ -143,6 +143,7 @@ router.post('/edit-category', async (req, res) => {
 router.post('/editcategory', async (req, res) => {
   // console.log(req.body);
   await productHelpers.updateCategory(req.body).then((response) => {
+    console.log(response);
     res.json(response)
   })
 })
