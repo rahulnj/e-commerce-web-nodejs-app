@@ -141,8 +141,9 @@ router.post('/edit-category', async (req, res) => {
 })
 
 router.post('/editcategory', async (req, res) => {
-  await productHelpers.updateCategory(req.body.catId, req.body).then((response) => {
-    res.json({ category: singleCat })
+  // console.log(req.body);
+  await productHelpers.updateCategory(req.body).then((response) => {
+    res.json(response)
   })
 })
 

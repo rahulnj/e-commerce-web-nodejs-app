@@ -54,7 +54,6 @@
                                 <td>{{this.category}}
                                 </td>
                                 <td><b>{{#each this.subcategory}}{{this.name}} <br />{{/each}}</b></td>
-                                <input type="text" id="idn" value="{{this._id}}" hidden>
                                 <td>{{#each this.type}}{{this.name}}<br /> {{/each}}</td>
                                 <td class="text-end">
                                     <div class="dropdown">
@@ -124,17 +123,16 @@
                 document.getElementById('esubcat').innerHTML = '';
                 document.getElementById('etype').innerHTML = '';
                 console.log(response.category.subcategory.length)
-                let elem = `<input type="text" name="category" value="${response.category.category}" id="ecatv" class="form-control" />`
+                let elem = `<input type="text" name="category" value="${response.category.category}" id="ecatv" class="form-control" /><input type="text" name="categoryo" value="${response.category.category}" id="ecatv" class="form-control" hidden/>`
                 document.getElementById('ecat').innerHTML = elem;
                 for (let i = 0; i < response.category.subcategory.length; i++) {
-                    let element = `<input type="text" name="subcategory" value="${response.category.subcategory[i].name}" id="esubv" class="form-control" />`
+                    let element = `<input type="text" name="subcategory" value="${response.category.subcategory[i].name}" id="esubv" class="form-control" /><input type="text" name="subcategoryo" value="${response.category.subcategory[i].name}" id="esubv" class="form-control" hidden/>`
                     document.getElementById('esubcat').innerHTML += element;
                 }
                 for (let i = 0; i < response.category.type.length; i++) {
-                    let typeelement = `<input type="text" name="type" value="${response.category.type[i].name}" id="etypev"  class="form-control"/>`
+                    let typeelement = `<input type="text" name="type" value="${response.category.type[i].name}" id="etypev"  class="form-control"/><input type="text" name="typeo" value="${response.category.type[i].name}" id="etypev" class="form-control" hidden/>`
                     document.getElementById('etype').innerHTML += typeelement;
                 }
-                // alert("Form submitted successfully")
             }
         })
     }
@@ -180,19 +178,16 @@
 
 
     $('#editcat').on("submit", (e) => {
-        let data;
-        let catId = document.getElementById('idn').value
-        data = $('#editcat').serialize() + "&catId=" + catId;
         $.ajax({
             url: "/admin/editcategory",
-            data: data,
+            data: $('#editcat').serialize(),
             method: "post",
             success: function (response) {
-                if (response == true) {
+                if (response) {
+                    console.log(response)
                     location.reload()
-                } else {
-
                 }
+
 
             }
         })
