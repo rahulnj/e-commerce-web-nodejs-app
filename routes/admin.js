@@ -83,6 +83,7 @@ router.get('/dashboard', adminAuth, async (req, res) => {
 
 router.get('/orders', adminAuth, async (req, res) => {
   await userhelpers.orderDetailsAdmin().then((orders) => {
+    console.log(orders);
     res.render('admin/admin-orders', { admin: true, orders })
   })
 })
@@ -92,8 +93,8 @@ router.get('/orderdetails/:id', adminAuth, async (req, res) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
       await productHelpers.getadminOrderProd(req.params.id).then(async (products) => {
         const isCancelled = orderdetails[0].status === 'cancelled'
-        const IsDelivered = orderdetails[0].status === 'delivered'
-        res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, IsDelivered, singlePrice, products, })
+        const isDelivered = orderdetails[0].status === 'delivered'
+        res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, isDelivered, singlePrice, products, })
       })
     })
   })
