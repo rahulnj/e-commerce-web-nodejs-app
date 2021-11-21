@@ -92,7 +92,8 @@ router.get('/orderdetails/:id', adminAuth, async (req, res) => {
     await userhelpers.getSinglepriceAdmin(req.params.id, orderdetails).then(async (singlePrice) => {
       await productHelpers.getadminOrderProd(req.params.id).then(async (products) => {
         const isCancelled = orderdetails[0].status === 'cancelled'
-        res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, singlePrice, products, })
+        const IsDelivered = orderdetails[0].status === 'delivered'
+        res.render('admin/admin-orderdetails', { admin: true, orderdetails, isCancelled, IsDelivered, singlePrice, products, })
       })
     })
   })

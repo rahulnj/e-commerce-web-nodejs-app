@@ -23,6 +23,8 @@
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
                     {{#if ../isCancelled}}
                     {{else}}
+                    {{#if ../IsDelivered}}
+                    {{else}}
                     <select class="form-select d-inline-block" id="status" style="max-width: 200px"
                         onchange="changestatus('{{this._id}}','{{this.user}}')">
                         <option>Change status</option>
@@ -32,6 +34,7 @@
                         <option value="cancelled">Cancel</option>
 
                     </select>
+                    {{/if}}
                     {{/if}}
                     {{!-- <button class='btn btn-primary btn-primary me-md-2' type='submit'
                         style="text-decoration: none; color:white">Confirm</button> --}}
