@@ -3,7 +3,7 @@
 
 
 // form validation
-var submitname = false; var submitemail = false; var submitpassword = false; submitphone = true;
+var submitname = false; var submitemail = false; var submitpassword = false;
 var mailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 $(document).ready(function () {
     $("#usersu").blur(function () {
@@ -59,7 +59,7 @@ $('#signupform').on("submit", (e) => {
     console.log(submitemail)
     console.log(submitpassword)
     console.log(submitphone)
-    if (submitname == true && submitemail == true && submitpassword == true && submitphone == true) {
+    if (submitname == true && submitemail == true && submitpassword == true) {
         $.ajax({
             url: "/signup",
             data: $("#signupform").serialize(),

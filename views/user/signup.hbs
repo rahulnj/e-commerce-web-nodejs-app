@@ -100,10 +100,41 @@
 
 
 <script>
+    let submitphone;
+    $('#otpsignup').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+            submitphone = false;
+            $("#error-phone").html("Invalid Number");
+
+        } else {
+            submitphone = true;
+            $("#error-phone").html(" ");
+
+        }
+    })
+
+    $('#signupsotp').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length < 10) {
+            $("#").html("Invalid Number");
+
+        } else {
+            $("#").html(" ");
+
+        }
+    })
+
+
+
+
     let number;
     function sendnumber() {
         number = document.getElementById('otpsignup').value
         console.log(number)
+        console.log("eah", submitphone)
         if (submitphone == true) {
             $.ajax({
                 url: "/entersignupnumber",
@@ -178,44 +209,6 @@
             }
         })
     }
-    let submitphone;
-    $('#otpsignup').on('input', function () {
-        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
-        var phone = $(this).val()
-        if (phone.length < 10) {
-            submitphone = false;
-            $("#error-phone").html("Invalid Number");
-
-        } else {
-            submitphone = true;
-            $("#error-phone").html(" ");
-
-        }
-    })
-
-    $('#signupsotp').on('input', function () {
-        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
-        var phone = $(this).val()
-        if (phone.length < 10) {
-            $("#").html("Invalid Number");
-
-        } else {
-            $("#").html(" ");
-
-        }
-    })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </script>
