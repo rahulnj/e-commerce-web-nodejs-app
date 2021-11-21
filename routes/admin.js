@@ -83,7 +83,6 @@ router.get('/dashboard', adminAuth, async (req, res) => {
 
 router.get('/orders', adminAuth, async (req, res) => {
   await userhelpers.orderDetailsAdmin().then((orders) => {
-    console.log(orders);
     res.render('admin/admin-orders', { admin: true, orders })
   })
 })

@@ -604,10 +604,17 @@ module.exports = {
                     }).then((response) => {
                         resolve({ status: true })
                     })
+            } else if (status === 'delivered') {
+                await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
+                    {
+                        $set: { status: status, isdelivered: true }
+                    }).then((response) => {
+                        resolve({ status: true })
+                    })
             } else {
                 await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(cartId) },
                     {
-                        $set: { status: status, iscancelled: false }
+                        $set: { status: status, iscancelled: false, isdelivered: false }
                     }).then((response) => {
                         resolve({ status: true })
                     })
