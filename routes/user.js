@@ -738,7 +738,7 @@ router.post('/verify-payment', (req, res) => {
   userhelpers.verifyPayment(req.body).then(() => {
     console.log("hai")
     console.log(req.body);
-    userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
+    userhelpers.changePaymentStatus(req.body.order.receipt).then(() => {
       res.json({ status: true })
     })
   }).catch((err) => {
