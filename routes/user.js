@@ -734,9 +734,9 @@ router.post('/delete-item', verifyUser, async (req, res) => {
   res.json(response)
 })
 
-router.post('/verify-payment', (req, res) => {
-  userhelpers.verifyPayment(req.body).then(() => {
-    userhelpers.changePaymentStatus(req.body['order[receipt]']).then((response) => {
+router.post('/verify-payment', async (req, res) => {
+  await userhelpers.verifyPayment(req.body).then(async () => {
+    await userhelpers.changePaymentStatus(req.body['order[receipt]']).then((response) => {
       res.json(response)
     })
   }).catch((err) => {
