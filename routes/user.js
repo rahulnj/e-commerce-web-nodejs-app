@@ -736,10 +736,12 @@ router.post('/delete-item', verifyUser, async (req, res) => {
 
 router.post('/verify-payment', (req, res) => {
   userhelpers.verifyPayment(req.body).then(() => {
+    console.log("hello");
     userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
       res.json({ status: true })
     })
   }).catch((err) => {
+    console.log("reject");
     res.json({ status: false })
   })
 })
