@@ -732,7 +732,7 @@ module.exports = {
             hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
             hmac = hmac.digest('hex')
             console.log(hmac);
-            console.log(details['payment[razorpay_signature]']);
+            console.log(details.payment?.razorpay_signature);
             console.log(details)
             if (hmac == details['payment[razorpay_signature]']) {
                 console.log("kerii");
