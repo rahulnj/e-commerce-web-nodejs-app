@@ -566,7 +566,7 @@ module.exports = {
     },
     getMyOrders: (userId) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ user: ObjectId(userId) }).sort({ date: -1 }).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ user: ObjectId(userId) }).sort({ createdAt: -1 }).toArray()
             resolve(orders)
         })
     }, getAdminOrders: (cartId) => {
@@ -590,7 +590,7 @@ module.exports = {
     },
     orderDetailsAdmin: () => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.ORDER_COLLECTION).find().sort({ date: -1 }).toArray().then((orders) => {
+            db.get().collection(collection.ORDER_COLLECTION).find().sort({ createdAt: -1 }).toArray().then((orders) => {
                 resolve(orders)
             })
         })
