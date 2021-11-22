@@ -479,7 +479,7 @@ module.exports = {
     deleteFinalBag: (user) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(user) }).then((response) => {
-                resolve()
+                resolve(response)
             })
         })
     },
@@ -746,7 +746,7 @@ module.exports = {
                     }
                 }
             ).then(() => {
-                resolve()
+                resolve(response)
             })
         })
     },

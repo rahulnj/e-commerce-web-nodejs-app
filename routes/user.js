@@ -736,8 +736,8 @@ router.post('/delete-item', verifyUser, async (req, res) => {
 
 router.post('/verify-payment', (req, res) => {
   userhelpers.verifyPayment(req.body).then(() => {
-    userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
-      res.json({ status: true })
+    userhelpers.changePaymentStatus(req.body['order[receipt]']).then((response) => {
+      res.json(response)
     })
   }).catch((err) => {
     res.json({ status: false })
@@ -747,7 +747,7 @@ router.post('/verify-payment', (req, res) => {
 router.post('/deletefinalbag', async (req, res) => {
   let user = req.session.user
   await userhelpers.deleteFinalBag(user._id).then((response) => {
-    res.json({ response: true })
+    res.json(response)
   })
 })
 
