@@ -375,7 +375,7 @@ function verifyPayment(payment, order) {
         },
         method: 'post',
         success: (response) => {
-            if (response) {
+            if (response.status) {
                 $.ajax({
                     url: '/deletefinalbag',
                     data: {
