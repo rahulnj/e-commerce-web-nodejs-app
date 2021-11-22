@@ -728,12 +728,13 @@ module.exports = {
         console.log(details);
         return new Promise((resolve, reject) => {
             const crypto = require('crypto')
+            console.log(details);
             let hmac = crypto.createHmac('sha256', 'XVG4NoBjwr1Ew3DDGItKnY33')
+            console.log(hmac, "console hmac before update")
             hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
             hmac = hmac.digest('hex')
-            console.log(hmac);
-            console.log(details.payment?.razorpay_signature);
-            console.log(details)
+            console.log(hmac, "hmac");
+            console.log(details['payment[razorpay_signature]'])
             if (hmac == details['payment[razorpay_signature]']) {
                 console.log("kerii");
                 resolve()
