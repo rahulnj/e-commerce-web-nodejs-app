@@ -8,17 +8,15 @@ var userhelpers = require('../helpers/user-helpers')
 const { OAuth2Client } = require('google-auth-library');
 const paypal = require('paypal-rest-sdk');
 const fs = require('fs');
-// 
-const servicesSSID = "VA6372e797caca0e71e2cffe91c11b5168"
-const accountSSID = "AC2b16619f3603bb5447f6417cdd805f0d"
-const authToken = "2514ef681766ef450acce3bcfaa85088"
-const clientTwillo = require("twilio")(accountSSID, authToken);
+require('dotenv').config()
+
+const clientTwillo = require("twilio")(process.env.ACCOUNT_SSID, process.env.AUTH_TOKEN);
 
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
-  'client_id': 'AebeaDk4-599KvvXLTcbVns3IkqL1X5K8DQLfsSVWcm1pwWurlnIjgpDuh6-EhnDMMATk7mXJDXYU8S0',
-  'client_secret': 'EMmhRE1l7_oOaDUPXTYaPsX-0Qc5Wty8WAjlSzf_Q_uWmglAxEEmmMaw8uMrANq7X3scqIY1vtDi4h9X'
+  'client_id': process.env.PAYPAL_CLIENT_ID,
+  'client_secret': process.env.PAYPAL_CLIENT_SECRET
 });
 
 
@@ -42,6 +40,7 @@ const verifyUser = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
+  console.log(process.env.ACCOUNT_SSID);
   let banner = await productHelpers.getBannerText()
   let user = req.session.user
   let bagCount = null
@@ -85,7 +84,7 @@ router.post('/enterotp', async (req, res) => {
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
     if (response) {
-      clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
+      clientTwillo.verify.services(process.env.SERVICES_SSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
       res.json({ number: true })
     } else {
@@ -98,7 +97,7 @@ router.post('/verifyotp', async (req, res) => {
   let otp = req.body.otp
   let number = req.session.number
   await userhelpers.checkNumber(number).then((response) => {
-    clientTwillo.verify.services(servicesSSID).verificationChecks
+    clientTwillo.verify.services(process.env.SERVICES_SSID).verificationChecks
       .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
         if (resp.valid == true && resp.status == 'approved') {
           req.session.loggedIn = true;
@@ -118,7 +117,7 @@ router.post('/entersignupnumber', async (req, res) => {
   req.session.number = req.body.number
   await userhelpers.checkNumber(req.body.number).then((response) => {
     if (!response) {
-      clientTwillo.verify.services(servicesSSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
+      clientTwillo.verify.services(process.env.SERVICES_SSID).verifications.create({ to: `+91${req.session.number}`, channel: "sms" })
         .then((verification) => console.log(verification.status));
       res.json({ number: true })
     } else {
@@ -131,7 +130,7 @@ router.post('/verifysignupotp', async (req, res) => {
 
   let otp = req.body.otp
   let number = req.session.number
-  clientTwillo.verify.services(servicesSSID).verificationChecks
+  clientTwillo.verify.services(process.env.SERVICES_SSID).verificationChecks
     .create({ to: `+91${number}`, code: `${otp}` }).then((resp) => {
       if (resp.valid == true && resp.status == 'approved') {
         res.json({ login: true })

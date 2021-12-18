@@ -7,9 +7,11 @@ const { response } = require('express')
 const Razorpay = require('razorpay')
 const { PRODUCT_COLLECTION } = require('../config/collections')
 const moment = require("moment")
+require('dotenv').config()
+
 var instance = new Razorpay({
-    key_id: 'rzp_test_PJSf6jKqxyXIib',
-    key_secret: 'XVG4NoBjwr1Ew3DDGItKnY33',
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 
