@@ -40,7 +40,6 @@ const verifyUser = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  console.log(process.env.ACCOUNT_SSID);
   let banner = await productHelpers.getBannerText()
   let user = req.session.user
   let bagCount = null
